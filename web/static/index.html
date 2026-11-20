@@ -145,12 +145,18 @@
         <span>GTA 6 AutoClip</span>
       </button>
 
-      <button onclick="switchTab('novelas')" id="tabBtnNovelas"
+      <button onclick="switchTab('frutinovelas')" id="tabBtnFrutinovelas"
         class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer">
         <i class="fa-solid fa-apple-whole text-pink-400"></i>
-        <span>🍓 Estudio Novelas IA</span>
-        <span
-          class="bg-pink-500/20 text-pink-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-pink-500/30">VIRAL</span>
+        <span>🍓 Frutinovelas (@frutifresass)</span>
+        <span class="bg-pink-500/20 text-pink-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-pink-500/30">DRAMA</span>
+      </button>
+
+      <button onclick="switchTab('historias_libres')" id="tabBtnHistoriasLibres"
+        class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer">
+        <i class="fa-solid fa-masks-theater text-purple-400"></i>
+        <span>🎭 Historias Libres (IA)</span>
+        <span class="bg-purple-500/20 text-purple-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-purple-500/30">GEMINI</span>
       </button>
 
       <button onclick="switchTab('radar')" id="tabBtnRadar"
@@ -282,122 +288,121 @@
       </div>
     </section>
 
-    <!-- SECTION: ESTUDIO FRUTINOVELAS & NOVELAS IA -->
-    <section id="sectionNovelas"
-      class="hidden glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 relative overflow-hidden shadow-2xl border border-gray-800 space-y-5 sm:space-y-6">
+    <!-- SECTION: ESTUDIO FRUTINOVELAS (@frutifresass) -->
+    <section id="sectionFrutinovelas"
+      class="hidden glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 relative overflow-hidden shadow-2xl border border-pink-500/20 space-y-5 sm:space-y-6">
       <div class="absolute -right-20 -top-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none">
-      </div>
+      <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div
-        class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-gray-800 pb-4 sm:pb-5">
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-gray-800 pb-4 sm:pb-5">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-1">
-            <span
-              class="bg-gradient-to-r from-pink-500 to-amber-500 text-black text-[11px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow">
-              🍓 TENDENCIA VIRAL MILLONARIA
+            <span class="bg-gradient-to-r from-pink-500 to-amber-500 text-black text-[11px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow">
+              🍓 TENDENCIA VIRAL TIKTOK (@frutifresass)
             </span>
-            <span class="text-[11px] sm:text-xs text-gray-400 font-medium">9:16 Vertical • Voces IA • Subtítulos
-              Animados</span>
+            <span class="text-[11px] sm:text-xs text-gray-400 font-medium">9:16 Vertical • Voces Telenovela • Música Dramática & Boom SFX</span>
           </div>
           <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-            Estudio Novelas & Shorts IA con Video Dinámico
+            Estudio Frutinovelas IA (@frutifresass Style)
           </h2>
           <p class="text-xs text-gray-400 mt-1 max-w-2xl">
-            Crea novelas y videos virales (GTA 6, Frutinovelas, Mafia Animal) con movimiento 3D en
-            vertical 9:16, narración con IA y subtítulos palabra por palabra para TikTok y YouTube Shorts.
+            Crea dramas cómicos y apasionados con frutas millonarias (Doña Fresa, Don Plátano, Doña Manzana, Don Aguacate, Sandía Juez). Bodas canceladas, tarjetas rebotadas en restaurantes VIP y juicios implacables.
           </p>
         </div>
 
         <div class="flex items-center gap-2 shrink-0">
-          <button type="button" onclick="randomizeNovel()"
+          <button type="button" onclick="randomizeFruti()" id="btnRandomFruti"
             class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-pink-300 border border-pink-500/30 text-xs font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl transition flex items-center justify-center gap-2 cursor-pointer">
-            <i class="fa-solid fa-dice"></i> Sugerir Idea
+            <i class="fa-solid fa-dice"></i> Sugerir Drama
           </button>
         </div>
       </div>
 
-      <form id="novelForm" onsubmit="submitNovelJob(event)" class="relative z-10 space-y-5 sm:space-y-6">
+      <!-- Quick Fruti Character Badges -->
+      <div class="relative z-10 flex flex-wrap items-center gap-1.5 text-xs">
+        <span class="text-gray-500 font-semibold text-[11px] mr-1">Personajes VIP:</span>
+        <button type="button" onclick="insertFrutiCharacter('Doña Fresa')" class="bg-pink-500/15 hover:bg-pink-500/30 text-pink-300 border border-pink-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🍓 Doña Fresa</button>
+        <button type="button" onclick="insertFrutiCharacter('Don Plátano')" class="bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🍌 Don Plátano</button>
+        <button type="button" onclick="insertFrutiCharacter('Don Aguacate Detective')" class="bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🥑 Don Aguacate</button>
+        <button type="button" onclick="insertFrutiCharacter('Sandía Juez')" class="bg-red-500/15 hover:bg-red-500/30 text-red-300 border border-red-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🍉 Sandía Juez</button>
+        <button type="button" onclick="insertFrutiCharacter('Doña Manzana VIP')" class="bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🍎 Doña Manzana</button>
+        <button type="button" onclick="insertFrutiCharacter('Don Melón Magnate')" class="bg-yellow-500/15 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🍈 Don Melón</button>
+        <button type="button" onclick="insertFrutiCharacter('Doña Toronja Villana')" class="bg-orange-500/15 hover:bg-orange-500/30 text-orange-300 border border-orange-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🍊 Doña Toronja</button>
+      </div>
+
+      <form id="frutiForm" onsubmit="submitFrutiJob(event)" class="relative z-10 space-y-5 sm:space-y-6">
         <!-- AI BRAIN GENERATOR BAR -->
-        <div
-          class="bg-gradient-to-r from-purple-900/40 via-pink-900/30 to-amber-900/30 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-pink-500/40 space-y-3.5 sm:space-y-4 shadow-xl">
+        <div class="bg-gradient-to-r from-pink-950/40 via-purple-950/30 to-amber-950/30 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-pink-500/40 space-y-3.5 sm:space-y-4 shadow-xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <span class="text-xs font-black text-pink-300 flex items-center gap-1.5 uppercase tracking-wider">
-              <i class="fa-solid fa-brain text-pink-400 text-sm"></i> Generador de Ideas, Guiones & Videos con IA
+              <i class="fa-solid fa-wand-magic-sparkles text-pink-400 text-sm"></i> Generador de Dramas Frutales con IA
             </span>
-            <span class="text-[10px] text-gray-400">Genera guiones e imágenes 3D con duración personalizada</span>
+            <span class="text-[10px] text-gray-400">Gemini inventa guiones inéditos de telenovela frutal con humor y tensión</span>
           </div>
 
           <div class="flex flex-col sm:flex-row gap-2">
             <div class="relative flex-1">
-              <i
-                class="fa-solid fa-wand-magic-sparkles absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 text-xs"></i>
-              <input type="text" id="aiTopicInput"
-                placeholder="Escribe un tema o idea (ej: GTA 6 Lucia y Jason atraco, Don Plátano millonario)..."
+              <i class="fa-solid fa-lemon absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 text-xs"></i>
+              <input type="text" id="frutiTopicInput"
+                placeholder="Escribe una situación o déjalo vacío para drama 100% inédito (ej: Don Plátano y tarjeta rebotada)..."
                 class="w-full bg-dark-900 border border-pink-500/30 focus:border-pink-500 rounded-xl pl-9 pr-3 py-2.5 sm:py-3 text-xs text-white placeholder-gray-500 outline-none transition">
             </div>
 
             <!-- Button 1: Generate Script & Scenes -->
-            <button type="button" onclick="generateIdeaWithAI()" id="btnGenIdea"
+            <button type="button" onclick="generateFrutiIdeaWithAI()" id="btnGenFrutiIdea"
               class="w-full sm:w-auto bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 border border-pink-500/50 text-xs font-bold px-4 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow shrink-0">
               <i class="fa-solid fa-pen-nib"></i>
-              <span>Crear Guión</span>
+              <span>🎲 Inventar Drama con Gemini</span>
             </button>
 
             <!-- Button 2: 1-Click Auto Video Creation -->
-            <button type="button" onclick="autoCreateNovelVideo()" id="btnAutoCreate"
-              class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 text-black text-xs font-black px-5 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-pink-500/20 shrink-0">
+            <button type="button" onclick="autoCreateFrutiNovelVideo()" id="btnAutoFrutiCreate"
+              class="w-full sm:w-auto bg-gradient-to-r from-pink-500 to-amber-500 hover:from-pink-600 hover:to-amber-600 text-black text-xs font-black px-5 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-pink-500/20 shrink-0">
               <i class="fa-solid fa-bolt"></i>
-              <span>Auto-Crear Video 1-Clic</span>
+              <span>Auto-Crear 1-Clic</span>
             </button>
           </div>
 
           <!-- Duration, Engine & Video Animation Selector -->
-          <div
-            class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 pt-3 border-t border-white/10 text-xs">
+          <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 pt-3 border-t border-white/10 text-xs">
             <div class="flex flex-wrap items-center gap-2.5 sm:gap-4">
               <!-- Duration Selector -->
               <div class="flex items-center gap-1.5 sm:gap-2">
                 <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
                   <i class="fa-regular fa-clock text-amber-400"></i> Duración:
                 </span>
-                <div
-                  class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
-                  <button type="button" onclick="setNovelDuration(30)" id="durBtn30"
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setFrutiDuration(30)" id="frutiDurBtn30"
                     class="px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-pink-500 text-white transition shadow cursor-pointer text-[11px] sm:text-xs">
                     30s
                   </button>
-                  <button type="button" onclick="setNovelDuration(60)" id="durBtn60"
+                  <button type="button" onclick="setFrutiDuration(60)" id="frutiDurBtn60"
                     class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
                     60s
                   </button>
-                  <button type="button" onclick="setNovelDuration(90)" id="durBtn90"
+                  <button type="button" onclick="setFrutiDuration(90)" id="frutiDurBtn90"
                     class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
                     90s
                   </button>
                 </div>
               </div>
 
-              <!-- Engine Selector (Gemini vs Procedural Base) -->
+              <!-- Engine Selector -->
               <div class="flex items-center gap-1.5 sm:gap-2">
                 <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
                   <i class="fa-solid fa-microchip text-purple-400"></i> Guión:
                 </span>
-                <div
-                  class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
-                  <button type="button" onclick="setAiEngine('auto')" id="engineBtnAuto"
-                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer"
-                    title="Usa Gemini si hay clave; si no, usa el motor base">
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setFrutiAiEngine('auto')" id="frutiEngineBtnAuto"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer">
                     ⚡ Auto
                   </button>
-                  <button type="button" onclick="setAiEngine('gemini')" id="engineBtnGemini"
-                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer"
-                    title="Forzar Gemini LLM con la API Key">
+                  <button type="button" onclick="setFrutiAiEngine('gemini')" id="frutiEngineBtnGemini"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer">
                     🤖 Gemini
                   </button>
-                  <button type="button" onclick="setAiEngine('procedural')" id="engineBtnProc"
-                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer"
-                    title="Forzar Motor Base según el tema que ingreses">
+                  <button type="button" onclick="setFrutiAiEngine('procedural')" id="frutiEngineBtnProc"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer">
                     🎲 Base
                   </button>
                 </div>
@@ -408,26 +413,22 @@
                 <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
                   <i class="fa-solid fa-video text-cyan-400"></i> Video:
                 </span>
-                <div
-                  class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
-                  <button type="button" onclick="setAnimationMode('3d_motion')" id="animBtn3D"
-                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer"
-                    title="Genera video animado con movimiento 3D de cámara y profundidad">
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setFrutiAnimationMode('3d_motion')" id="frutiAnimBtn3D"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer">
                     ⚡ 3D Parallax
                   </button>
-                  <button type="button" onclick="setAnimationMode('svd')" id="animBtnSVD"
-                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer"
-                    title="Genera video por difusión cuadro a cuadro (Experimental - Mayor tiempo)">
-                    🤖 Difusión SVD
+                  <button type="button" onclick="setFrutiAnimationMode('svd')" id="frutiAnimBtnSVD"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer">
+                    ☁️ Cloud LTX
                   </button>
                 </div>
               </div>
             </div>
 
-            <div
-              class="hidden sm:flex items-center gap-2 text-[11px] text-pink-300 bg-pink-500/10 px-3 py-1 rounded-xl border border-pink-500/20 shrink-0">
-              <i class="fa-solid fa-film"></i>
-              <span>Video en Movimiento Real</span>
+            <div class="flex items-center gap-2 text-[11px] text-pink-300 bg-pink-500/10 px-3 py-1 rounded-xl border border-pink-500/20 shrink-0">
+              <i class="fa-solid fa-music"></i>
+              <span>Música Telenovela + Boom SFX Auto-Ducking</span>
             </div>
           </div>
         </div>
@@ -435,24 +436,19 @@
         <!-- Preset, Voice and Hook Selector -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
           <div>
-            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Plantilla / Nicho
-              Viral</label>
-            <select id="novelPreset" onchange="onNovelPresetChange()"
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Plantilla de Frutinovela</label>
+            <select id="frutiPreset" onchange="onFrutiPresetChange()"
               class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition">
-              <option value="frutinovela_traicion" selected>🍓 Frutinovela: La Traición de Don Plátano</option>
-              <option value="frutinovela_boda_compromiso">🍓 Frutinovela (@frutifresass): La Falsa Niña Puros Ceros en la Cena</option>
-              <option value="gta6_vice_city">🌴 GTA 6: El Gran Golpe en Vice City (Lucia & Jason)</option>
-              <option value="frutinovela_herencia">🥑 Frutinovela: El Secreto de Don Aguacate</option>
-              <option value="animales_mafia">🐱 Mafia Animal: El Padrino Bigotes</option>
-              <option value="reddit_drama">💍 Confesión Viral: Boda Desenmascarada</option>
-              <option value="custom">✍️ Crear Historia / Nicho Personalizado</option>
+              <option value="frutinovela_boda_compromiso" selected>💍 La Falsa Niña Puros Ceros en la Cena</option>
+              <option value="frutinovela_traicion">🍌 La Traición de Don Plátano</option>
+              <option value="frutinovela_herencia">🥑 El Secreto de Don Aguacate</option>
+              <option value="custom">✍️ Frutinovela Inédita Personalizada</option>
             </select>
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Voz del Narrador (IA
-              en Español)</label>
-            <select id="novelVoice"
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Voz del Narrador</label>
+            <select id="frutiVoice"
               class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition">
               <option value="jorge" selected>Jorge (Telenovela Dramática - México)</option>
               <option value="dalia">Dalia (Villana Dramática - México)</option>
@@ -463,35 +459,32 @@
           </div>
 
           <div>
-            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Gancho Viral en
-              Pantalla (Hook)</label>
-            <input type="text" id="novelHook" required value="¡DON PLÁTANO LO CONFESÓ TODO!"
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Gancho en Pantalla (Hook)</label>
+            <input type="text" id="frutiHook" required value="¡LA DESENMASCARARON EN PLENA CENA!"
               class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition">
           </div>
         </div>
 
         <!-- Title Input -->
         <div>
-          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Título del Video /
-            Episodio</label>
-          <input type="text" id="novelTitle" required value="La Traición de Don Plátano"
+          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Título del Episodio</label>
+          <input type="text" id="frutiTitle" required value="La Falsa Niña Puros Ceros en la Cena"
             class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition font-bold">
         </div>
 
-        <!-- 4 Scenes Grid Editor -->
+        <!-- Scenes Grid Editor -->
         <div>
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
             <div class="flex items-center gap-2">
               <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                Escenas de la Novela (Guión y Narración)
+                Escenas de la Frutinovela (Guión y Diálogos)
               </label>
-              <span id="scriptOriginBadge"></span>
+              <span id="frutiScriptOriginBadge"></span>
             </div>
-            <span class="text-[11px] text-gray-500 hidden sm:inline">Cada escena genera su imagen 9:16 y animación
-              3D</span>
+            <span class="text-[11px] text-gray-500 hidden sm:inline">Cada escena incluye render 3D Pixar vertical 9:16 y subtítulos palabra por palabra</span>
           </div>
 
-          <div id="scenesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+          <div id="frutiScenesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <!-- Rendered dynamically -->
           </div>
         </div>
@@ -503,10 +496,226 @@
             <span>Exportación automática a <strong>Escritorio/GTA6_Clips_DjMaRiiO</strong></span>
           </div>
 
-          <button type="submit" id="btnSubmitNovel"
-            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 hover:from-pink-600 hover:to-indigo-700 text-white font-extrabold text-sm px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl shadow-pink-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+          <button type="submit" id="btnSubmitFruti"
+            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:from-pink-600 hover:to-amber-600 text-black font-black text-sm px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl shadow-pink-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
             <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span>Generar Novela Completa con IA (9:16)</span>
+            <span>🍓 Generar Frutinovela Completa (9:16)</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- SECTION: ESTUDIO HISTORIAS & TEMAS LIBRES IA (MULTI-NICHO) -->
+    <section id="sectionHistoriasLibres"
+      class="hidden glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 relative overflow-hidden shadow-2xl border border-purple-500/20 space-y-5 sm:space-y-6">
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-gray-800 pb-4 sm:pb-5">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-[11px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow">
+              🎭 MULTI-NICHO & TEMAS LIBRES CON IA
+            </span>
+            <span class="text-[11px] sm:text-xs text-gray-400 font-medium">9:16 Vertical • Historias Humanas • Alta Retención</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            Estudio de Historias & Guiones Libres con IA
+          </h2>
+          <p class="text-xs text-gray-400 mt-1 max-w-2xl">
+            Crea historias virales con personajes humanos reales para TikTok y YouTube Shorts: confesiones de Reddit, rivalidad de millonarios, crimen real, misterios o cualquier tema personalizado.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="randomizeFreeStory()" id="btnRandomFree"
+            class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-purple-300 border border-purple-500/30 text-xs font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-dice"></i> Sugerir Historia
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Genre Badges -->
+      <div class="relative z-10 flex flex-wrap items-center gap-1.5 text-xs">
+        <span class="text-gray-500 font-semibold text-[11px] mr-1">Nichos Populares:</span>
+        <button type="button" onclick="setFreeGenre('💰 Millonarios & Traición')" class="bg-yellow-500/15 hover:bg-yellow-500/30 text-yellow-300 border border-yellow-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">💰 Millonarios & Traición</button>
+        <button type="button" onclick="setFreeGenre('🕵️ Casos Reales & Misterio')" class="bg-blue-500/15 hover:bg-blue-500/30 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🕵️ Casos Reales & Misterio</button>
+        <button type="button" onclick="setFreeGenre('🔥 Reddit Confesiones')" class="bg-orange-500/15 hover:bg-orange-500/30 text-orange-300 border border-orange-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🔥 Reddit Confesiones</button>
+        <button type="button" onclick="setFreeGenre('👻 Leyendas & Suspenso')" class="bg-purple-500/15 hover:bg-purple-500/30 text-purple-300 border border-purple-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">👻 Leyendas & Suspenso</button>
+        <button type="button" onclick="setFreeGenre('🌴 GTA 6 / Historias Gaming')" class="bg-pink-500/15 hover:bg-pink-500/30 text-pink-300 border border-pink-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🌴 GTA 6 Historias</button>
+        <button type="button" onclick="setFreeGenre('💡 Karma Instantáneo & Venganza')" class="bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">💡 Karma Instantáneo</button>
+      </div>
+
+      <form id="freeStoryForm" onsubmit="submitFreeStoryJob(event)" class="relative z-10 space-y-5 sm:space-y-6">
+        <!-- AI BRAIN GENERATOR BAR -->
+        <div class="bg-gradient-to-r from-purple-950/40 via-indigo-950/30 to-cyan-950/30 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-purple-500/40 space-y-3.5 sm:space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <span class="text-xs font-black text-purple-300 flex items-center gap-1.5 uppercase tracking-wider">
+              <i class="fa-solid fa-brain text-purple-400 text-sm"></i> Redactor de Historias Libres con Gemini
+            </span>
+            <span class="text-[10px] text-gray-400">Historias 100% humanas sin frutas, optimizadas para retención viral</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2">
+            <div class="relative flex-1">
+              <i class="fa-solid fa-feather-pointed absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-400 text-xs"></i>
+              <input type="text" id="freeTopicInput"
+                placeholder="Escribe tu tema o idea (ej: Mi jefe me despidió sin saber que ayer compré la empresa)..."
+                class="w-full bg-dark-900 border border-purple-500/30 focus:border-purple-500 rounded-xl pl-9 pr-3 py-2.5 sm:py-3 text-xs text-white placeholder-gray-500 outline-none transition">
+            </div>
+
+            <!-- Button 1: Generate Script & Scenes -->
+            <button type="button" onclick="generateFreeIdeaWithAI()" id="btnGenFreeIdea"
+              class="w-full sm:w-auto bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/50 text-xs font-bold px-4 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow shrink-0">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span>✨ Redactar con Gemini</span>
+            </button>
+
+            <!-- Button 2: 1-Click Auto Video Creation -->
+            <button type="button" onclick="autoCreateFreeStoryVideo()" id="btnAutoFreeCreate"
+              class="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white text-xs font-black px-5 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-purple-500/20 shrink-0">
+              <i class="fa-solid fa-bolt"></i>
+              <span>Auto-Crear 1-Clic</span>
+            </button>
+          </div>
+
+          <!-- Duration, Engine & Video Animation Selector -->
+          <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 pt-3 border-t border-white/10 text-xs">
+            <div class="flex flex-wrap items-center gap-2.5 sm:gap-4">
+              <!-- Duration Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-regular fa-clock text-cyan-400"></i> Duración:
+                </span>
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setFreeDuration(30)" id="freeDurBtn30"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-purple-600 text-white transition shadow cursor-pointer text-[11px] sm:text-xs">
+                    30s
+                  </button>
+                  <button type="button" onclick="setFreeDuration(60)" id="freeDurBtn60"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
+                    60s
+                  </button>
+                  <button type="button" onclick="setFreeDuration(90)" id="freeDurBtn90"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
+                    90s
+                  </button>
+                </div>
+              </div>
+
+              <!-- Engine Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-solid fa-microchip text-indigo-400"></i> Guión:
+                </span>
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setFreeAiEngine('auto')" id="freeEngineBtnAuto"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-indigo-600 text-white transition shadow cursor-pointer">
+                    ⚡ Auto
+                  </button>
+                  <button type="button" onclick="setFreeAiEngine('gemini')" id="freeEngineBtnGemini"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer">
+                    🤖 Gemini
+                  </button>
+                  <button type="button" onclick="setFreeAiEngine('procedural')" id="freeEngineBtnProc"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer">
+                    🎲 Base
+                  </button>
+                </div>
+              </div>
+
+              <!-- Video Animation Mode Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-solid fa-video text-cyan-400"></i> Video:
+                </span>
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setFreeAnimationMode('3d_motion')" id="freeAnimBtn3D"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer">
+                    ⚡ 3D Parallax
+                  </button>
+                  <button type="button" onclick="setFreeAnimationMode('svd')" id="freeAnimBtnSVD"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer">
+                    ☁️ Cloud LTX
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 text-[11px] text-cyan-300 bg-cyan-500/10 px-3 py-1 rounded-xl border border-cyan-500/20 shrink-0">
+              <i class="fa-solid fa-microphone"></i>
+              <span>Narrador Dramático + Subtítulos Animados</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voice and Hook Selector -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Plantilla o Nicho</label>
+            <select id="freePreset" onchange="onFreePresetChange()"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-purple-500 transition">
+              <option value="custom" selected>✍️ Historia Libre Personalizada</option>
+              <option value="reddit_drama">💍 Confesión Viral: Boda Desenmascarada</option>
+              <option value="gta6_vice_city">🌴 GTA 6: El Gran Golpe en Vice City</option>
+              <option value="animales_mafia">🐱 Mafia Urbana: El Padrino Bigotes</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Voz del Narrador</label>
+            <select id="freeVoice"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-purple-500 transition">
+              <option value="jorge" selected>Jorge (Narrador Enérgico - México)</option>
+              <option value="alvaro">Álvaro (Misterio & Suspenso - España)</option>
+              <option value="gonzalo">Gonzalo (Narrador Intenso - Colombia)</option>
+              <option value="dalia">Dalia (Dramática & Cinematográfica - México)</option>
+              <option value="elvira">Elvira (Relato Emotivo - España)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Gancho en Pantalla (Hook)</label>
+            <input type="text" id="freeHook" required value="¡ESTO NUNCA SE DEBIÓ SABER!"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-purple-500 transition">
+          </div>
+        </div>
+
+        <!-- Title Input -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Título de la Historia</label>
+          <input type="text" id="freeTitle" required value="La Traición que Arruinó el Negocio"
+            class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-purple-500 transition font-bold">
+        </div>
+
+        <!-- Scenes Grid Editor -->
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                Escenas de la Historia (Guión y Narración)
+              </label>
+              <span id="freeScriptOriginBadge"></span>
+            </div>
+            <span class="text-[11px] text-gray-500 hidden sm:inline">Cada escena incluye render 9:16 y animación 3D de cámara</span>
+          </div>
+
+          <div id="freeScenesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Action Submit Button -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+          <div class="flex items-center gap-2 text-xs text-gray-400">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span>Exportación automática a <strong>Escritorio/GTA6_Clips_DjMaRiiO</strong></span>
+          </div>
+
+          <button type="submit" id="btnSubmitFree"
+            class="w-full sm:w-auto bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-extrabold text-sm px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl shadow-purple-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>🎭 Generar Historia Libre Completa (9:16)</span>
           </button>
         </div>
       </form>
@@ -552,33 +761,6 @@
             <i class="fa-solid fa-bolt"></i> Explorar
           </button>
         </div>
-      </div>
-      <!-- Creator filter -->
-      <select id="trendCreator" onchange="loadTrends()"
-        class="bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2 text-white outline-none focus:border-amber-400">
-        <option value="">Todos los Creadores</option>
-        <option value="djmariio">DjMaRiiO</option>
-        <option value="willyrex">Willyrex</option>
-        <option value="danirep">DaniRep</option>
-        <option value="vegetta777">Vegetta777</option>
-        <option value="auronplay">AuronPlay</option>
-        <option value="ibai">Ibai</option>
-        <option value="illojuan">IlloJuan</option>
-        <option value="thegrefg">TheGrefg</option>
-      </select>
-
-      <!-- Sort filter -->
-      <select id="trendSort" onchange="loadTrends()"
-        class="bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2 text-white outline-none focus:border-amber-400">
-        <option value="views">Más Vistos (Total Views)</option>
-        <option value="velocity">Mayor Velocidad (Vistas/Hora)</option>
-      </select>
-
-      <button onclick="loadTrends()"
-        class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs px-3 py-2 rounded-xl transition flex items-center gap-1.5 font-semibold">
-        <i class="fa-solid fa-bolt"></i> Explorar
-      </button>
-      </div>
       </div>
 
       <!-- Viral Cards Grid -->
@@ -627,9 +809,14 @@
           <i class="fa-solid fa-layer-group text-pink-400"></i> Todos <span id="count-all"
             class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
         </button>
-        <button onclick="setGalleryFilter('novel')" id="filter-novel"
+        <button onclick="setGalleryFilter('frutinovela')" id="filter-frutinovela"
           class="filter-tab shrink-0 px-3.5 py-1.5 rounded-xl border border-gray-800 bg-dark-850 hover:bg-dark-800 text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
-          <span>🍓</span> Novelas IA <span id="count-novel"
+          <span>🍓</span> Frutinovelas <span id="count-frutinovela"
+            class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
+        </button>
+        <button onclick="setGalleryFilter('free_story')" id="filter-free_story"
+          class="filter-tab shrink-0 px-3.5 py-1.5 rounded-xl border border-gray-800 bg-dark-850 hover:bg-dark-800 text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+          <span>🎭</span> Historias Libres <span id="count-free_story"
             class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
         </button>
         <button onclick="setGalleryFilter('gta6')" id="filter-gta6"
@@ -1002,191 +1189,469 @@
     function switchTab(tab) {
       activeTab = tab;
       const btnGTA = document.getElementById('tabBtnGTA');
-      const btnNovelas = document.getElementById('tabBtnNovelas');
+      const btnFruti = document.getElementById('tabBtnFrutinovelas');
+      const btnFree = document.getElementById('tabBtnHistoriasLibres');
       const btnRadar = document.getElementById('tabBtnRadar');
 
       const secGTA = document.getElementById('sectionGTA');
-      const secNovelas = document.getElementById('sectionNovelas');
+      const secFruti = document.getElementById('sectionFrutinovelas');
+      const secFree = document.getElementById('sectionHistoriasLibres');
       const secRadar = document.getElementById('sectionRadar');
 
       // Reset button styles
-      [btnGTA, btnNovelas, btnRadar].forEach(b => {
+      [btnGTA, btnFruti, btnFree, btnRadar].forEach(b => {
         if (!b) return;
-        b.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer';
+        b.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer';
       });
 
       // Hide all
       if (secGTA) secGTA.classList.add('hidden');
-      if (secNovelas) secNovelas.classList.add('hidden');
+      if (secFruti) secFruti.classList.add('hidden');
+      if (secFree) secFree.classList.add('hidden');
       if (secRadar) secRadar.classList.add('hidden');
 
       if (tab === 'gta') {
-        if (btnGTA) btnGTA.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/20 transition cursor-pointer';
+        if (btnGTA) btnGTA.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/20 transition cursor-pointer';
         if (secGTA) secGTA.classList.remove('hidden');
-      } else if (tab === 'novelas') {
-        if (btnNovelas) btnNovelas.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white shadow-lg shadow-pink-500/20 transition cursor-pointer';
-        if (secNovelas) secNovelas.classList.remove('hidden');
-        if (!novelPresetsCache) {
-          loadNovelPresets();
+      } else if (tab === 'frutinovelas') {
+        if (btnFruti) btnFruti.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-black shadow-lg shadow-pink-500/25 transition cursor-pointer';
+        if (secFruti) secFruti.classList.remove('hidden');
+        if (!frutiPresetsCache) {
+          loadFrutiPresets();
+        }
+      } else if (tab === 'historias_libres') {
+        if (btnFree) btnFree.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 text-white shadow-lg shadow-purple-500/25 transition cursor-pointer';
+        if (secFree) secFree.classList.remove('hidden');
+        if (!freeInitialized) {
+          initFreeStoriesEditor();
         }
       } else if (tab === 'radar') {
-        if (btnRadar) btnRadar.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-amber-500 to-pink-500 text-black shadow-lg shadow-amber-500/20 transition cursor-pointer font-black';
+        if (btnRadar) btnRadar.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-amber-500 to-pink-500 text-black shadow-lg shadow-amber-500/20 transition cursor-pointer';
         if (secRadar) secRadar.classList.remove('hidden');
       }
     }
 
-    async function loadNovelPresets() {
+    // ==========================================
+    // MODULE 1: FRUTINOVELAS (@frutifresass)
+    // ==========================================
+    let frutiPresetsCache = null;
+    let currentFrutiDuration = 30;
+    let currentFrutiAiEngine = 'auto';
+    let currentFrutiAnimationMode = '3d_motion';
+
+    async function loadFrutiPresets() {
       try {
         const res = await fetch('/api/novels/presets');
         const data = await res.json();
-        novelPresetsCache = data.presets;
-        onNovelPresetChange();
+        frutiPresetsCache = data.presets;
+        onFrutiPresetChange();
       } catch (err) {
-        console.error("Error loading novel presets:", err);
+        console.error("Error loading fruti presets:", err);
       }
     }
 
-    function onNovelPresetChange() {
-      const presetKey = document.getElementById('novelPreset').value;
-      if (!novelPresetsCache) return;
+    function onFrutiPresetChange() {
+      const presetKey = document.getElementById('frutiPreset').value;
+      if (!frutiPresetsCache) return;
 
       if (presetKey === 'custom') {
-        document.getElementById('novelTitle').value = "Mi Historia Viral Personalizada";
-        document.getElementById('novelHook').value = "¡NO VAS A CREER LO QUE PASÓ!";
-        renderScenesEditor([
-          { character: "Personaje Principal", emotion: "Misterio", text: "Todo comenzó una noche cuando recibí un mensaje extraño que cambió mi vida por completo." },
-          { character: "El Antagonista", emotion: "Conflicto", text: "Al llegar al lugar señalado, me encontré cara a cara con la persona que menos esperaba." },
-          { character: "El Giro Inesperado", emotion: "Impacto", text: "Fue entonces cuando descubrí el secreto que todos me habían estado ocultando durante años." },
-          { character: "Desenlace", emotion: "Clímax", text: "Ahora nada volverá a ser igual. ¿Qué hubieras hecho tú en mi lugar? Comenta y sígueme para la Parte 2." }
+        document.getElementById('frutiTitle').value = "El Escándalo Secreto de Don Plátano";
+        document.getElementById('frutiHook').value = "¡LO CONFESÓ TODO EN EL MERCADO CENTRAL!";
+        renderFrutiScenes([
+          { character: "Don Plátano Millonario", emotion: "Arrogancia y Presunción", text: "Don Plátano entró al restaurante más exclusivo de la ciudad luciendo su traje de seda dorada y exigiendo la mejor mesa." },
+          { character: "Doña Manzana VIP", emotion: "Sospecha y Furia", text: "Doña Manzana lo miró con desconfianza y le exigió ver su extracto bancario antes de firmar cualquier compromiso matrimonial." },
+          { character: "Sandía Juez", emotion: "Veredicto Implacable", text: "Sandía Juez apareció con los documentos oficiales de la quiebra. ¿Merece Don Plátano otra oportunidad? ¡Comenta y sígueme para la Parte 2!" }
         ]);
         return;
       }
 
-      const p = novelPresetsCache[presetKey];
+      const p = frutiPresetsCache[presetKey];
       if (!p) return;
 
-      document.getElementById('novelTitle').value = p.title;
-      document.getElementById('novelHook').value = p.hook;
-      document.getElementById('novelVoice').value = p.voice || 'jorge';
-      renderScenesEditor(p.scenes);
+      document.getElementById('frutiTitle').value = p.title;
+      document.getElementById('frutiHook').value = p.hook;
+      document.getElementById('frutiVoice').value = p.voice || 'jorge';
+      renderFrutiScenes(p.scenes);
     }
 
-    let currentNovelDuration = 30;
-
-    function setNovelDuration(dur) {
-      currentNovelDuration = dur;
+    function setFrutiDuration(dur) {
+      currentFrutiDuration = dur;
       ['30', '60', '90'].forEach(d => {
-        const btn = document.getElementById(`durBtn${d}`);
+        const btn = document.getElementById(`frutiDurBtn${d}`);
         if (!btn) return;
         if (parseInt(d) === dur) {
-          btn.className = 'px-3.5 py-1.5 rounded-lg font-bold bg-pink-500 text-white transition shadow cursor-pointer';
+          btn.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-pink-500 text-white transition shadow cursor-pointer text-[11px] sm:text-xs';
         } else {
-          btn.className = 'px-3.5 py-1.5 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer';
+          btn.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs';
         }
       });
-      generateIdeaWithAI();
+      generateFrutiIdeaWithAI();
     }
 
-    function getThumbnailForScene(character, theme) {
-      const c = (character || '').toLowerCase();
-      const t = (theme || '').toLowerCase();
-      if (c.includes('gta') || c.includes('lucia') || c.includes('jason') || c.includes('vice') || c.includes('polic') || c.includes('chase') || c.includes('coche') || c.includes('atraco')) {
-        if (c.includes('polic') || c.includes('persecucion') || c.includes('chase') || c.includes('asfalto')) {
-          return '/static/assets/scenes/gta6_police_chase_neon.jpg';
+    function setFrutiAiEngine(engine) {
+      currentFrutiAiEngine = engine;
+      ['Auto', 'Gemini', 'Proc'].forEach(k => {
+        const btn = document.getElementById(`frutiEngineBtn${k}`);
+        if (btn) btn.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+      });
+      const activeMap = { 'auto': 'frutiEngineBtnAuto', 'gemini': 'frutiEngineBtnGemini', 'procedural': 'frutiEngineBtnProc' };
+      const active = document.getElementById(activeMap[engine]);
+      if (active) active.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer';
+    }
+
+    function setFrutiAnimationMode(mode) {
+      currentFrutiAnimationMode = mode;
+      const btn3D = document.getElementById('frutiAnimBtn3D');
+      const btnSVD = document.getElementById('frutiAnimBtnSVD');
+      if (btn3D && btnSVD) {
+        if (mode === '3d_motion') {
+          btn3D.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer';
+          btnSVD.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+        } else {
+          btn3D.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+          btnSVD.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer';
         }
-        return '/static/assets/scenes/gta6_lucia_jason_vice_city.jpg';
       }
-      if (c.includes('fresa') || c.includes('boda') || c.includes('novia') || c.includes('vestido')) {
-        return '/static/assets/scenes/dona_fresa_wedding_kitchen_1795148365685.jpg';
-      }
-      if (c.includes('platano') || c.includes('plátano') || c.includes('manzana') || c.includes('vip') || c.includes('club') || c.includes('romance') || c.includes('traicion')) {
-        return '/static/assets/scenes/don_platano_dona_manzana_vip_neon_1795148560016.jpg';
-      }
-      if (c.includes('aguacate') || c.includes('detective') || c.includes('camara') || c.includes('calle')) {
-        return '/static/assets/scenes/don_aguacate_detective_v2_1795148564957.jpg';
-      }
-      if (c.includes('tribunal') || c.includes('juicio') || c.includes('juez') || c.includes('sandia') || c.includes('sandía') || c.includes('ley')) {
-        return '/static/assets/scenes/watermelon_judge_courtroom_v2_1795148585901.jpg';
-      }
-      if (c.includes('gato') || c.includes('mafia') || c.includes('bigotes') || c.includes('padrino')) {
-        return '/static/assets/scenes/don_gato_bigotes_miami_office_1795148582776.jpg';
-      }
-      return '/static/assets/scenes/don_platano_dona_manzana_vip_neon_1795148560016.jpg';
     }
 
-    function renderScenesEditor(scenes) {
-      const container = document.getElementById('scenesContainer');
+    function insertFrutiCharacter(charName) {
+      const topicInput = document.getElementById('frutiTopicInput');
+      if (topicInput) {
+        topicInput.value = topicInput.value ? `${topicInput.value} con ${charName}` : `${charName} en un drama de alta sociedad`;
+        topicInput.focus();
+      }
+    }
+
+    function randomizeFruti() {
+      const keys = ['frutinovela_boda_compromiso', 'frutinovela_traicion', 'frutinovela_herencia'];
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      document.getElementById('frutiPreset').value = randomKey;
+      onFrutiPresetChange();
+    }
+
+    function renderFrutiScenes(scenes) {
+      const container = document.getElementById('frutiScenesContainer');
       if (!container) return;
       container.innerHTML = scenes.map((s, idx) => {
         const thumbUrl = s.image_url || getThumbnailForScene(s.character, s.bg_theme);
         return `
-        <div class="glass p-4 rounded-2xl border border-gray-800 space-y-3 relative group hover:border-pink-500/40 transition flex flex-col sm:flex-row gap-4">
-          <!-- 3D Scene Poster Thumbnail -->
-          <div class="w-24 h-36 rounded-xl overflow-hidden bg-black shrink-0 relative border border-gray-700/80 shadow-md group-hover:scale-105 transition duration-300">
+        <div class="glass p-3.5 sm:p-4 rounded-2xl border border-gray-800 space-y-3 relative group hover:border-pink-500/40 transition flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div class="w-20 h-32 sm:w-24 sm:h-36 rounded-xl overflow-hidden bg-black shrink-0 relative border border-gray-700/80 shadow-md group-hover:scale-105 transition duration-300">
             <img src="${thumbUrl}" alt="Escena ${idx + 1}" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <span class="absolute bottom-1.5 left-1.5 bg-pink-500 text-white font-black text-[9px] px-1.5 py-0.5 rounded shadow">
-              3D AI
+            <span class="absolute bottom-1 left-1 bg-pink-500 text-white font-black text-[9px] px-1.5 py-0.5 rounded shadow">
+              3D FRUTI
             </span>
           </div>
 
-          <!-- Content Editor -->
-          <div class="flex-1 space-y-2.5">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-black bg-pink-500/20 text-pink-400 border border-pink-500/30 px-2.5 py-0.5 rounded-lg">
+          <div class="flex-1 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-black bg-pink-500/20 text-pink-400 border border-pink-500/30 px-2 py-0.5 rounded-lg shrink-0">
                 ESCENA ${idx + 1}
               </span>
-              <input type="text" value="${s.character || 'Personaje'}" placeholder="Personaje" 
-                class="scene-char bg-dark-900 border border-gray-700 text-xs rounded-lg px-2.5 py-1 text-white text-right outline-none focus:border-pink-500 w-44">
+              <input type="text" value="${s.character || 'Personaje'}" placeholder="Personaje Frutal" 
+                class="fruti-scene-char bg-dark-900 border border-gray-700 text-xs rounded-lg px-2.5 py-1 text-white text-right outline-none focus:border-pink-500 flex-1 max-w-[200px]">
             </div>
 
-            <textarea rows="3" placeholder="Texto de la narración..." 
-              class="scene-text w-full bg-dark-900 border border-gray-700/80 rounded-xl p-2.5 text-xs text-white placeholder-gray-500 outline-none focus:border-pink-500 transition leading-relaxed">${s.text || ''}</textarea>
+            <textarea rows="3" placeholder="Guión leído por el narrador..." 
+              class="fruti-scene-text w-full bg-dark-900 border border-gray-700/80 rounded-xl p-2.5 text-xs text-white placeholder-gray-500 outline-none focus:border-pink-500 transition leading-relaxed">${s.text || ''}</textarea>
 
             <div class="flex items-center justify-between text-[11px] text-gray-500">
-              <span>Emoción: <input type="text" value="${s.emotion || 'Dramático'}" class="scene-emotion bg-transparent border-b border-gray-700 text-gray-300 text-[11px] w-28 outline-none"></span>
+              <span>Emoción: <input type="text" value="${s.emotion || 'Dramático'}" class="fruti-scene-emotion bg-transparent border-b border-gray-700 text-gray-300 text-[11px] w-24 outline-none"></span>
               <span class="text-[10px] text-amber-400 font-bold">~${Math.round((s.text || '').split(' ').length * 0.45)}s</span>
             </div>
           </div>
-        </div>
-      `}).join('');
+        </div>`;
+      }).join('');
     }
 
-    let currentAiEngine = 'auto';
-    let currentAnimationMode = '3d_motion';
-
-    function setAnimationMode(mode) {
-      currentAnimationMode = mode;
-      const btn3D = document.getElementById('animBtn3D');
-      const btnSVD = document.getElementById('animBtnSVD');
-      if (btn3D && btnSVD) {
-        if (mode === '3d_motion') {
-          btn3D.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer';
-          btnSVD.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
-        } else {
-          btn3D.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
-          btnSVD.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer';
-        }
+    function updateFrutiBadge(story) {
+      const badge = document.getElementById('frutiScriptOriginBadge');
+      if (!badge) return;
+      if (story.is_llm) {
+        badge.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-pink-500/25 text-pink-300 border border-pink-500/40 flex items-center gap-1 shadow-sm"><i class="fa-solid fa-brain text-pink-400"></i> ${story.engine_used || 'Gemini AI'}</span>`;
+      } else {
+        badge.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1 shadow-sm"><i class="fa-solid fa-bolt text-amber-400"></i> ${story.engine_used || 'Motor Base'}</span>`;
       }
     }
 
-    function setAiEngine(engine) {
-      currentAiEngine = engine;
-      ['Auto', 'Gemini', 'Proc'].forEach(k => {
-        const btn = document.getElementById(`engineBtn${k}`);
-        if (btn) {
-          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+    async function generateFrutiIdeaWithAI() {
+      const topic = document.getElementById('frutiTopicInput').value.trim();
+      const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
+      const btn = document.getElementById('btnGenFrutiIdea');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Inventando Drama...`;
+
+      try {
+        const res = await fetch('/api/novels/generate-idea', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: topic,
+            category: "frutinovela",
+            duration: currentFrutiDuration,
+            gemini_api_key: apiKey,
+            engine: currentFrutiAiEngine
+          })
+        });
+        const story = await res.json();
+
+        document.getElementById('frutiPreset').value = "custom";
+        document.getElementById('frutiTitle').value = story.title;
+        document.getElementById('frutiHook').value = story.hook;
+        document.getElementById('frutiVoice').value = story.voice || 'jorge';
+        renderFrutiScenes(story.scenes);
+        updateFrutiBadge(story);
+
+        const cont = document.getElementById('frutiScenesContainer');
+        cont.classList.add('ring-2', 'ring-pink-500', 'p-2', 'rounded-2xl', 'transition');
+        setTimeout(() => cont.classList.remove('ring-2', 'ring-pink-500', 'p-2'), 1500);
+
+      } catch (err) {
+        alert("Error generando Frutinovela con IA: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    async function autoCreateFrutiNovelVideo() {
+      const topic = document.getElementById('frutiTopicInput').value.trim();
+      const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
+      const btn = document.getElementById('btnAutoFrutiCreate');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Creando Frutinovela...`;
+
+      try {
+        const res = await fetch('/api/novels/auto-create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: topic,
+            category: "frutinovela",
+            duration: currentFrutiDuration,
+            gemini_api_key: apiKey,
+            engine: currentFrutiAiEngine,
+            animation_mode: currentFrutiAnimationMode
+          })
+        });
+        const data = await res.json();
+
+        document.getElementById('frutiPreset').value = "custom";
+        document.getElementById('frutiTitle').value = data.title;
+        document.getElementById('frutiHook').value = data.hook;
+        renderFrutiScenes(data.scenes);
+        updateFrutiBadge(data);
+
+        document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
+        loadJobs();
+      } catch (err) {
+        alert("Error creando Frutinovela automática: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    async function submitFrutiJob(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitFruti');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Creando Frutinovela y Audio...`;
+
+      const sceneCards = document.querySelectorAll('#frutiScenesContainer > div');
+      const scenes = [];
+      sceneCards.forEach((card, i) => {
+        const char = card.querySelector('.fruti-scene-char').value;
+        const text = card.querySelector('.fruti-scene-text').value;
+        const emotion = card.querySelector('.fruti-scene-emotion').value;
+        scenes.push({
+          character: char,
+          emotion: emotion,
+          text: text,
+          bg_theme: i === 0 ? 'kitchen_night' : i === 1 ? 'luxury_club' : i === 2 ? 'neon_city' : 'courtroom'
+        });
+      });
+
+      const payload = {
+        preset: document.getElementById('frutiPreset').value,
+        custom_title: document.getElementById('frutiTitle').value,
+        custom_hook: document.getElementById('frutiHook').value,
+        category: "frutinovela",
+        voice: document.getElementById('frutiVoice').value,
+        duration: currentFrutiDuration,
+        scenes: scenes,
+        export_to_desktop: true,
+        animation_mode: currentFrutiAnimationMode
+      };
+
+      try {
+        const res = await fetch('/api/novels/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
+        loadJobs();
+      } catch (err) {
+        alert("Error creando la frutinovela: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 🍓 Generar Frutinovela Completa (9:16)`;
+      }
+    }
+
+    // ==========================================
+    // MODULE 2: HISTORIAS LIBRES CON IA (MULTI-NICHO)
+    // ==========================================
+    let freeInitialized = false;
+    let currentFreeDuration = 30;
+    let currentFreeAiEngine = 'auto';
+    let currentFreeAnimationMode = '3d_motion';
+
+    function initFreeStoriesEditor() {
+      freeInitialized = true;
+      renderFreeScenes([
+        { character: "El Empleado", emotion: "Calma y Silencio", text: "Llegué cinco minutos tarde a la oficina y mi jefe me gritó frente a todo el equipo que estaba despedido." },
+        { character: "El Jefe Soberbio", emotion: "Arrogancia y Desafío", text: "Sonreí con tranquilidad, saqué los documentos oficiales del notario y lo miré fijamente mientras seguía insultándome." },
+        { character: "El Golpe Notarial", emotion: "Impacto y Triunfo", text: "Le tiré el contrato sobre su escritorio y le dije: No puedes despedirme, acabo de comprar toda esta empresa ayer." }
+      ]);
+    }
+
+    function onFreePresetChange() {
+      const presetKey = document.getElementById('freePreset').value;
+      if (presetKey === 'reddit_drama') {
+        document.getElementById('freeTitle').value = "Boda Desenmascarada en el Altar";
+        document.getElementById('freeHook').value = "¡CANCELÓ LA BODA FRENTE A TODOS!";
+        document.getElementById('freeVoice').value = 'dalia';
+        renderFreeScenes([
+          { character: "La Prometida", emotion: "Sospecha y Frialdad", text: "Descubrí que mi prometido tenía una cuenta secreta donde transfería todos los ahorros destinados a nuestra boda familiar." },
+          { character: "El Prometido", emotion: "Nerviosismo y Mentiras", text: "Cuando le pedí explicaciones en plena cena con sus padres, se puso pálido e intentó culpar a su socio del trabajo." },
+          { character: "La Revelación Final", emotion: "Justicia y Venganza", text: "Contraté al notario esa misma noche y cancelé el contrato del salón. ¿Habrías perdonado una mentira así? ¡Deja tu comentario!" }
+        ]);
+      } else if (presetKey === 'gta6_vice_city') {
+        document.getElementById('freeTitle').value = "El Gran Golpe en Vice City";
+        document.getElementById('freeHook').value = "¡CINCO ESTRELLAS DE PERSECUCIÓN EN VICE CITY!";
+        document.getElementById('freeVoice').value = 'gonzalo';
+        renderFreeScenes([
+          { character: "Lucia y Jason", emotion: "Adrenalina Extrema", text: "Las alarmas del banco central de Vice City sonaron cuando Lucia abrió la bóveda blindada en menos de noventa segundos." },
+          { character: "Policía de Miami", emotion: "Cacería Implacable", text: "Cinco patrullas y dos helicópteros rodearon la avenida principal cortándoles el paso con barricadas de clavos." },
+          { character: "El Escape Perfecto", emotion: "Triunfo y Clímax", text: "Jason aceleró el deportivo atravesando el puente hacia los cayos perdiéndose en la noche. ¡Comenta tu misión favorita de GTA 6!" }
+        ]);
+      } else if (presetKey === 'animales_mafia') {
+        document.getElementById('freeTitle').value = "El Padrino Bigotes";
+        document.getElementById('freeHook').value = "¡EL PADRINO DE LA MAFIA URBANA NO PERDONA!";
+        document.getElementById('freeVoice').value = 'alvaro';
+        renderFreeScenes([
+          { character: "Don Gato Bigotes", emotion: "Poder y Silencio", text: "En su despacho del puerto de Miami, Don Bigotes fumaba un habano mientras revisaba las cajas de salmón importado." },
+          { character: "El Rival Arrepentido", emotion: "Pánico y Súplica", text: "El doberman de la aduana intentó cobrarle peaje, pero una sola llamada al alcalde cambió las reglas del juego." },
+          { character: "Sentencia Callejera", emotion: "Respeto Absoluto", text: "Ahora la ciudad sabe quién manda en los muelles. ¿Crees que habrá guerra entre bandas? ¡Sígueme para el siguiente capítulo!" }
+        ]);
+      }
+    }
+
+    function setFreeGenre(genre) {
+      const topicInput = document.getElementById('freeTopicInput');
+      if (topicInput) {
+        topicInput.value = `Historia viral sobre ${genre}`;
+        generateFreeIdeaWithAI();
+      }
+    }
+
+    function setFreeDuration(dur) {
+      currentFreeDuration = dur;
+      ['30', '60', '90'].forEach(d => {
+        const btn = document.getElementById(`freeDurBtn${d}`);
+        if (!btn) return;
+        if (parseInt(d) === dur) {
+          btn.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-purple-600 text-white transition shadow cursor-pointer text-[11px] sm:text-xs';
+        } else {
+          btn.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs';
         }
       });
-      const activeMap = { 'auto': 'engineBtnAuto', 'gemini': 'engineBtnGemini', 'procedural': 'engineBtnProc' };
+      generateFreeIdeaWithAI();
+    }
+
+    function setFreeAiEngine(engine) {
+      currentFreeAiEngine = engine;
+      ['Auto', 'Gemini', 'Proc'].forEach(k => {
+        const btn = document.getElementById(`freeEngineBtn${k}`);
+        if (btn) btn.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+      });
+      const activeMap = { 'auto': 'freeEngineBtnAuto', 'gemini': 'freeEngineBtnGemini', 'procedural': 'freeEngineBtnProc' };
       const active = document.getElementById(activeMap[engine]);
-      if (active) {
-        active.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer';
+      if (active) active.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-indigo-600 text-white transition shadow cursor-pointer';
+    }
+
+    function setFreeAnimationMode(mode) {
+      currentFreeAnimationMode = mode;
+      const btn3D = document.getElementById('freeAnimBtn3D');
+      const btnSVD = document.getElementById('freeAnimBtnSVD');
+      if (btn3D && btnSVD) {
+        if (mode === '3d_motion') {
+          btn3D.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer';
+          btnSVD.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+        } else {
+          btn3D.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+          btnSVD.className = 'px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer';
+        }
       }
     }
 
-    function updateScriptBadge(story) {
-      const badge = document.getElementById('scriptOriginBadge');
+    function randomizeFreeStory() {
+      const ideas = [
+        "Un empleado humillado por su jefe compra la empresa en secreto",
+        "Mi prometida canceló la boda porque creía que era pobre",
+        "El misterio de la habitación 404 del hotel que nadie visita",
+        "Un socio traidor vendió la patente sin saber que estaba a mi nombre",
+        "Karma instantáneo en la entrevista de trabajo con el CEO encubierto"
+      ];
+      const idea = ideas[Math.floor(Math.random() * ideas.length)];
+      document.getElementById('freeTopicInput').value = idea;
+      generateFreeIdeaWithAI();
+    }
+
+    function renderFreeScenes(scenes) {
+      const container = document.getElementById('freeScenesContainer');
+      if (!container) return;
+      container.innerHTML = scenes.map((s, idx) => {
+        const thumbUrl = s.image_url || getThumbnailForScene(s.character, s.bg_theme);
+        return `
+        <div class="glass p-3.5 sm:p-4 rounded-2xl border border-gray-800 space-y-3 relative group hover:border-purple-500/40 transition flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div class="w-20 h-32 sm:w-24 sm:h-36 rounded-xl overflow-hidden bg-black shrink-0 relative border border-gray-700/80 shadow-md group-hover:scale-105 transition duration-300">
+            <img src="${thumbUrl}" alt="Escena ${idx + 1}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <span class="absolute bottom-1 left-1 bg-purple-600 text-white font-black text-[9px] px-1.5 py-0.5 rounded shadow">
+              9:16 IA
+            </span>
+          </div>
+
+          <div class="flex-1 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-black bg-purple-500/20 text-purple-400 border border-purple-500/30 px-2 py-0.5 rounded-lg shrink-0">
+                ESCENA ${idx + 1}
+              </span>
+              <input type="text" value="${s.character || 'Personaje'}" placeholder="Rol / Personaje" 
+                class="free-scene-char bg-dark-900 border border-gray-700 text-xs rounded-lg px-2.5 py-1 text-white text-right outline-none focus:border-purple-500 flex-1 max-w-[200px]">
+            </div>
+
+            <textarea rows="3" placeholder="Texto de la narración..." 
+              class="free-scene-text w-full bg-dark-900 border border-gray-700/80 rounded-xl p-2.5 text-xs text-white placeholder-gray-500 outline-none focus:border-purple-500 transition leading-relaxed">${s.text || ''}</textarea>
+
+            <div class="flex items-center justify-between text-[11px] text-gray-500">
+              <span>Emoción: <input type="text" value="${s.emotion || 'Intenso'}" class="free-scene-emotion bg-transparent border-b border-gray-700 text-gray-300 text-[11px] w-24 outline-none"></span>
+              <span class="text-[10px] text-cyan-400 font-bold">~${Math.round((s.text || '').split(' ').length * 0.45)}s</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function updateFreeBadge(story) {
+      const badge = document.getElementById('freeScriptOriginBadge');
       if (!badge) return;
       if (story.is_llm) {
         badge.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-500/25 text-purple-300 border border-purple-500/40 flex items-center gap-1 shadow-sm"><i class="fa-solid fa-brain text-purple-400"></i> ${story.engine_used || 'Gemini AI'}</span>`;
@@ -1195,61 +1660,51 @@
       }
     }
 
-    function randomizeNovel() {
-      const keys = ['frutinovela_traicion', 'frutinovela_boda_compromiso', 'frutinovela_herencia', 'animales_mafia', 'reddit_drama'];
-      const randomKey = keys[Math.floor(Math.random() * keys.length)];
-      document.getElementById('novelPreset').value = randomKey;
-      onNovelPresetChange();
-    }
-
-    async function generateIdeaWithAI() {
-      const topic = document.getElementById('aiTopicInput').value.trim();
+    async function generateFreeIdeaWithAI() {
+      const topic = document.getElementById('freeTopicInput').value.trim();
       const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
-      const btn = document.getElementById('btnGenIdea');
+      const btn = document.getElementById('btnGenFreeIdea');
       const originalHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Pensando...`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Redactando...`;
 
       try {
         const res = await fetch('/api/novels/generate-idea', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            topic: topic,
-            category: "Frutinovela",
-            duration: currentNovelDuration,
+            topic: topic || "Karma instantáneo en la oficina de millonarios",
+            category: "historias_libres",
+            duration: currentFreeDuration,
             gemini_api_key: apiKey,
-            engine: currentAiEngine
+            engine: currentFreeAiEngine
           })
         });
         const story = await res.json();
 
-        document.getElementById('novelPreset').value = "custom";
-        document.getElementById('novelTitle').value = story.title;
-        document.getElementById('novelHook').value = story.hook;
-        document.getElementById('novelVoice').value = story.voice || 'jorge';
-        renderScenesEditor(story.scenes);
-        updateScriptBadge(story);
+        document.getElementById('freePreset').value = "custom";
+        document.getElementById('freeTitle').value = story.title;
+        document.getElementById('freeHook').value = story.hook;
+        document.getElementById('freeVoice').value = story.voice || 'jorge';
+        renderFreeScenes(story.scenes);
+        updateFreeBadge(story);
 
-        // Visual feedback animation
-        const cont = document.getElementById('scenesContainer');
-        cont.classList.add('ring-2', 'ring-pink-500', 'p-2', 'rounded-2xl', 'transition');
-        setTimeout(() => {
-          cont.classList.remove('ring-2', 'ring-pink-500', 'p-2');
-        }, 1500);
+        const cont = document.getElementById('freeScenesContainer');
+        cont.classList.add('ring-2', 'ring-purple-500', 'p-2', 'rounded-2xl', 'transition');
+        setTimeout(() => cont.classList.remove('ring-2', 'ring-purple-500', 'p-2'), 1500);
 
       } catch (err) {
-        alert("Error generando idea con IA: " + err);
+        alert("Error redactando historia libre con IA: " + err);
       } finally {
         btn.disabled = false;
         btn.innerHTML = originalHtml;
       }
     }
 
-    async function autoCreateNovelVideo() {
-      const topic = document.getElementById('aiTopicInput').value.trim();
+    async function autoCreateFreeStoryVideo() {
+      const topic = document.getElementById('freeTopicInput').value.trim();
       const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
-      const btn = document.getElementById('btnAutoCreate');
+      const btn = document.getElementById('btnAutoFreeCreate');
       const originalHtml = btn.innerHTML;
       btn.disabled = true;
       btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Creando Todo...`;
@@ -1259,24 +1714,22 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            topic: topic,
-            category: "Frutinovela",
-            duration: currentNovelDuration,
+            topic: topic || "Karma instantáneo en la oficina de millonarios",
+            category: "historias_libres",
+            duration: currentFreeDuration,
             gemini_api_key: apiKey,
-            engine: currentAiEngine,
-            animation_mode: currentAnimationMode
+            engine: currentFreeAiEngine,
+            animation_mode: currentFreeAnimationMode
           })
         });
         const data = await res.json();
 
-        // Populate the editor with the chosen story
-        document.getElementById('novelPreset').value = "custom";
-        document.getElementById('novelTitle').value = data.title;
-        document.getElementById('novelHook').value = data.hook;
-        renderScenesEditor(data.scenes);
-        updateScriptBadge(data);
+        document.getElementById('freePreset').value = "custom";
+        document.getElementById('freeTitle').value = data.title;
+        document.getElementById('freeHook').value = data.hook;
+        renderFreeScenes(data.scenes);
+        updateFreeBadge(data);
 
-        // Scroll to jobs section
         document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
         loadJobs();
       } catch (err) {
@@ -1287,35 +1740,36 @@
       }
     }
 
-    async function submitNovelJob(e) {
+    async function submitFreeStoryJob(e) {
       e.preventDefault();
-      const btn = document.getElementById('btnSubmitNovel');
+      const btn = document.getElementById('btnSubmitFree');
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Creando Imágenes y Audio IA...`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Creando Historia IA...`;
 
-      // Collect scenes
-      const sceneCards = document.querySelectorAll('#scenesContainer > div');
+      const sceneCards = document.querySelectorAll('#freeScenesContainer > div');
       const scenes = [];
       sceneCards.forEach((card, i) => {
-        const char = card.querySelector('.scene-char').value;
-        const text = card.querySelector('.scene-text').value;
-        const emotion = card.querySelector('.scene-emotion').value;
+        const char = card.querySelector('.free-scene-char').value;
+        const text = card.querySelector('.free-scene-text').value;
+        const emotion = card.querySelector('.free-scene-emotion').value;
         scenes.push({
           character: char,
           emotion: emotion,
           text: text,
-          bg_theme: i === 0 ? 'kitchen_night' : i === 1 ? 'luxury_club' : i === 2 ? 'neon_city' : 'courtroom'
+          bg_theme: i === 0 ? 'skyscraper_night' : i === 1 ? 'luxury_club' : i === 2 ? 'dark_vault' : 'courtroom'
         });
       });
 
       const payload = {
-        preset: document.getElementById('novelPreset').value,
-        custom_title: document.getElementById('novelTitle').value,
-        voice: document.getElementById('novelVoice').value,
-        duration: currentNovelDuration,
+        preset: document.getElementById('freePreset').value,
+        custom_title: document.getElementById('freeTitle').value,
+        custom_hook: document.getElementById('freeHook').value,
+        category: "free_story",
+        voice: document.getElementById('freeVoice').value,
+        duration: currentFreeDuration,
         scenes: scenes,
         export_to_desktop: true,
-        animation_mode: currentAnimationMode
+        animation_mode: currentFreeAnimationMode
       };
 
       try {
@@ -1325,15 +1779,13 @@
           body: JSON.stringify(payload)
         });
         const data = await res.json();
-
-        // Scroll to jobs section
         document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
         loadJobs();
       } catch (err) {
-        alert("Error creando la novela: " + err);
+        alert("Error creando historia: " + err);
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Generar Novela Completa con IA (9:16)`;
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 🎭 Generar Video de Historia Libre (9:16)`;
       }
     }
 
@@ -1596,19 +2048,22 @@
 
     function updateFilterCounts() {
       const allCount = allClips.length;
-      const novelCount = allClips.filter(c => c.category === 'novel' || (c.source_title && c.source_title.includes('🍓'))).length;
-      const gta6Count = allClips.filter(c => c.category === 'gta6' || (!c.source_title?.includes('🍓') && c.category !== 'novel')).length;
+      const frutiCount = allClips.filter(c => c.category === 'frutinovela' || c.category === 'novel' || (c.source_title && c.source_title.includes('🍓'))).length;
+      const freeCount = allClips.filter(c => c.category === 'free_story' || (c.source_title && c.source_title.includes('🎭'))).length;
+      const gta6Count = allClips.filter(c => c.category === 'gta6' || (!c.source_title?.includes('🍓') && !c.source_title?.includes('🎭') && c.category !== 'frutinovela' && c.category !== 'free_story' && c.category !== 'novel')).length;
       const uploadedCount = allClips.filter(c => c.uploaded_youtube || c.uploaded_tiktok).length;
       const pendingCount = allClips.filter(c => !c.uploaded_youtube && !c.uploaded_tiktok).length;
 
       const cAll = document.getElementById('count-all');
-      const cNovel = document.getElementById('count-novel');
+      const cFruti = document.getElementById('count-frutinovela');
+      const cFree = document.getElementById('count-free_story');
       const cGta6 = document.getElementById('count-gta6');
       const cUp = document.getElementById('count-uploaded');
       const cPend = document.getElementById('count-pending');
 
       if (cAll) cAll.textContent = allCount;
-      if (cNovel) cNovel.textContent = novelCount;
+      if (cFruti) cFruti.textContent = frutiCount;
+      if (cFree) cFree.textContent = freeCount;
       if (cGta6) cGta6.textContent = gta6Count;
       if (cUp) cUp.textContent = uploadedCount;
       if (cPend) cPend.textContent = pendingCount;
@@ -1629,10 +2084,12 @@
       const grid = document.getElementById('clipsGrid');
       let filtered = allClips;
 
-      if (currentGalleryFilter === 'novel') {
-        filtered = allClips.filter(c => c.category === 'novel' || (c.source_title && c.source_title.includes('🍓')));
+      if (currentGalleryFilter === 'frutinovela') {
+        filtered = allClips.filter(c => c.category === 'frutinovela' || c.category === 'novel' || (c.source_title && c.source_title.includes('🍓')));
+      } else if (currentGalleryFilter === 'free_story') {
+        filtered = allClips.filter(c => c.category === 'free_story' || (c.source_title && c.source_title.includes('🎭')));
       } else if (currentGalleryFilter === 'gta6') {
-        filtered = allClips.filter(c => c.category === 'gta6' || (!c.source_title?.includes('🍓') && c.category !== 'novel'));
+        filtered = allClips.filter(c => c.category === 'gta6' || (!c.source_title?.includes('🍓') && !c.source_title?.includes('🎭') && c.category !== 'frutinovela' && c.category !== 'free_story' && c.category !== 'novel'));
       } else if (currentGalleryFilter === 'uploaded') {
         filtered = allClips.filter(c => c.uploaded_youtube || c.uploaded_tiktok);
       } else if (currentGalleryFilter === 'pending') {

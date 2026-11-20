@@ -80,6 +80,8 @@ class YouTubeUploadRequest(BaseModel):
 class NovelGenerateRequest(BaseModel):
     preset: str = "frutinovela_traicion"
     custom_title: Optional[str] = None
+    custom_hook: Optional[str] = None
+    category: Optional[str] = "frutinovela"
     voice: str = "jorge"
     duration: int = 30
     scenes: Optional[List[dict]] = None
@@ -248,6 +250,8 @@ async def run_novel_async(job_id: str, req: NovelGenerateRequest):
             custom_title=req.custom_title,
             custom_voice=req.voice,
             custom_scenes=req.scenes,
+            custom_hook=req.custom_hook,
+            category=req.category,
             export_to_desktop=req.export_to_desktop,
             animation_mode=req.animation_mode
         )
@@ -646,6 +650,8 @@ async def auto_create_novel_video(req: StoryIdeaRequest, bg_tasks: BackgroundTas
     novel_req = NovelGenerateRequest(
         preset="custom",
         custom_title=title,
+        custom_hook=story.get("hook"),
+        category=req.category or story.get("category", "frutinovela"),
         voice=story.get("voice", "jorge"),
         duration=req.duration,
         scenes=story["scenes"],

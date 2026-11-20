@@ -12,7 +12,7 @@ from typing import Optional
 
 def _generate_hook_gemini(cand_text: str, video_title: str, channel: str, key: str) -> Optional[str]:
     """Uses Gemini to generate an irresistible, viral curiosity-gap hook."""
-    models = ["gemini-2.0-flash", "gemini-1.5-flash"]
+    models = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
     prompt = f"""Eres un estratega experto en viralidad de YouTube Shorts y TikTok (especialista en Gaming y GTA 6).
 Analiza el siguiente momento capturado de un directo/video:
 - Título del video original: "{video_title}"

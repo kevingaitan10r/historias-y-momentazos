@@ -246,52 +246,106 @@ def generate_viral_story_ai(topic: str = "", category: str = "", duration: int =
     target_count = 3 if duration <= 35 else 5 if duration <= 75 else 7
     clean_topic = topic.strip() if topic else ""
     should_try_gemini = (engine in ("gemini", "auto")) and bool(key)
-    
-    # 1. Try Gemini API if requested and key is present
+
+    cat_l = (category or "").lower()
+    top_l = clean_topic.lower()
+
+    # Determine if this request is for the dedicated Frutinovelas module or Free Stories
+    is_frutinovela = (
+        ("fruti" in cat_l) or
+        ("frutinovela" in cat_l) or
+        any(k in top_l for k in ["fresa", "platano", "plátano", "aguacate", "sandia", "sandía", "manzana", "fruta"]) or
+        (not clean_topic and cat_l not in ["historias_libres", "reddit", "millonarios", "misterio", "leyendas", "gta6", "custom"])
+    )
+
+    # 1. Try Gemini API
     if should_try_gemini:
-        models_to_try = ["gemini-2.0-flash", "gemini-1.5-flash"]
+        models_to_try = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
         for mod in models_to_try:
             try:
-                if clean_topic:
-                    topic_directives = f"""El usuario ha solicitado un guión basado estrictamente en el siguiente tema: '{clean_topic}'.
-Categoría: {category or "Historia Viral"}.
+                if is_frutinovela:
+                    fruti_tropes = [
+                        "Boda cancelada en el altar: Doña Fresa descubre a Don Plátano con Doña Frambuesa en la limosina minutos antes de casarse.",
+                        "Cena VIP y tarjeta rechazada: Don Plátano presume ser billonario con Doña Manzana pero rebotan sus tarjetas Black y debe fregar platos.",
+                        "La falsa niña rica: Doña Fresa finge ser heredera de un imperio de frutos rojos pero Don Aguacate revela sus bolsos falsos y deudas millonarias.",
+                        "El testamento de Don Melón: Don Plátano y Doña Manzana conspiran para robar la herencia pero Sandía Juez muestra un video póstumo revelador.",
+                        "Prueba de ADN en vivo: Doña Fresa lleva a Don Aguacate a un show televisivo para probar que Don Plátano es el padre de los arándanos.",
+                        "El falso penthouse: Don Plátano graba TikToks en un penthouse alquilado por horas mientras duerme en una caja de cartón del mercado.",
+                        "El robo de joyas de rubí: La gargantilla de Doña Manzana desaparece en la gala y Don Aguacate halla la boleta de empeño firmada por Don Plátano.",
+                        "Venganza empresarial: Doña Fresa compra el banco que embargará la mansión de Don Plátano y lo desaloja en plena transmisión en vivo.",
+                        "La suegra amargada: Doña Toronja intenta envenenar la reputación de Doña Fresa en el club campestre de frutas."
+                    ]
+                    seed_trope = clean_topic if clean_topic else random.choice(fruti_tropes)
+                    prompt = f"""Eres el mejor guionista cómico-dramático viral de TikTok, creador de las famosas 'Frutinovelas' estilo @frutifresass.
+Escribe un episodio explosivo, lleno de salseo, drama exagerado de telenovela latinoamericana y remates inesperados.
+Premisa central: {seed_trope}
 
-REGLAS ESTRICTAS DE COHERENCIA:
-- Desarrolla la historia, los personajes y el conflicto alrededor de '{clean_topic}'.
-- Todos los personajes, diálogos y eventos deben pertenecer naturalmente a '{clean_topic}'.
-- NUNCA menciones frutas, verduras ni animales a menos que el tema '{clean_topic}' lo pida explícitamente."""
-                else:
-                    topic_directives = f"""Escribe una 'Frutinovela' viral dramática en español protagonizada por frutas millonarias (Don Plátano, Doña Fresa, Sandía Juez, Don Aguacate) con estilo de telenovela dramática."""
+Personajes recurrentes disponibles:
+- Doña Fresa (la protagonista dramática, heredera de las bayas o falsa niña rica)
+- Don Plátano (el galán presumido, falso magnate con tarjetas rebotadas)
+- Doña Manzana (matriarca clasista de alta sociedad y boutiques VIP)
+- Don Aguacate (detective implacable con gabardina que desenmascara a todos)
+- Sandía Juez (juez supremo del tribunal de ensaladas con mazo y veredictos implacables)
+- Don Melón (magnate petrolero)
+- Doña Toronja (suegra amargada y villana)
 
-                prompt = f"""Eres el mejor guionista viral de TikTok y YouTube Shorts con retención superior al 85%.
-{topic_directives}
-Duración objetivo: {duration} segundos ({target_count} escenas).
+Reglas:
+- Diálogos rápidos, frases dramáticas intensas ('¡¿Qué hiciste?!', '¡Mientes!', '¡Mis diamantes!').
+- Duración total: {duration} segundos.
+- Exactamente {target_count} escenas ({round(duration/target_count, 1)}s por escena).
+- Cada escena debe tener entre 22 y 28 palabras leídas por el narrador para clavar el tiempo.
+- Título llamativo (máx 6 palabras).
+- Gancho (Hook) en MAYÚSCULAS para los primeros 3 segundos.
 
-Requisitos:
-- Título corto, potente y llamativo (máx 6 palabras).
-- Gancho (Hook) en MAYÚSCULAS para los primeros 3 segundos (ej: "¡LO CONFESÓ TODO EN VIVO!").
-- Exactamente {target_count} escenas estructuradas para sumar {duration} segundos en total:
-  Cada escena debe tener:
-  * character: Nombre del personaje o rol en la escena
-  * emotion: Estado emocional dramático
-  * bg_theme: uno de [neon_city, luxury_club, courtroom, market_street, mansion_gold, dark_vault, skyscraper_night, mafia_office, rainy_alley, neon_rooftop, wedding_church, kitchen_night]
-  * text: El guión que leerá el narrador (aprox 22 a 28 palabras por escena para que el video dure exactamente {duration} segundos).
-
-Devuelve EXCLUSIVAMENTE un objeto JSON válido con esta estructura:
+Devuelve EXCLUSIVAMENTE este JSON:
 {{
   "title": "...",
   "hook": "...",
-  "category": "...",
+  "category": "frutinovela",
   "voice": "jorge",
   "duration": {duration},
   "scenes": [
     {{"character": "...", "emotion": "...", "bg_theme": "...", "text": "..."}}
   ]
 }}"""
+                else:
+                    free_tropes = [
+                        "Confesión Reddit: Mi prometida canceló la boda porque mi familia era humilde, sin saber que el salón y el hotel eran de mi propiedad.",
+                        "Venganza corporativa: El socio fundador fue expulsado de su empresa; cinco años después volvió como dueño mayoritario y despidió a la junta directiva.",
+                        "Misterio de hotel: La recepcionista del turno nocturno recibe llamadas de una suite que lleva clausurada más de 20 años.",
+                        "La herencia secreta: Un anciano multimillonario dejó toda su fortuna a la conserje que lo trató con cariño en el hospital.",
+                        "Atraco de Vice City: Un golpe milimétrico al banco central de Vice City termina en una cacería policial de cinco estrellas con Lucia y Jason.",
+                        "Karma instantáneo: El cliente prepotente humilló al empleado sin saber que era el dueño encubierto de toda la cadena."
+                    ]
+                    seed_topic = clean_topic if clean_topic else random.choice(free_tropes)
+                    prompt = f"""Eres un guionista estrella de historias virales para TikTok y YouTube Shorts (estilo Reddit Confessions, Misterios Reales, Crimen, Poder y Millonarios).
+REGLA SUPREMA Y ESTRICTA: NO menciones frutas, verduras, animales humanizados ni dibujos animados. La historia es 100% humana, creíble y con alta retención psicológica.
+Tema o premisa: {seed_topic}
+Categoría: {category or "Historias Virales"}
+
+Estructura de retención:
+- Primeros 3 segundos: Gancho brutal que despierte intriga o indignación.
+- Desarrollo: Tensión creciente, pruebas o revelaciones impactantes.
+- Clímax / Remate: Giro dramático o lección de karma inesperada.
+- Duración total: {duration} segundos ({target_count} escenas).
+- Cada escena debe tener entre 22 y 28 palabras leídas por el narrador.
+
+Devuelve EXCLUSIVAMENTE este JSON:
+{{
+  "title": "...",
+  "hook": "...",
+  "category": "historias_libres",
+  "voice": "jorge",
+  "duration": {duration},
+  "scenes": [
+    {{"character": "...", "emotion": "...", "bg_theme": "...", "text": "..."}}
+  ]
+}}"""
+
                 api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{mod}:generateContent?key={key}"
                 req_data = {
                     "contents": [{"parts": [{"text": prompt}]}],
-                    "generationConfig": {"temperature": 0.85, "responseMimeType": "application/json"}
+                    "generationConfig": {"temperature": 0.95, "responseMimeType": "application/json"}
                 }
                 req = urllib.request.Request(
                     api_url,
@@ -301,7 +355,6 @@ Devuelve EXCLUSIVAMENTE un objeto JSON válido con esta estructura:
                 with urllib.request.urlopen(req, timeout=14) as response:
                     res_body = json.loads(response.read().decode("utf-8"))
                     raw_text = res_body["candidates"][0]["content"]["parts"][0]["text"].strip()
-                    # Strip markdown code blocks if wrapped
                     if "```" in raw_text:
                         raw_text = re.sub(r"^```(?:json)?\s*", "", raw_text, flags=re.IGNORECASE)
                         raw_text = re.sub(r"\s*```$", "", raw_text)
@@ -309,209 +362,106 @@ Devuelve EXCLUSIVAMENTE un objeto JSON válido con esta estructura:
                     if "scenes" in data and len(data["scenes"]) >= 3:
                         data["engine_used"] = f"Gemini AI ({mod})"
                         data["is_llm"] = True
+                        data["category"] = "frutinovela" if is_frutinovela else "historias_libres"
                         print(f"[NovelEngine] Gemini ({mod}) successfully generated script with {len(data['scenes'])} scenes!")
                         return data
             except Exception as e:
                 print(f"[NovelEngine] Gemini ({mod}) fallback: {e}")
 
-    # 2. Rich Combinatorial Procedural Generator (Over 10,000+ unique storylines)
-    if clean_topic:
-        subj = clean_topic.title()
-        titles = [
-            f"El Escándalo Secreto de {subj}",
-            f"La Venganza Mortal de {subj}",
-            f"¿Quién Traicionó a {subj}?",
-            f"La Doble Vida Oculta de {subj}",
-            f"El Secreto Mejor Guardado de {subj}",
-            f"La Caída Definitiva de {subj}"
+    # 2. Procedural Fallback Engine (Rich, non-repetitive archetypes)
+    if is_frutinovela:
+        fruti_stories = [
+            {
+                "title": "La Cuenta Rechazada de Don Plátano",
+                "hook": "¡DON PLÁTANO QUEDÓ EN RIDÍCULO EN LA CENA VIP!",
+                "voice": "jorge",
+                "scenes": [
+                    {"character": "Don Plátano Millonario", "emotion": "Arrogancia y Presunción", "bg_theme": "luxury_club", "text": "Don Plátano invitó a Doña Manzana al restaurante más caro de la ciudad, presumiendo su fortuna y ordenando el banquete más exclusivo del menú."},
+                    {"character": "Doña Manzana VIP", "emotion": "Vergüenza y Furia", "bg_theme": "kitchen_night", "text": "Pero el escándalo estalló cuando el camarero anunció frente a todos que su tarjeta Platinum no tenía saldo y que debía lavar platos para pagar la cuenta."},
+                    {"character": "Sandía Juez", "emotion": "Sentencia Inapelable", "bg_theme": "courtroom", "text": "Sandía Juez dictaminó embargo total de sus bienes por fraude reiterado. ¿Crees que Don Plátano merecía esta humillación? ¡Comenta y sígueme para la Parte 2!"}
+                ]
+            },
+            {
+                "title": "El Detective Aguacate Revela Todo",
+                "hook": "¡DON AGUACATE GRABÓ LA TRAICIÓN EN VIVO!",
+                "voice": "alvaro",
+                "scenes": [
+                    {"character": "Don Aguacate Detective", "emotion": "Misterio e Investigación", "bg_theme": "rainy_alley", "text": "Tras semanas siguiendo pistas en la oscuridad, Don Aguacate logró interceptar el maletín secreto que Doña Fresa intentaba enviar fuera del país."},
+                    {"character": "Doña Fresa de Alta Sociedad", "emotion": "Desesperación y Pánico", "bg_theme": "dark_vault", "text": "Acorralada en la bóveda subterránea, Doña Fresa intentó comprar el silencio del detective ofreciéndole la mitad de las joyas robadas de la familia."},
+                    {"character": "Tribunal de Frutas", "emotion": "Justicia Implacable", "bg_theme": "courtroom", "text": "Las pruebas fueron contundentes y el jurado no tuvo piedad. ¿Fue Don Aguacate un héroe o debió aceptar el trato? ¡Deja tu veredicto en los comentarios!"}
+                ]
+            },
+            {
+                "title": "La Falsa Boda de Doña Fresa",
+                "hook": "¡CANCELARON LA BODA DEL SIGLO EN EL ALTAR!",
+                "voice": "dalia",
+                "scenes": [
+                    {"character": "Doña Fresa La Novia", "emotion": "Lujo y Vanidad", "bg_theme": "wedding_church", "text": "Doña Fresa caminaba hacia el altar vestida de seda pura, soñando con quedarse con la mitad de las empresas exportadoras de Don Plátano."},
+                    {"character": "El Testigo Oculto", "emotion": "Revelación Explosiva", "bg_theme": "wedding_church", "text": "Justo antes del sí definitivo, las puertas del templo se abrieron de golpe mostrando las fotos de Doña Fresa con su verdadero amante en el Caribe."},
+                    {"character": "Don Plátano Devastado", "emotion": "Venganza y Despecho", "bg_theme": "courtroom", "text": "Don Plátano rompió el contrato prematrimonial en pedazos y expulsó a todos los invitados. ¿Merecía Doña Fresa el perdón? ¡Opina ahora mismo!"}
+                ]
+            }
         ]
-        hooks = [
-            f"¡NO VAS A CREER LO QUE DESCUBRIERON DE {subj.upper()}!",
-            f"¡EL SECRETO QUE {subj.upper()} OCULTÓ DURANTE AÑOS!",
-            f"¡DESENMASCARARON LA VERDAD SOBRE {subj.upper()}!",
-            f"¡LA TRAICIÓN MÁS GRANDE EN {subj.upper()}!",
-            f"¡ATRAPARON AL VERDADERO CULPABLE DE {subj.upper()}!"
-        ]
-        category_label = "🔥 Historia Viral"
-        protag_name = subj
-        antag_name = f"El Rival Secreto"
-        investigator_name = "El Detective Encubierto"
-        allies_name = f"Los Aliados de {subj}"
-        protag_voice = random.choice(["jorge", "alvaro", "gonzalo", "dalia"])
-
-        scenes = []
-        scenes.append({
-            "character": protag_name,
-            "emotion": "Tensión y Misterio",
-            "bg_theme": random.choice(["neon_city", "mansion_gold", "skyscraper_night"]),
-            "text": f"Todo parecía bajo control hasta que una filtración confidencial sacó a la luz lo que realmente estaba pasando con {clean_topic}, desatando el pánico entre los involucrados."
-        })
-        scenes.append({
-            "character": antag_name,
-            "emotion": "Conspiración y Desafío",
-            "bg_theme": random.choice(["luxury_club", "dark_vault", "rainy_alley"]),
-            "text": f"En las sombras y lejos de las cámaras, los enemigos jurados sellaron un pacto silencioso para tomar el control total y no dejar ningún cabo suelto."
-        })
-        scenes.append({
-            "character": investigator_name,
-            "emotion": "Pruebas Irrefutables",
-            "bg_theme": random.choice(["rainy_alley", "mafia_office", "neon_city"]),
-            "text": f"Una grabación de alta seguridad capturó el momento exacto en que ocurrió la traición, dejando pruebas tan contundentes que ya nadie podía negar lo sucedido."
-        })
-
+        chosen = random.choice(fruti_stories)
+        chosen_scenes = list(chosen["scenes"])
         if target_count >= 5:
-            scenes.append({
-                "character": allies_name,
-                "emotion": "Acorralados y Sin Salida",
-                "bg_theme": random.choice(["skyscraper_night", "neon_rooftop"]),
-                "text": f"Con las sirenas de fondo y la presión al límite, el plan se salió de control en cuestión de segundos, obligando a todos a tomar una decisión desesperada."
-            })
-            scenes.append({
-                "character": "Confrontación Final",
-                "emotion": "Furia y Verdades al Descubierto",
-                "bg_theme": random.choice(["mansion_gold", "luxury_club"]),
-                "text": f"Cara a cara y mirándose a los ojos, las máscaras cayeron por completo: nada de lo que prometieron era real y las consecuencias serían implacables."
-            })
-
+            chosen_scenes.append({"character": "Confrontación en el Penthouse", "emotion": "Furia al Límite", "bg_theme": "mansion_gold", "text": "En el piso más alto de la torre corporativa, los gritos se escuchaban hasta la calle mientras las transferencias bancarias eran canceladas una tras otra."})
+            chosen_scenes.append({"character": "Veredicto del Mercado", "emotion": "Caída del Imperio", "bg_theme": "courtroom", "text": "Con la reputación destruida y las cámaras de televisión transmitiendo el arresto, el pacto millonario quedó hecho cenizas para siempre."})
         if target_count >= 7:
-            scenes.append({
-                "character": "El Testigo Sorpresa",
-                "emotion": "Giro Inesperado",
-                "bg_theme": "courtroom",
-                "text": f"Justo cuando creían tener la victoria asegurada, apareció un testigo clave con una confesión firmada que cambió el rumbo de toda la historia."
-            })
-            scenes.append({
-                "character": "El Desenlace Definitivo",
-                "emotion": "Sentencia Final",
-                "bg_theme": "courtroom",
-                "text": f"El destino final ha quedado sellado. ¿Crees que fue una venganza justa o merecían otra oportunidad? Deja tu comentario y sígueme para la Parte 2."
-            })
-
-        chosen_title = random.choice(titles)
-        chosen_hook = random.choice(hooks)
-
+            chosen_scenes.append({"character": "El Testigo Sorpresa", "emotion": "Giro Inesperado", "bg_theme": "rainy_alley", "text": "Un viejo socio que todos creían fuera del juego apareció con un documento firmado que cambió el destino de todos los involucrados."})
+            chosen_scenes.append({"character": "Sentencia Definitiva", "emotion": "Fin del Capítulo", "bg_theme": "courtroom", "text": "El martillo de la justicia cayó con fuerza demoledora. ¿Crees que habrá venganza en el siguiente episodio? ¡Sígueme para ver la Parte 2!"})
         return {
-            "title": chosen_title,
-            "hook": chosen_hook,
-            "category": category_label,
-            "voice": protag_voice,
+            "title": chosen["title"],
+            "hook": chosen["hook"],
+            "category": "frutinovela",
+            "voice": chosen["voice"],
             "duration": duration,
-            "scenes": scenes[:target_count],
-            "engine_used": "Motor Base Procedural (Tema Personalizado)",
+            "scenes": chosen_scenes[:target_count],
+            "engine_used": "Motor Base Procedural (Frutinovela Dinámica)",
             "is_llm": False
         }
 
-    # Archetype 2: Dynamic Frutinovelas (Only when clean_topic is empty)
-    protagonists = [
-        ("Don Plátano Millonario", "El magnate más codiciado del mercado", "jorge"),
-        ("Doña Fresa de Alta Sociedad", "La heredera del imperio de las bayas", "dalia"),
-        ("Don Aguacate Detective Privado", "El investigador más respetado de la ciudad", "alvaro"),
-        ("Sandía Juez Supremo", "El juez implacable que no perdona errores", "gonzalo"),
-        ("Don Gato Bigotes El Padrino", "El líder indiscutible del puerto de Miami", "gonzalo"),
-        ("Doña Manzana VIP", "La reina de las galas y las apariencias", "dalia"),
-        ("Don Coco Magnate Petrolero", "El billonario con negocios oscuros en el caribe", "alvaro"),
-        ("Cereza Modelo Internacional", "La diva que esconde un pasado turbio", "dalia"),
-        ("Don Piña Empresario", "El dueño de la cadena de hoteles más lujosa", "jorge"),
-        ("El Limón Sicario del Cartel", "El ejecutor más temido de los cítricos", "gonzalo"),
-        ("Doña Papaya Chismosa", "La periodista que destapa los escándalos", "dalia"),
-        ("Don Tomate Capo del Barrio", "El líder de la mafia del mercado central", "alvaro")
+    # Archetype: Free Stories Procedural Fallback
+    subj = clean_topic.title() if clean_topic else "El Secreto Millonario"
+    free_stories = [
+        {
+            "title": f"La Venganza Silenciosa: {subj}",
+            "hook": f"¡LE HICIERON LA PEOR JUGADA Y ASÍ RESPONDIÓ!",
+            "voice": "jorge",
+            "scenes": [
+                {"character": "El Protagonista", "emotion": "Determinación Fría", "bg_theme": "skyscraper_night", "text": f"Durante años lo subestimaron y pensaron que jamás se daría cuenta del desfalco, pero cada noche reunía pruebas silenciosas sin levantar sospechas."},
+                {"character": "El Rival Confiado", "emotion": "Soberbia y Sorpresa", "bg_theme": "luxury_club", "text": f"En plena reunión de accionistas celebraban la victoria anticipada, hasta que una llamada del departamento legal congeló todas sus cuentas en Suiza."},
+                {"character": "El Golpe Final", "emotion": "Triunfo Absoluto", "bg_theme": "courtroom", "text": f"Las máscaras cayeron por completo y la verdad salió a la luz pública. ¿Habrías actuado igual ante semejante traición? ¡Déjalo en los comentarios!"}
+            ]
+        },
+        {
+            "title": f"El Misterio Inexplicable de {subj}",
+            "hook": f"¡LO QUE DESCUBRIERON CAMBIÓ TODO PARA SIEMPRE!",
+            "voice": "alvaro",
+            "scenes": [
+                {"character": "El Investigador", "emotion": "Tensión y Asombro", "bg_theme": "dark_vault", "text": f"Todo comenzó con una grabación antigua recuperada del servidor principal, donde se escuchaba claramente la advertencia que todos decidieron ignorar."},
+                {"character": "El Testigo Clave", "emotion": "Temor y Confesión", "bg_theme": "rainy_alley", "text": f"Bajo la lluvia de la medianoche rompió el pacto de confidencialidad y entregó las llaves maestras que abrían la caja fuerte del piso cuarenta."},
+                {"character": "El Desenlace", "emotion": "Giro Espeluznante", "bg_theme": "skyscraper_night", "text": f"Al abrir la puerta descubrieron que la historia oficial era una mentira total. ¿Crees que debieron revelar la verdad? ¡Comenta tu teoría!"}
+            ]
+        }
     ]
-    
-    antagonists = [
-        "Doña Manzana La Traidora",
-        "El Limón Ácido y Cínico",
-        "El Kiwi Hacker Financiero",
-        "La Zanahoria Ambiciosa",
-        "El Pepino Guardaespaldas Cómplice",
-        "Doña Mandarina Heredera Falsa",
-        "Don Melón Prestamista Clandestino",
-        "El Champiñón Contrabandista",
-        "La Frambuesa Chantajista",
-        "Don Pomelo Político Corrupto"
-    ]
-
-    protag_name, protag_desc, protag_voice = random.choice(protagonists)
-    antag_name = random.choice(antagonists)
-    subj = protag_name
-    titles = [
-        f"La Traición de {antag_name}",
-        f"El Juicio de {protag_name}",
-        f"El Testamento Oculto de {protag_name}",
-        f"La Venganza de {protag_name}",
-        f"La Boda Secreta de {protag_name}",
-        f"El Escándalo Millonario de {protag_name}"
-    ]
-    hooks = [
-        f"¡{protag_name.upper()} LO CONFESÓ TODO FRENTE A TODOS!",
-        f"¡DESCUBRIERON LA DOBLE VIDA DE {protag_name.upper()}!",
-        f"¡LA PEOR TRAICIÓN DE {antag_name.upper()} SALIÓ A LA LUZ!",
-        f"¡{protag_name.upper()} CANCELÓ EL PACTO MILLONARIO!",
-        f"¡EL ESCÁNDALO DE {protag_name.upper()} ARRUINÓ LA FAMILIA!"
-    ]
-    category_label = "🍓 Frutinovela Dramática"
-
-    scenes = []
-    scenes.append({
-        "character": subj,
-        "emotion": "Sospecha & Tensión Extrema",
-        "bg_theme": random.choice(["mansion_gold", "neon_city", "kitchen_night", "wedding_church"]),
-        "text": f"Todo parecía bajo control en la mansión hasta que un mensaje anónimo reveló que {subj} estaba a punto de perder su imperio a manos de sus propios aliados."
-    })
-    scenes.append({
-        "character": antag_name,
-        "emotion": "Conspiración & Cinismo",
-        "bg_theme": random.choice(["luxury_club", "dark_vault", "rainy_alley", "skyscraper_night"]),
-        "text": f"A puerta cerrada en el club nocturno, {antag_name} se burlaba de la situación mientras transfería millones de fondos secretos a una cuenta en Suiza."
-    })
-    scenes.append({
-        "character": "El Detective Anónimo",
-        "emotion": "Pruebas Irrefutables",
-        "bg_theme": random.choice(["rainy_alley", "mafia_office", "market_street"]),
-        "text": f"Una cámara de seguridad grabó el momento exacto en que los documentos fueron alterados, desatando una cacería implacable que no dejó sobrevivientes ilesos."
-    })
+    chosen = random.choice(free_stories)
+    chosen_scenes = list(chosen["scenes"])
     if target_count >= 5:
-        scenes.append({
-            "character": f"Aliados de {subj}",
-            "emotion": "Desesperación y Huida",
-            "bg_theme": random.choice(["skyscraper_night", "neon_rooftop", "dark_vault"]),
-            "text": f"Con la policía pisándoles los talones y las sirenas sonando a lo lejos, el dinero desapareció del banco en cuestión de segundos, dejando a todos acorralados."
-        })
-        scenes.append({
-            "character": "Confrontación en el Penthouse",
-            "emotion": "Furia y Traición al Descubierto",
-            "bg_theme": random.choice(["mansion_gold", "luxury_club"]),
-            "text": f"Frente a frente y con la mirada encendida, se dijeron las verdades más crueles: nada de lo que prometieron era real y el pacto se rompió para siempre."
-        })
+        chosen_scenes.append({"character": "Acorralados sin Salida", "emotion": "Presión Extrema", "bg_theme": "neon_rooftop", "text": "Con los reflectores encima y el tiempo en contra, tuvieron que tomar una decisión desesperada que pondría a prueba su lealtad."})
+        chosen_scenes.append({"character": "Confrontación Cara a Cara", "emotion": "Verdad Brutal", "bg_theme": "mansion_gold", "text": "Frente a frente salieron a relucir todas las mentiras guardadas durante años, sellando el destino de una rivalidad histórica."})
     if target_count >= 7:
-        scenes.append({
-            "character": "El As bajo la Manga",
-            "emotion": "Giro Inesperado",
-            "bg_theme": random.choice(["market_street", "rainy_alley", "courtroom"]),
-            "text": f"Justo cuando creían tener la victoria asegurada, un testigo clave que todos daban por muerto entró por la puerta principal con una confesión jurada."
-        })
-        scenes.append({
-            "character": "El Juicio del Siglo",
-            "emotion": "Sentencia Definitiva",
-            "bg_theme": "courtroom",
-            "text": f"El veredicto final cayó como un martillazo demoledor. Las cuentas fueron congeladas y nadie pudo salvarse del castigo que merecía."
-        })
-
-    last_scene = scenes[-1]
-    last_scene["text"] = f"El destino de {subj} ha quedado sellado tras este escándalo histórico. ¿Crees que la venganza fue justa o debió perdonar? Deja tu opinión y sígueme para la Parte 2."
-    last_scene["emotion"] = "Veredicto & Suspenso Final"
-    last_scene["bg_theme"] = "courtroom"
-
-    chosen_title = random.choice(titles)
-    chosen_hook = random.choice(hooks)
+        chosen_scenes.append({"character": "La Prueba Definitiva", "emotion": "Giro Maestro", "bg_theme": "mafia_office", "text": "Un mensaje encriptado enviado a último minuto reveló la identidad del verdadero cerebro detrás de toda la operación."})
+        chosen_scenes.append({"character": "El Juicio del Público", "emotion": "Cierre Impactante", "bg_theme": "courtroom", "text": "La historia ha dado un giro que nadie esperaba. ¿Quién crees que fue el verdadero culpable? Deja tu opinión y suscríbete para la continuación."})
 
     return {
-        "title": chosen_title,
-        "hook": chosen_hook,
-        "category": category_label,
-        "voice": protag_voice,
+        "title": chosen["title"],
+        "hook": chosen["hook"],
+        "category": "historias_libres",
+        "voice": chosen["voice"],
         "duration": duration,
-        "scenes": scenes[:target_count],
-        "engine_used": "Motor Base Procedural (Frutinovela Dinámica)",
+        "scenes": chosen_scenes[:target_count],
+        "engine_used": "Motor Base Procedural (Historia Viral)",
         "is_llm": False
     }
 
@@ -845,6 +795,8 @@ async def render_novel_video(
     custom_title: Optional[str] = None,
     custom_voice: Optional[str] = None,
     custom_scenes: Optional[List[dict]] = None,
+    custom_hook: Optional[str] = None,
+    category: Optional[str] = None,
     export_to_desktop: bool = True,
     animation_mode: str = "3d_motion"
 ) -> dict:
@@ -1099,11 +1051,16 @@ async def render_novel_video(
     shutil.copy2(final_output, final_in_edits)
 
     # Metadata for gallery compatibility
+    is_fruti = (category and "fruti" in category.lower()) or "fruti" in novel_key.lower() or any(k in title.lower() for k in ["fresa", "plátano", "platano", "aguacate", "sandía", "sandia", "fruta"])
+    hook_text = (custom_hook or "").strip() or preset.get("hook", title.upper())
+    
     desktop_copy = None
     if export_to_desktop:
         try:
             DESKTOP_DIR.mkdir(parents=True, exist_ok=True)
-            desktop_filename = f"Frutinovela_{title.replace(' ', '_')}_{novel_id[-4:]}.mp4"
+            prefix = "Frutinovela" if is_fruti else "Historia_IA"
+            clean_name = re.sub(r'[^\w\-_]', '_', title)[:35]
+            desktop_filename = f"{prefix}_{clean_name}_{novel_id[-4:]}.mp4"
             dest_path = DESKTOP_DIR / desktop_filename
             shutil.copy2(final_output, dest_path)
             desktop_copy = str(dest_path)
@@ -1112,10 +1069,10 @@ async def render_novel_video(
             print(f"[NovelEngine] Warning: Could not export to desktop: {e}")
 
     meta = {
-        "hook": preset.get("hook", title.upper()),
-        "source_title": f"🍓 {title}",
-        "source_channel": "Estudio Frutinovelas IA",
-        "category": "novel",
+        "hook": hook_text,
+        "source_title": f"🍓 {title}" if is_fruti else f"🎭 {title}",
+        "source_channel": "Estudio Frutinovelas IA" if is_fruti else "Historias Libres IA",
+        "category": "frutinovela" if is_fruti else "free_story",
         "duration": round(sum(len(s["text"].split()) * 0.45 for s in scenes), 1),
         "start": 0,
         "end": round(sum(len(s["text"].split()) * 0.45 for s in scenes), 1),
@@ -1129,7 +1086,7 @@ async def render_novel_video(
     return {
         "id": novel_id,
         "title": title,
-        "hook": preset.get("hook", title.upper()),
+        "hook": hook_text,
         "video_path": str(final_output),
         "media_url": f"/media/{novel_id}/clip_1.mp4",
         "desktop_path": desktop_copy,
