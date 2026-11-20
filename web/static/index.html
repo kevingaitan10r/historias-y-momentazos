@@ -440,6 +440,7 @@
             <select id="novelPreset" onchange="onNovelPresetChange()"
               class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition">
               <option value="frutinovela_traicion" selected>🍓 Frutinovela: La Traición de Don Plátano</option>
+              <option value="frutinovela_boda_compromiso">🍓 Frutinovela (@frutifresass): La Falsa Niña Puros Ceros en la Cena</option>
               <option value="gta6_vice_city">🌴 GTA 6: El Gran Golpe en Vice City (Lucia & Jason)</option>
               <option value="frutinovela_herencia">🥑 Frutinovela: El Secreto de Don Aguacate</option>
               <option value="animales_mafia">🐱 Mafia Animal: El Padrino Bigotes</option>
@@ -922,6 +923,51 @@
             y escenas virales con IA sin repetirse.</p>
         </div>
 
+        <!-- Motor de Video IA en la Nube (LTX-Video + ComfyUI / Fal.ai) -->
+        <div class="glass p-4 rounded-2xl border border-cyan-500/30 space-y-3 text-xs bg-cyan-950/10">
+          <div class="flex items-center justify-between text-cyan-300 font-bold">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-solid fa-cloud-bolt text-cyan-400"></i> Motor de Video IA en la Nube (LTX & Flux)
+            </span>
+            <span id="cloudStatusBadge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-800 text-gray-400">Local 3D</span>
+          </div>
+
+          <div class="space-y-2">
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-[11px] text-gray-300 font-semibold">URL de ComfyUI Cloud (Google Colab GPU Gratis):</label>
+                <a href="https://colab.research.google.com/github/kevingaitan10r/historias-y-momentazos/blob/main/comfyui_ltx_colab.ipynb" target="_blank"
+                   class="text-[10px] text-cyan-400 hover:text-cyan-300 underline font-semibold flex items-center gap-1">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir Colab GPU
+                </a>
+              </div>
+              <div class="flex gap-2">
+                <input type="text" id="comfyEndpointInput" placeholder="https://xxxx.trycloudflare.com"
+                  class="flex-1 bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-cyan-500 text-xs font-mono">
+                <button onclick="testComfyConnection()"
+                  class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 transition">
+                  <i class="fa-solid fa-plug"></i> Probar
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[11px] text-gray-300 font-semibold block mb-1">O Clave API Fal.ai (Flux & LTX Serverless):</label>
+              <div class="flex gap-2">
+                <input type="password" id="falKeyInput" placeholder="Pega tu clave de Fal.ai (opcional)"
+                  class="flex-1 bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-cyan-500 text-xs font-mono">
+                <button onclick="saveCloudSettings()"
+                  class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 transition">
+                  <i class="fa-solid fa-floppy-disk"></i> Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="text-[10px] text-gray-400 leading-snug">
+            💡 Al conectar Google Colab o Fal.ai, cada escena se generará con video real de <strong>LTX-Video</strong> en 5-10 segundos sin ocupar espacio de disco en tu Mac.
+          </p>
+        </div>
+
         <!-- Carpeta de Exportación -->
         <div class="glass p-4 rounded-2xl border border-gray-800 space-y-1.5 text-xs">
           <div class="flex items-center justify-between text-gray-300 font-semibold">
@@ -1150,7 +1196,7 @@
     }
 
     function randomizeNovel() {
-      const keys = ['frutinovela_traicion', 'frutinovela_herencia', 'animales_mafia', 'reddit_drama'];
+      const keys = ['frutinovela_traicion', 'frutinovela_boda_compromiso', 'frutinovela_herencia', 'animales_mafia', 'reddit_drama'];
       const randomKey = keys[Math.floor(Math.random() * keys.length)];
       document.getElementById('novelPreset').value = randomKey;
       onNovelPresetChange();
@@ -1908,8 +1954,69 @@
           const localKey = localStorage.getItem('gemini_api_key');
           if (localKey && inp) inp.value = localKey;
         }
+
+        const comfyInp = document.getElementById('comfyEndpointInput');
+        if (comfyInp && data.comfyui_endpoint) comfyInp.value = data.comfyui_endpoint;
+
+        const falInp = document.getElementById('falKeyInput');
+        if (falInp && data.fal_api_key) falInp.value = data.fal_api_key;
+
+        const badge = document.getElementById('cloudStatusBadge');
+        if (badge) {
+          if (data.comfyui_endpoint) {
+            badge.textContent = "ComfyUI Colab";
+            badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30";
+          } else if (data.fal_api_key) {
+            badge.textContent = "Fal.ai LTX";
+            badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30";
+          } else {
+            badge.textContent = "Local 3D";
+            badge.className = "text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-800 text-gray-400";
+          }
+        }
       } catch (err) {
         console.error("Error loading settings:", err);
+      }
+    }
+
+    async function testComfyConnection() {
+      const inp = document.getElementById('comfyEndpointInput');
+      const url = inp ? inp.value.trim() : "";
+      if (!url) {
+        alert("Introduce la URL de ComfyUI (por ejemplo la que te da Google Colab que termina en .trycloudflare.com)");
+        return;
+      }
+      try {
+        const res = await fetch('/api/comfyui/test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ endpoint: url })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          alert("✅ " + data.message);
+          await saveCloudSettings();
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (err) {
+        alert("Error probando conexión: " + err.message);
+      }
+    }
+
+    async function saveCloudSettings() {
+      const comfy = document.getElementById('comfyEndpointInput')?.value.trim() || "";
+      const fal = document.getElementById('falKeyInput')?.value.trim() || "";
+      try {
+        await fetch('/api/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ comfyui_endpoint: comfy, fal_api_key: fal })
+        });
+        alert("✅ Configuración de video IA en la nube guardada.");
+        loadSettings();
+      } catch (err) {
+        alert("Error guardando ajustes en la nube: " + err);
       }
     }
 

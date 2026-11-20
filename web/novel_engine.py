@@ -59,6 +59,42 @@ PRESET_NOVELS = {
             }
         ]
     },
+    "frutinovela_boda_compromiso": {
+        "title": "La Falsa Niña Puros Ceros en la Cena",
+        "category": "🍓 Frutinovelas Estilo @frutifresass",
+        "hook": "¡LA DESENMASCARARON EN PLENA CENA DE COMPROMISO!",
+        "voice": "dalia",
+        "scenes": [
+            {
+                "character": "Doña Fresa La Prometida",
+                "emotion": "Hipocresía & Lujo",
+                "bg_theme": "luxury_club",
+                "text": "Doña Fresa presumía ser una niña de alta sociedad en su cena de compromiso, exigiendo caviar y champán de marca a la familia de Don Plátano.",
+                "ai_video_prompt": "3D Pixar style anthropomorphic strawberry girl with elegant makeup, gold jewelry and a white silk dress sitting arrogantly at a luxury banquet table, emotional Disney 3D render, cinematic lighting"
+            },
+            {
+                "character": "La Cuenta Millonaria",
+                "emotion": "Tensión y Vergüenza",
+                "bg_theme": "kitchen_night",
+                "text": "Pero la tensión estalló cuando el camarero trajo la cuenta y todas sus tarjetas doradas fueron rechazadas por tener saldo cero en el banco central.",
+                "ai_video_prompt": "3D Pixar animation of a luxury fruit restaurant, a waiter presenting a glowing credit card bill showing declined balance, shock and embarrassment on characters faces, 8k render"
+            },
+            {
+                "character": "Don Plátano Millonario",
+                "emotion": "Furia y Decepción",
+                "bg_theme": "mansion_gold",
+                "text": "Don Plátano se levantó furioso de la mesa y arrojó el anillo de diamantes al suelo tras descubrir que ella solo lo quería por su herencia millonaria.",
+                "ai_video_prompt": "3D anthropomorphic banana gentleman in an expensive tuxedo slamming the table in anger, throwing a diamond ring on the floor, dramatic cinematic lighting, emotional 3D scene"
+            },
+            {
+                "character": "El Escándalo Final",
+                "emotion": "Clímax & Suspenso",
+                "bg_theme": "courtroom",
+                "text": "Ahora Doña Fresa amenaza con demandar a toda la familia de frutas. ¿Crees que Don Plátano hizo bien o debió pagar la cuenta? ¡Deja tu comentario y sígueme para la Parte 2!",
+                "ai_video_prompt": "3D Pixar style crying strawberry girl pointing accusingly in front of a crowd of shocked fruits, high drama, cinematic camera pan, cliffhanger ending"
+            }
+        ]
+    },
     "frutinovela_herencia": {
         "title": "El Secreto Millonario de Don Aguacate",
         "category": "🥑 Frutinovelas",
@@ -871,19 +907,60 @@ async def render_novel_video(
         frames = int(dur * fps)
 
         anim_success = False
-        try:
-            from web.local_i2v import generate_animated_scene_video
-            print(f"[NovelEngine] Rendering animated video for scene {idx} ({dur:.1f}s, mode: {animation_mode})...")
-            generate_animated_scene_video(
-                image_path=str(sc_img),
-                audio_path=str(sc_audio),
-                output_path=str(sc_video),
-                duration=dur,
-                mode=animation_mode
-            )
-            anim_success = True
-        except Exception as e:
-            print(f"[NovelEngine] 3D video animation fallback: {e}")
+
+        # Check if user provided an animated video clip (e.g. from Kling AI, Luma, Runway, etc.)
+        custom_video = sc.get("video_path")
+        if custom_video and Path(custom_video).exists() and str(custom_video).endswith(".mp4"):
+            try:
+                print(f"[NovelEngine] Using provided animated video for scene {idx}: {custom_video}")
+                cmd_clip = [
+                    FFMPEG_BIN, "-y",
+                    "-stream_loop", "-1", "-i", str(custom_video),
+                    "-i", str(sc_audio),
+                    "-map", "0:v", "-map", "1:a",
+                    "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1",
+                    "-c:v", "libx264", "-preset", "fast",
+                    "-c:a", "aac", "-b:a", "192k",
+                    "-t", str(dur),
+                    str(sc_video)
+                ]
+                subprocess.run(cmd_clip, capture_output=True, check=True)
+                anim_success = True
+            except Exception as e:
+                print(f"[NovelEngine] Error embedding custom video clip: {e}")
+
+        if not anim_success:
+            # 1. Intentar generación de video real con IA en la nube (LTX-Video vía ComfyUI Colab o Fal.ai)
+            try:
+                from web.cloud_video import generate_video_ltx_cloud
+                ai_prompt = sc.get("ai_video_prompt") or f"3D Disney Pixar animation of {sc.get('character', 'character')}, {sc.get('emotion', 'dramatic')}, cinematic lighting, highly emotional, 8k render, vertical 9:16"
+                print(f"[NovelEngine] Verificando generación en la nube (LTX-Video) para escena {idx}...")
+                cloud_ok = generate_video_ltx_cloud(
+                    prompt=ai_prompt,
+                    image_path=str(sc_img),
+                    output_path=str(sc_video),
+                    duration_sec=int(dur)
+                )
+                if cloud_ok:
+                    anim_success = True
+                    print(f"[NovelEngine] ¡Escena {idx} generada con éxito mediante LTX-Video en la Nube!")
+            except Exception as e:
+                print(f"[NovelEngine] Cloud LTX fallback: {e}")
+
+        if not anim_success:
+            try:
+                from web.local_i2v import generate_animated_scene_video
+                print(f"[NovelEngine] Rendering animated video for scene {idx} ({dur:.1f}s, mode: {animation_mode})...")
+                generate_animated_scene_video(
+                    image_path=str(sc_img),
+                    audio_path=str(sc_audio),
+                    output_path=str(sc_video),
+                    duration=dur,
+                    mode=animation_mode
+                )
+                anim_success = True
+            except Exception as e:
+                print(f"[NovelEngine] 3D video animation fallback: {e}")
 
         if not anim_success:
             # Fallback to FFmpeg zoompan filter
@@ -941,7 +1018,67 @@ async def render_novel_video(
     ass_path = work_dir / "subtitles.ass"
     transcribe_and_build_ass(str(extracted_audio), str(ass_path), fallback_text=" ".join(full_script_texts))
 
-    # Step 5: Burn ASS subtitles into final video
+    # Step 4.5: Mix voiceover with background suspense music & boom SFX (Auto-Ducking)
+    audio_dir = BASE_DIR / "web" / "static" / "assets" / "audio"
+    bg_music = audio_dir / "music_suspense_drama.mp3"
+    sfx_boom = audio_dir / "sfx_boom.mp3"
+
+    mixed_audio = work_dir / "final_mixed_audio.mp3"
+    audio_source_for_burn = extracted_audio
+
+    if bg_music.exists():
+        try:
+            cmd_dur = [
+                str(BASE_DIR / ".venv" / "bin" / "ffprobe"),
+                "-v", "error",
+                "-show_entries", "format=duration",
+                "-of", "default=noprint_wrappers=1:nokey=1",
+                str(extracted_audio)
+            ]
+            p_dur = subprocess.run(cmd_dur, capture_output=True, text=True)
+            total_dur = float(p_dur.stdout.strip()) if p_dur.stdout.strip() else 30.0
+            fade_out_st = max(1.0, total_dur - 2.5)
+
+            if sfx_boom.exists():
+                f_complex = (
+                    f"[0:a]volume=1.05[v];"
+                    f"[1:a]volume=0.18,afade=t=in:ss=0:d=1.0,afade=t=out:st={fade_out_st:.1f}:d=2.0[m];"
+                    f"[2:a]volume=0.6[b];"
+                    f"[v][m][b]amix=inputs=3:duration=first:dropout_transition=2[aout]"
+                )
+                cmd_mix = [
+                    FFMPEG_BIN, "-y",
+                    "-i", str(extracted_audio),
+                    "-i", str(bg_music),
+                    "-i", str(sfx_boom),
+                    "-filter_complex", f_complex,
+                    "-map", "[aout]",
+                    "-c:a", "libmp3lame", "-b:a", "192k",
+                    str(mixed_audio)
+                ]
+            else:
+                f_complex = (
+                    f"[0:a]volume=1.05[v];"
+                    f"[1:a]volume=0.18,afade=t=in:ss=0:d=1.0,afade=t=out:st={fade_out_st:.1f}:d=2.0[m];"
+                    f"[v][m]amix=inputs=2:duration=first:dropout_transition=2[aout]"
+                )
+                cmd_mix = [
+                    FFMPEG_BIN, "-y",
+                    "-i", str(extracted_audio),
+                    "-i", str(bg_music),
+                    "-filter_complex", f_complex,
+                    "-map", "[aout]",
+                    "-c:a", "libmp3lame", "-b:a", "192k",
+                    str(mixed_audio)
+                ]
+            subprocess.run(cmd_mix, capture_output=True, check=True)
+            if mixed_audio.exists() and mixed_audio.stat().st_size > 1000:
+                audio_source_for_burn = mixed_audio
+                print("[NovelEngine] ¡Música de suspenso con auto-ducking y boom SFX mezclados con éxito!")
+        except Exception as e:
+            print(f"[NovelEngine] Audio mixing fallback note: {e}")
+
+    # Step 5: Burn ASS subtitles and pack mixed cinematic audio into final video
     final_output = work_dir / "novel_vertical.mp4"
     edits_dir = work_dir / "edits"
     edits_dir.mkdir(parents=True, exist_ok=True)
@@ -950,9 +1087,12 @@ async def render_novel_video(
     cmd_burn = [
         FFMPEG_BIN, "-y",
         "-i", str(combined_video),
+        "-i", str(audio_source_for_burn),
+        "-map", "0:v",
+        "-map", "1:a",
         "-vf", f"ass={str(ass_path)}",
         "-c:v", "libx264", "-preset", "fast", "-crf", "20",
-        "-c:a", "copy",
+        "-c:a", "aac", "-b:a", "192k",
         str(final_output)
     ]
     subprocess.run(cmd_burn, capture_output=True, check=True)

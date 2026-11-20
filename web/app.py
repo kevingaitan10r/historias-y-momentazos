@@ -51,6 +51,8 @@ CONFIG_FILE = BASE_DIR / "web" / "config.json"
 
 class SettingsRequest(BaseModel):
     gemini_api_key: Optional[str] = None
+    comfyui_endpoint: Optional[str] = None
+    fal_api_key: Optional[str] = None
 
 class JobRequest(BaseModel):
     url: str
@@ -326,15 +328,16 @@ def create_job(req: JobRequest, bg_tasks: BackgroundTasks):
 
 @app.get("/api/settings")
 def get_settings():
-    key = ""
+    cfg = {}
     if CONFIG_FILE.exists():
         try:
             cfg = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
-            key = cfg.get("gemini_api_key", "")
         except Exception:
             pass
     return {
-        "gemini_api_key": key,
+        "gemini_api_key": cfg.get("gemini_api_key", ""),
+        "comfyui_endpoint": cfg.get("comfyui_endpoint", ""),
+        "fal_api_key": cfg.get("fal_api_key", ""),
         "desktop_dir": str(DESKTOP_DIR)
     }
 
@@ -349,8 +352,19 @@ def save_settings(req: SettingsRequest):
             pass
     if req.gemini_api_key is not None:
         cfg["gemini_api_key"] = req.gemini_api_key.strip()
+    if req.comfyui_endpoint is not None:
+        cfg["comfyui_endpoint"] = req.comfyui_endpoint.strip()
+    if req.fal_api_key is not None:
+        cfg["fal_api_key"] = req.fal_api_key.strip()
     CONFIG_FILE.write_text(json.dumps(cfg, indent=2), encoding="utf-8")
     return {"status": "success", "message": "Ajustes guardados correctamente."}
+
+
+@app.post("/api/comfyui/test")
+def test_comfy(data: dict):
+    from web.cloud_video import test_comfyui_connection
+    url = data.get("endpoint", "")
+    return test_comfyui_connection(url)
 
 
 @app.get("/api/clips")
