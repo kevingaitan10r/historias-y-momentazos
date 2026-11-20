@@ -1,93 +1,114 @@
+# 🎬 Historias y Momentazos — Suite de Automatización de Contenido Viral con IA
+
 <div align="center">
 
-<img src="docs/logo.png" width="300" alt="gtavi-claudecode logo">
+![Historias y Momentazos Banner](web/static/assets/branding/youtube_banner.jpg)
 
-<h1 align="center">gtavi-claudecode</h1>
+**Plataforma integral para la creación, edición, subtitulado y publicación automatizada de clips virales de Gaming y micro-novelas animadas con Inteligencia Artificial.**
 
-<p align="center"><b>Rockstar made the game.<br>Claude Code makes you the money.</b></p>
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-555555?style=for-the-badge&logo=ffmpeg&logoColor=white)](https://ffmpeg.org/)
+[![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
 
-<p align="center">GTA 6 is about to break the internet. Claude Code watches the biggest streams, catches the second chat explodes and hands you a ready-to-post vertical clip. Campaigns pay per 1,000 views. You just hit post.</p>
-
-<p align="center"><img src="https://img.shields.io/badge/Claude_Code-plugin-e8457f" alt="Claude Code: plugin"> <img src="https://img.shields.io/badge/skills-16-e8457f" alt="skills: 16"> <img src="https://img.shields.io/badge/clips-1080x1920-e8457f" alt="clips: 1080x1920"> <img src="https://img.shields.io/badge/languages-5-e8457f" alt="languages: 5"></p>
-<p align="center"><img src="https://img.shields.io/badge/GTA_6-Nov_19-e8457f" alt="GTA 6: Nov 19"> <img src="https://img.shields.io/badge/license-MIT-e8457f" alt="license: MIT"></p>
-<p align="center"><sub>Unofficial fan project. Not affiliated with Rockstar Games, Take-Two or Anthropic.</sub></p>
-<p align="center"><a href="#first-run-paste-this-into-claude-code">Quick start</a> · <a href="#two-ways-to-make-money">Make money</a> · <a href="#whats-inside">Skills</a> · <a href="#the-rules-that-make-clips-win">Clip rules</a> · <a href="#run-the-scripts-yourself">Scripts</a></p>
+Desarrollado y personalizado por **[Kevin Gaitán](https://github.com/kevingaitan10r)** para el canal **Historias y Momentazos**.
 
 </div>
 
+---
+
+## 🚀 ¿Qué es este proyecto?
+
+**Historias y Momentazos** es un sistema inteligente diseñado para resolver todo el flujo de trabajo de un creador de contenido vertical moderno. En lugar de pasar horas editando manualmente, la plataforma automatiza desde la detección de momentos virales hasta la publicación directa en redes sociales:
+
+1. **Clips Virales de Gaming y Streamers (GTA 6, DjMaRiiO, Willyrex, etc.)**: Analiza videos de YouTube, detecta las partes más emocionantes o divertidas y las convierte en formato vertical 9:16 (1080x1920) con ganchos generados por IA y subtítulos palabra por palabra.
+2. **Generador de Novelas Animadas con IA ("Frutinovelas")**: Crea historias originales (drama, comedia y misterio) con personajes 3D animados, voces neuronales y subtítulos karaoke sincronizados.
+3. **Publicación Directa**: Conexión con 1 clic para subir los videos directamente a **TikTok** y **YouTube Shorts**.
+
+---
+
+## ✨ Características Principales
+
+### 🧠 1. Detección Neuronal de Momentos Clave (`moments.py`)
+* Descarga de videos a máxima resolución mediante `yt-dlp`.
+* Transcripción automática de audio local utilizando modelos neuronales (`faster-whisper`).
+* Algoritmo de puntuación de momentos por picos de volumen de voz, palabras de hype/asombro y momentos más repetidos.
+* **Ganchos y Títulos Atractivos con IA**: Genera títulos de alto CTR analizando el contexto de lo que dicen los streamers con **Google Gemini**.
+
+### 🎨 2. Renderizado Vertical Profesional 9:16 (`cut.py`)
+* Salida estándar para Shorts/TikTok/Reels: **1080x1920 a 30/60 fps**.
+* Modo de composición inteligente: fondo difuminado en movimiento (*blur layout*) o recorte de cara (*facecam*).
+* Subtítulos dinámicos estilo TikTok incrustados en tiempo real con animación palabra por palabra.
+* Normalización de audio a -14 LUFS (estándar de plataformas de streaming).
+
+### 🎭 3. Creador de Historias y Novelas IA (`novel_engine.py`)
+* Generador de guiones y tramas virales con IA (Traición de Don Plátano, Doña Manzana, Don Aguacate, Don Gato).
+* Síntesis de voz neuronal ultrarrealista mediante `edge-tts` en español con múltiples tonos y emociones.
+* Animación cinematográfica 3D (movimientos de cámara, zoom dinámico y efectos de transición).
+
+### 📱 4. Panel Web Moderno y Responsivo (`web/`)
+* Diseñado con **FastAPI** y **Tailwind CSS**.
+* **100% Responsivo**: Se adapta a teléfonos móviles, tablets y ordenadores sin desbordamientos.
+* Radar de videos virales en tiempo real de los principales creadores hispanos.
+* Reproductor de video interactivo con previsualización vertical.
+* Registro de exportación automática a carpeta local en el Escritorio.
+
+### 🌐 5. Subida y Conexión con Redes Sociales
+* **TikTok**: Integración con *TikTok Creator Center* mediante Playwright con evasión anti-detección (stealth) y soporte para sesiones persistentes de larga duración.
+* **YouTube Shorts**: Conexión OAuth2 oficial de Google con subida automática de título, descripción y etiquetas optimizadas para el algoritmo.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+* **Backend:** Python 3.12, FastAPI, Uvicorn, Pydantic.
+* **Procesamiento de Video & Audio:** FFmpeg, FFprobe, OpenCV, Whisper (`faster-whisper` / `CTranslate2`).
+* **Inteligencia Artificial:** Google Gemini API (`google-genai`), Microsoft Edge TTS.
+* **Automatización Web:** Playwright (Chromium con perfiles de evasión stealth).
+* **Frontend:** HTML5, Tailwind CSS, JavaScript Vanilla, FontAwesome Icons.
+* **Contenedorización:** Docker, Dockerfile optimizado para Debian/Ubuntu.
+
+---
+
+## 💻 Instalación y Uso Local
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/kevingaitan10r/historias-y-momentazos.git
+cd historias-y-momentazos
 ```
-/plugin marketplace add Bodila51/gtavi-claudecode
-/plugin install gtavi-claudecode@gtavi-claudecode
-```
 
-Two lines in Claude Code. In 10 minutes you have: the tools installed, your page folder, today's trending GTA 6 videos, the best moments picked and your first vertical clips ready to post.
-
-## First run: paste this into Claude Code
-
-```
-Use gtavi-claudecode. Set up my GTA 6 clip page, ask me your 4 questions in one message,
-then do everything after one "yes": find live clipping campaigns, show today's trending
-GTA 6 videos and live streams, find the best moments in the top one, cut my first 3 clips
-with hooks, check them against the campaign rules, and tell me what to post where.
-```
-
-## Two ways to make money
-
-**1. Paid clipping campaigns (fastest).** Streamers and brands pay clippers per 1,000 views on approved clips. On Whop Content Rewards around $1 per 1K views is common; every campaign shows its own rate, budget left and rules. `campaign-finder` reads them live and never guesses a number. You read the rules, clip only that creator, post, submit the link.
-
-**2. Your own faceless GTA 6 page (bigger, slower).** The built-in playbook runs it: daily content mix, credit rules, caption templates, the launch-day "be first" plan and a learning loop. Platforms don't pay for reposted clips, so the page grows on speed, useful tips and credited clips, then earns through campaigns and partnerships.
-
-No income is promised. Your result depends on speed, picks and hooks, and the scoreboard shows what works.
-
-## The rules that make clips win
-
-- Hook in the first second. Say why to keep watching ("the hidden car nobody found").
-- 7 to 30 seconds. Cut dead air at the start, end on the payoff.
-- Big captions in the safe area. Most people watch muted.
-- Make it yours: hook, tip, commentary. Never a plain re-upload. Credit the creator in your post.
-- Launch day (Nov 19): players in New Zealand and Australia unlock first. Clip their streams, post to X first, then Reels, TikTok and Shorts, every 1 to 2 hours for 48 hours.
-- Every repeated question in your comments becomes a HOW TO post.
-- One test per day. No verdict before 24 hours, prefer the 72 h numbers.
-
-## What's inside
-
-| Skill | What you get |
-|---|---|
-| `setup` | Installs ffmpeg, yt-dlp and faster-whisper, asks 4 questions, builds your page folder |
-| `campaign-finder` | Live campaigns: rate per 1K views, budget left, rules, link |
-| `trend-radar` | GTA 6 videos from the last 24 h ranked by views per hour |
-| `stream-finder` | Who is streaming GTA 6 right now, ranked by viewers |
-| `moment-finder` | Best 15 to 40 s moments, scored by loudness spikes, hype words, YouTube "most replayed" and chat spikes |
-| `live-mode` | Records a live stream and cuts a clip every time chat explodes |
-| `twitch-reaction` | Reaction clips like the viral ones: the streamer's face on top, the game below, a big title on the seam. Finds the top GTA 6 Twitch streams with no account, reads chat and finds the webcam by itself |
-| `clip-cutter` | 1080x1920 clip: word-by-word captions, hook box, -14 LUFS. Fill, blurred background or facecam on top |
-| `hook-writer` | 3 hook options per clip |
-| `rule-check` | Length, format, hashtags and banned content checked before you post |
-| `multilang` | One clip in 5 languages: translated word-by-word captions and hook in ES, PT, DE, RU, optional stock-voice hook. Non-English GTA pages are almost empty |
-| `questions-to-posts` | Pulls repeated questions from GTA subreddits and your comments, turns the answered ones into HOW TO posts |
-| `secrets-map` | Builds a database of hidden spots, money, cars and collectibles from clips, with timestamp and credit. Verified ones become evergreen tip posts |
-| `cheat-codes` | All reported GTA 6 cheat codes with unlock tasks and sources, turned into a 4-slide cheat carousel |
-| `playbook` | Your full daily routine and launch-day plan |
-| `learning-loop` | Scoreboard, one test per day, payouts from real numbers only |
-
-Nothing is uploaded automatically. You approve every post.
-
-## Hard rules
-
-No leaks, no "play early" or "free download" posts, no piracy, no GTA Online money or AFK bots, no fake news, never pretends to be Rockstar. Every fact needs an official source.
-
-## Run the scripts yourself
-
-```
+### 2. Crear entorno virtual e instalar dependencias
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-python scripts/trends.py --query "gta 6" --hours 24
-python scripts/streams.py --query "gta 6"
-python scripts/moments.py "https://www.youtube.com/watch?v=..." --top 8
-python scripts/cut.py jobs/<id> --pick 2 --layout facecam --hook "Nobody noticed this"
-python scripts/check.py jobs/<id>/edits/clip_2.mp4 --campaign campaigns.md
-python scripts/live.py "https://www.youtube.com/watch?v=<live>" --minutes 60
+playwright install chromium
 ```
 
-Windows, macOS or Linux, Python 3.10+. An NVIDIA GPU makes transcription faster; on the CPU a 12-minute video takes about 5 minutes.
+### 3. Iniciar el Panel Web
+```bash
+uvicorn web.app:app --host 127.0.0.1 --port 8000 --reload
+```
+Abre en tu navegador: **`http://localhost:8000`**
 
-MIT license.
+---
+
+## 🐳 Despliegue en la Nube (Docker / Railway / VPS)
+
+El proyecto incluye un `Dockerfile` listo para correr en cualquier servidor Linux o servicio PaaS (Railway, Render, Hetzner, etc.):
+
+```bash
+docker build -t historias-y-momentazos .
+docker run -p 8000:8000 historias-y-momentazos
+```
+
+---
+
+## 👤 Creador
+* **Kevin Gaitán** - [@kevingaitan10r](https://github.com/kevingaitan10r)
+* Canal Oficial: **Historias y Momentazos** (TikTok & YouTube Shorts)
+
+---
+<sub>Proyecto desarrollado para experimentación y producción de contenido automatizado con Inteligencia Artificial.</sub>
