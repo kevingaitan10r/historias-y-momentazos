@@ -1332,28 +1332,55 @@
     function getThumbnailForScene(character, theme) {
       const c = (character || '').toLowerCase();
       const t = (theme || '').toLowerCase();
+
+      // GTA 6 / Crime / Action
       if (c.includes('gta') || c.includes('lucia') || c.includes('jason') || c.includes('vice') || c.includes('polic') || c.includes('chase') || c.includes('coche') || c.includes('atraco') || t.includes('action')) {
         if (c.includes('polic') || c.includes('persecucion') || c.includes('chase') || c.includes('asfalto')) {
           return '/static/assets/scenes/gta6_police_chase_neon.jpg';
         }
         return '/static/assets/scenes/gta6_lucia_jason_vice_city.jpg';
       }
-      if (c.includes('fresa') || c.includes('boda') || c.includes('novia') || c.includes('vestido')) {
+
+      // Fruit characters
+      if (c.includes('fresa') || c.includes('novia') || c.includes('vestido')) {
         return '/static/assets/scenes/dona_fresa_wedding_kitchen_1795148365685.jpg';
       }
-      if (c.includes('platano') || c.includes('plátano') || c.includes('manzana') || c.includes('vip') || c.includes('club') || c.includes('romance') || c.includes('traicion')) {
+      if (c.includes('platano') || c.includes('plátano') || c.includes('manzana')) {
         return '/static/assets/scenes/don_platano_dona_manzana_vip_neon_1795148560016.jpg';
       }
-      if (c.includes('aguacate') || c.includes('detective') || c.includes('camara') || c.includes('calle') || c.includes('investig')) {
+      if (c.includes('aguacate')) {
         return '/static/assets/scenes/don_aguacate_detective_v2_1795148564957.jpg';
       }
-      if (c.includes('tribunal') || c.includes('juicio') || c.includes('juez') || c.includes('sandia') || c.includes('sandía') || c.includes('ley') || c.includes('corte')) {
+      if (c.includes('sandia') || c.includes('sandía')) {
         return '/static/assets/scenes/watermelon_judge_courtroom_v2_1795148585901.jpg';
       }
-      if (c.includes('gato') || c.includes('mafia') || c.includes('bigotes') || c.includes('padrino') || c.includes('jefe') || c.includes('director') || c.includes('oficina')) {
+
+      // Human Thriller / Free Stories Themes
+      if (t.includes('court') || t.includes('juicio') || c.includes('juez') || c.includes('abogado') || c.includes('tribunal')) {
+        return '/static/assets/scenes/human_courtroom_judge_gavel.jpg';
+      }
+      if (t.includes('vault') || t.includes('cartel') || t.includes('dark') || c.includes('cartel') || c.includes('dinero') || c.includes('mafia')) {
+        return '/static/assets/scenes/human_cartel_vault_cash.jpg';
+      }
+      if (t.includes('club') || t.includes('lounge') || t.includes('vip') || t.includes('luxury')) {
+        return '/static/assets/scenes/human_luxury_nightclub_vip.jpg';
+      }
+      if (t.includes('rain') || t.includes('calle') || t.includes('alley') || c.includes('detective') || c.includes('polic')) {
+        return '/static/assets/scenes/human_rainy_street_detective.jpg';
+      }
+      if (t.includes('wedding') || t.includes('boda') || c.includes('boda') || c.includes('prometid')) {
+        return '/static/assets/scenes/human_wedding_interrupted.jpg';
+      }
+      if (t.includes('skyscraper') || t.includes('office') || c.includes('jefe') || c.includes('ceo') || c.includes('empleado') || c.includes('gerente')) {
+        return '/static/assets/scenes/human_office_ceo_suspense.jpg';
+      }
+
+      // Animals
+      if (c.includes('gato') || c.includes('bigotes') || c.includes('padrino')) {
         return '/static/assets/scenes/don_gato_bigotes_miami_office_1795148582776.jpg';
       }
-      return '/static/assets/scenes/gta6_lucia_jason_vice_city.jpg';
+
+      return '/static/assets/scenes/human_office_ceo_suspense.jpg';
     }
 
     function renderFrutiScenes(scenes) {

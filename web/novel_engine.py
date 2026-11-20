@@ -505,11 +505,51 @@ def get_matching_3d_image(character: str, theme: str, title: str) -> Optional[Pa
         p = ASSETS_SCENES_DIR / "don_gato_bigotes_miami_office_1795148582776.jpg"
         if p.exists(): return p
 
-    # Fallback ONLY if the story is explicitly a Frutinovela / Animal story:
+    # 3. Human / Realistic Stories (Themes & Scene matching)
+    theme_l = (theme or "").lower()
+    if any(k in theme_l or k in char_l for k in ["court", "juez", "tribunal", "juicio", "ley", "justicia"]):
+        p = ASSETS_SCENES_DIR / "human_courtroom_judge_gavel.jpg"
+        if p.exists(): return p
+
+    if any(k in theme_l or k in char_l for k in ["vault", "bóveda", "boveda", "cartel", "cash", "dinero", "caja", "bodega", "dólares"]):
+        p = ASSETS_SCENES_DIR / "human_cartel_vault_cash.jpg"
+        if p.exists(): return p
+
+    if any(k in theme_l or k in char_l for k in ["club", "vip", "disco", "lounge", "bar", "noche", "fiesta"]):
+        p = ASSETS_SCENES_DIR / "human_luxury_nightclub_vip.jpg"
+        if p.exists(): return p
+
+    if any(k in theme_l or k in char_l for k in ["rain", "lluvia", "calle", "callejón", "callejon", "detective", "calle"]):
+        p = ASSETS_SCENES_DIR / "human_rainy_street_detective.jpg"
+        if p.exists(): return p
+
+    if any(k in theme_l or k in char_l for k in ["wedding", "boda", "novi", "matrimonio", "iglesia", "altar", "salón"]):
+        p = ASSETS_SCENES_DIR / "human_wedding_interrupted.jpg"
+        if p.exists(): return p
+
+    if any(k in theme_l or k in char_l for k in ["skyscraper", "office", "oficina", "ceo", "empresa", "jefe", "negocio", "reunión"]):
+        p = ASSETS_SCENES_DIR / "human_office_ceo_suspense.jpg"
+        if p.exists(): return p
+
+    # Fallback for Frutinovelas / Animal stories:
     if any(k in title_l or k in char_l for k in ["fruti", "fruta", "plátano", "fresa", "aguacate", "sandía", "gato", "animal"]):
-        fruit_imgs = [p for p in ASSETS_SCENES_DIR.glob("*.jpg") if not p.name.startswith("gta6")]
+        fruit_imgs = [p for p in ASSETS_SCENES_DIR.glob("*.jpg") if not p.name.startswith("gta6") and not p.name.startswith("human")]
         if fruit_imgs:
             return fruit_imgs[abs(hash(character + theme)) % len(fruit_imgs)]
+
+    # Fallback for Human / Free Stories:
+    human_imgs = [
+        ASSETS_SCENES_DIR / "human_office_ceo_suspense.jpg",
+        ASSETS_SCENES_DIR / "human_cartel_vault_cash.jpg",
+        ASSETS_SCENES_DIR / "human_luxury_nightclub_vip.jpg",
+        ASSETS_SCENES_DIR / "human_courtroom_judge_gavel.jpg",
+        ASSETS_SCENES_DIR / "human_rainy_street_detective.jpg",
+        ASSETS_SCENES_DIR / "human_wedding_interrupted.jpg",
+        ASSETS_SCENES_DIR / "gta6_lucia_jason_vice_city.jpg"
+    ]
+    valid_human = [p for p in human_imgs if p.exists()]
+    if valid_human:
+        return valid_human[abs(hash(character + theme + title)) % len(valid_human)]
 
     return None
 
