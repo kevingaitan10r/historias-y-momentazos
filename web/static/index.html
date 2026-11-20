@@ -1329,6 +1329,33 @@
       onFrutiPresetChange();
     }
 
+    function getThumbnailForScene(character, theme) {
+      const c = (character || '').toLowerCase();
+      const t = (theme || '').toLowerCase();
+      if (c.includes('gta') || c.includes('lucia') || c.includes('jason') || c.includes('vice') || c.includes('polic') || c.includes('chase') || c.includes('coche') || c.includes('atraco') || t.includes('action')) {
+        if (c.includes('polic') || c.includes('persecucion') || c.includes('chase') || c.includes('asfalto')) {
+          return '/static/assets/scenes/gta6_police_chase_neon.jpg';
+        }
+        return '/static/assets/scenes/gta6_lucia_jason_vice_city.jpg';
+      }
+      if (c.includes('fresa') || c.includes('boda') || c.includes('novia') || c.includes('vestido')) {
+        return '/static/assets/scenes/dona_fresa_wedding_kitchen_1795148365685.jpg';
+      }
+      if (c.includes('platano') || c.includes('plátano') || c.includes('manzana') || c.includes('vip') || c.includes('club') || c.includes('romance') || c.includes('traicion')) {
+        return '/static/assets/scenes/don_platano_dona_manzana_vip_neon_1795148560016.jpg';
+      }
+      if (c.includes('aguacate') || c.includes('detective') || c.includes('camara') || c.includes('calle') || c.includes('investig')) {
+        return '/static/assets/scenes/don_aguacate_detective_v2_1795148564957.jpg';
+      }
+      if (c.includes('tribunal') || c.includes('juicio') || c.includes('juez') || c.includes('sandia') || c.includes('sandía') || c.includes('ley') || c.includes('corte')) {
+        return '/static/assets/scenes/watermelon_judge_courtroom_v2_1795148585901.jpg';
+      }
+      if (c.includes('gato') || c.includes('mafia') || c.includes('bigotes') || c.includes('padrino') || c.includes('jefe') || c.includes('director') || c.includes('oficina')) {
+        return '/static/assets/scenes/don_gato_bigotes_miami_office_1795148582776.jpg';
+      }
+      return '/static/assets/scenes/gta6_lucia_jason_vice_city.jpg';
+    }
+
     function renderFrutiScenes(scenes) {
       const container = document.getElementById('frutiScenesContainer');
       if (!container) return;
