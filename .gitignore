@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 jobs/
+web/models/
 test/
 *.mp4
 *.wav

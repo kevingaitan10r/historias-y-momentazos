@@ -159,6 +159,13 @@
         <span class="bg-purple-500/20 text-purple-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-purple-500/30">GEMINI</span>
       </button>
 
+      <button onclick="switchTab('curiosidades')" id="tabBtnCuriosidades"
+        class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer">
+        <i class="fa-solid fa-lightbulb text-amber-400"></i>
+        <span>🧠 Curiosidades & Ciencia (@curiosidosis)</span>
+        <span class="bg-amber-500/20 text-amber-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-amber-500/30">VIRAL</span>
+      </button>
+
       <button onclick="switchTab('radar')" id="tabBtnRadar"
         class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer">
         <i class="fa-solid fa-fire text-amber-400"></i>
@@ -721,6 +728,224 @@
       </form>
     </section>
 
+    <!-- SECTION: ESTUDIO CURIOSIDADES & CIENCIA VIRAL (@curiosidosis & curioseandoando.yt) -->
+    <section id="sectionCuriosidades"
+      class="hidden glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 relative overflow-hidden shadow-2xl border border-amber-500/25 space-y-5 sm:space-y-6">
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-gray-800 pb-4 sm:pb-5">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="bg-gradient-to-r from-amber-500 to-cyan-500 text-black text-[11px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow">
+              🧠 CURIOSIDADES & CIENCIA VIRAL (@curiosidosis)
+            </span>
+            <span class="text-[11px] sm:text-xs text-gray-400 font-medium">9:16 Vertical • Ganchos Anti-Mitos • Explicaciones Científicas • Suspenso Psicológico</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            Estudio de Curiosidades & "¿Sabías Qué?"
+          </h2>
+          <p class="text-xs text-gray-400 mt-1 max-w-2xl">
+            Crea videos educativos y de psicología con el formato exacto de @_curiosidosis_ y @curioseandoando.yt: desmonta mitos populares, revela la ciencia detrás de sensaciones cotidianas con narrador de misterio, y genera un remate viral para compartir.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="randomizeCuriosity()" id="btnRandomCuriosity"
+            class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-amber-300 border border-amber-500/30 text-xs font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-dice"></i> Sugerir Curiosidad
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Curiosity Badges -->
+      <div class="relative z-10 flex flex-wrap items-center gap-1.5 text-xs">
+        <span class="text-gray-500 font-semibold text-[11px] mr-1">Temas Virales:</span>
+        <button type="button" onclick="setCuriosityGenre('✈️ Modo Avión en Vuelos')" class="bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">✈️ Modo Avión en Vuelos</button>
+        <button type="button" onclick="setCuriosityGenre('🛏️ Salto al Dormirse (Espasmo)')" class="bg-blue-500/15 hover:bg-blue-500/30 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🛏️ Salto al Dormirse</button>
+        <button type="button" onclick="setCuriosityGenre('⚡ La Verdad del Déjà Vu')" class="bg-cyan-500/15 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">⚡ Déjà Vu Cerebral</button>
+        <button type="button" onclick="setCuriosityGenre('🧠 Despertar a las 3:00 AM')" class="bg-purple-500/15 hover:bg-purple-500/30 text-purple-300 border border-purple-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">🧠 Despertar 3:00 AM</button>
+        <button type="button" onclick="setCuriosityGenre('☕ Lo que hace el café en ayunas')" class="bg-orange-500/15 hover:bg-orange-500/30 text-orange-300 border border-orange-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">☕ Café en Ayunas</button>
+        <button type="button" onclick="setCuriosityGenre('👶 Por qué no recuerdas de bebé')" class="bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-lg transition text-[11px] font-semibold cursor-pointer">👶 Amnesia Infantil</button>
+      </div>
+
+      <form id="curiosityStoryForm" onsubmit="submitCuriosityJob(event)" class="relative z-10 space-y-5 sm:space-y-6">
+        <!-- AI BRAIN GENERATOR BAR -->
+        <div class="bg-gradient-to-r from-amber-950/40 via-yellow-950/30 to-cyan-950/30 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-amber-500/40 space-y-3.5 sm:space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <span class="text-xs font-black text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
+              <i class="fa-solid fa-brain text-amber-400 text-sm"></i> Redactor de Curiosidades Virales con Gemini
+            </span>
+            <span class="text-[10px] text-gray-400">Estructura @_curiosidosis_: Hook mito -> Ciencia accesible -> Clímax impactante -> CTA</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2">
+            <div class="relative flex-1">
+              <i class="fa-solid fa-lightbulb absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-400 text-xs"></i>
+              <input type="text" id="curiosityTopicInput"
+                placeholder="Escribe tu duda o curiosidad (ej: ¿Por qué te piden modo avión al volar? o ¿Por qué bostezamos al ver a alguien?)..."
+                class="w-full bg-dark-900 border border-amber-500/30 focus:border-amber-500 rounded-xl pl-9 pr-3 py-2.5 sm:py-3 text-xs text-white placeholder-gray-500 outline-none transition">
+            </div>
+
+            <!-- Button 1: Generate Script & Scenes -->
+            <button type="button" onclick="generateCuriosityIdeaWithAI()" id="btnGenCuriosityIdea"
+              class="w-full sm:w-auto bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/50 text-xs font-bold px-4 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow shrink-0">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span>✨ Redactar con Gemini</span>
+            </button>
+
+            <!-- Button 2: 1-Click Auto Video Creation -->
+            <button type="button" onclick="autoCreateCuriosityVideo()" id="btnAutoCuriosityCreate"
+              class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-black font-black text-xs px-5 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-amber-500/20 shrink-0">
+              <i class="fa-solid fa-bolt"></i>
+              <span>Auto-Crear 1-Clic</span>
+            </button>
+          </div>
+
+          <!-- Duration, Engine & Video Animation Selector -->
+          <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 pt-3 border-t border-white/10 text-xs">
+            <div class="flex flex-wrap items-center gap-2.5 sm:gap-4">
+              <!-- Duration Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-regular fa-clock text-amber-400"></i> Duración:
+                </span>
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setCuriosityDuration(30)" id="curiosityDurBtn30"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-amber-500 text-black transition shadow cursor-pointer text-[11px] sm:text-xs">
+                    30s
+                  </button>
+                  <button type="button" onclick="setCuriosityDuration(60)" id="curiosityDurBtn60"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
+                    60s
+                  </button>
+                </div>
+              </div>
+
+              <!-- AI Engine Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-solid fa-microchip text-cyan-400"></i> Redactor:
+                </span>
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setCuriosityEngine('auto')" id="curiosityEngineAuto"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-cyan-600 text-white transition shadow cursor-pointer text-[11px] sm:text-xs">
+                    Auto
+                  </button>
+                  <button type="button" onclick="setCuriosityEngine('gemini')" id="curiosityEngineGemini"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
+                    Gemini AI
+                  </button>
+                  <button type="button" onclick="setCuriosityEngine('base')" id="curiosityEngineBase"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
+                    Base
+                  </button>
+                </div>
+              </div>
+
+              <!-- Video Motion Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-solid fa-video text-amber-400"></i> Video:
+                </span>
+                <div class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setCuriosityAnimMode('3d_motion')" id="curiosityAnimBtn3d"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-amber-500 text-black transition shadow cursor-pointer text-[11px] sm:text-xs flex items-center gap-1">
+                    <span>⚡ 3D Parallax</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span id="curiosityScriptOriginBadge">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
+                  <i class="fa-solid fa-brain text-amber-400"></i> Formato @curiosidosis
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM CONTROLS: PRESET, VOICE & HOOK -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Plantilla / Curiosidad</label>
+            <select id="curiosityPreset" onchange="onCuriosityPresetChange()"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-amber-500 transition">
+              <option value="curiosidad_modo_avion">✈️ ¿Por qué te piden modo avión al volar?</option>
+              <option value="curiosidad_salto_dormir">🛏️ El Salto que das al Dormir (Espasmo)</option>
+              <option value="curiosidad_deja_vu">⚡ La Verdad detrás del Déjà Vu</option>
+              <option value="curiosidad_cerebro_3am">🧠 ¿Por qué despiertas a las 3:00 AM?</option>
+              <option value="custom">✏️ Curiosidad Personalizada (Gemini)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Voz del Narrador (Misterio/Ciencia)</label>
+            <select id="curiosityVoice"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-amber-500 transition">
+              <option value="alvaro" selected>Álvaro (Misterio & Suspenso - España) [Recomendado]</option>
+              <option value="jorge">Jorge (Narrador Enérgico - México)</option>
+              <option value="gonzalo">Gonzalo (Narrador Intenso - Colombia)</option>
+              <option value="dalia">Dalia (Dramática & Cinematográfica - México)</option>
+              <option value="elvira">Elvira (Relato Emotivo - España)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Gancho en Pantalla (0-3s Hook)</label>
+            <input type="text" id="curiosityHook" required value="¿POR QUÉ TE PIDEN PONER EL CELULAR EN MODO AVIÓN?"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-amber-500 transition">
+          </div>
+        </div>
+
+        <!-- Title Input -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Título de la Curiosidad</label>
+          <input type="text" id="curiosityTitle" required value="¿Por qué te piden modo avión al volar?"
+            class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-amber-500 transition font-bold">
+        </div>
+
+        <!-- Scenes Grid Editor -->
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                Escenas del Video (Narración & Fondos Cinemáticos)
+              </label>
+              <span class="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                1080x1920 Cinemático
+              </span>
+            </div>
+            <span class="text-[11px] text-gray-400">
+              Cada escena tiene imagen 9:16 hiperrealista sincronizada con la locución de Álvaro.
+            </span>
+          </div>
+
+          <div id="curiosityScenesContainer" class="space-y-3">
+            <!-- Rendered by renderCuriosityScenes() -->
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-gray-800">
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="addCuriosityScene()"
+              class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-bold px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border border-gray-700 transition flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-plus text-amber-400"></i> Añadir Escena
+            </button>
+          </div>
+
+          <button type="submit" id="btnSubmitCuriosity"
+            class="w-full sm:w-auto bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-black font-extrabold text-sm px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl shadow-amber-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>🧠 Generar Video de Curiosidad 9:16</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
     <!-- SECTION: VIRAL RADAR -->
     <section id="sectionRadar"
       class="hidden glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-gray-800 space-y-4 sm:space-y-5">
@@ -1191,15 +1416,17 @@
       const btnGTA = document.getElementById('tabBtnGTA');
       const btnFruti = document.getElementById('tabBtnFrutinovelas');
       const btnFree = document.getElementById('tabBtnHistoriasLibres');
+      const btnCurio = document.getElementById('tabBtnCuriosidades');
       const btnRadar = document.getElementById('tabBtnRadar');
 
       const secGTA = document.getElementById('sectionGTA');
       const secFruti = document.getElementById('sectionFrutinovelas');
       const secFree = document.getElementById('sectionHistoriasLibres');
+      const secCurio = document.getElementById('sectionCuriosidades');
       const secRadar = document.getElementById('sectionRadar');
 
       // Reset button styles
-      [btnGTA, btnFruti, btnFree, btnRadar].forEach(b => {
+      [btnGTA, btnFruti, btnFree, btnCurio, btnRadar].forEach(b => {
         if (!b) return;
         b.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer';
       });
@@ -1208,6 +1435,7 @@
       if (secGTA) secGTA.classList.add('hidden');
       if (secFruti) secFruti.classList.add('hidden');
       if (secFree) secFree.classList.add('hidden');
+      if (secCurio) secCurio.classList.add('hidden');
       if (secRadar) secRadar.classList.add('hidden');
 
       if (tab === 'gta') {
@@ -1224,6 +1452,12 @@
         if (secFree) secFree.classList.remove('hidden');
         if (!freeInitialized) {
           initFreeStoriesEditor();
+        }
+      } else if (tab === 'curiosidades') {
+        if (btnCurio) btnCurio.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-400 text-black shadow-lg shadow-amber-500/25 transition cursor-pointer';
+        if (secCurio) secCurio.classList.remove('hidden');
+        if (!curiosityInitialized) {
+          initCuriosityEditor();
         }
       } else if (tab === 'radar') {
         if (btnRadar) btnRadar.className = 'shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-amber-500 to-pink-500 text-black shadow-lg shadow-amber-500/20 transition cursor-pointer';
@@ -1332,6 +1566,17 @@
     function getThumbnailForScene(character, theme) {
       const c = (character || '').toLowerCase();
       const t = (theme || '').toLowerCase();
+
+      // Curiosity & Science Themes (@curiosidosis style)
+      if (c.includes('avion') || c.includes('avión') || t.includes('airplane') || c.includes('vuelo') || c.includes('piloto') || c.includes('celular') || t.includes('cockpit')) {
+        return '/static/assets/scenes/curiosity_airplane_cockpit_night.jpg';
+      }
+      if (c.includes('dormir') || c.includes('cama') || t.includes('bedroom') || c.includes('sueño') || c.includes('salto') || c.includes('noche') || c.includes('insomnio') || c.includes('pesadilla')) {
+        return '/static/assets/scenes/curiosity_bedroom_sleeping_moonlight.jpg';
+      }
+      if (c.includes('cerebro') || c.includes('neurona') || t.includes('brain') || c.includes('mente') || c.includes('deja') || c.includes('ciencia') || c.includes('psicolog') || c.includes('glitch')) {
+        return '/static/assets/scenes/curiosity_brain_synapses_electric.jpg';
+      }
 
       // GTA 6 / Crime / Action
       if (c.includes('gta') || c.includes('lucia') || c.includes('jason') || c.includes('vice') || c.includes('polic') || c.includes('chase') || c.includes('coche') || c.includes('atraco') || t.includes('action')) {
@@ -1840,6 +2085,326 @@
       } finally {
         btn.disabled = false;
         btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 🎭 Generar Video de Historia Libre (9:16)`;
+      }
+    }
+
+    // ==========================================
+    // MODULE 3: CURIOSIDADES & CIENCIA VIRAL (@curiosidosis & curioseandoando.yt)
+    // ==========================================
+    let curiosityPresetsCache = null;
+    let curiosityInitialized = false;
+    let currentCuriosityDuration = 30;
+    let currentCuriosityAiEngine = 'auto';
+    let currentCuriosityAnimationMode = '3d_motion';
+
+    async function loadCuriosityPresets() {
+      try {
+        const res = await fetch('/api/novels/presets');
+        const data = await res.json();
+        curiosityPresetsCache = data.presets;
+        onCuriosityPresetChange();
+      } catch (err) {
+        console.error("Error loading curiosity presets:", err);
+      }
+    }
+
+    function initCuriosityEditor() {
+      curiosityInitialized = true;
+      if (!curiosityPresetsCache) {
+        loadCuriosityPresets();
+      } else {
+        onCuriosityPresetChange();
+      }
+    }
+
+    function onCuriosityPresetChange() {
+      const select = document.getElementById('curiosityPreset');
+      if (!select) return;
+      const key = select.value;
+
+      if (key === 'custom') {
+        document.getElementById('curiosityTitle').value = "La Pregunta que Nadie Supo Responder";
+        document.getElementById('curiosityHook').value = "¿SABÍAS ESTO DE TU PROPIO CUERPO?";
+        document.getElementById('curiosityVoice').value = "alvaro";
+        renderCuriosityScenes([
+          { character: "El Gran Mito", emotion: "Misterio", bg_theme: "curiosity_brain", text: "Durante generaciones nos hicieron creer algo completamente equivocado sobre la forma en que funciona el cerebro humano." },
+          { character: "La Verdad Científica", emotion: "Ciencia", bg_theme: "curiosity_brain", text: "Pero investigaciones recientes en neurobiología demostraron que todo se debe a un mecanismo involuntario de supervivencia." },
+          { character: "Cierre Asombroso", emotion: "Revelación", bg_theme: "curiosity_bedroom", text: "¿Te ha pasado alguna vez? Comparte este video con alguien curioso y sígueme para más descubrimientos fascinantes." }
+        ]);
+        return;
+      }
+
+      if (curiosityPresetsCache && curiosityPresetsCache[key]) {
+        const p = curiosityPresetsCache[key];
+        document.getElementById('curiosityTitle').value = p.title;
+        document.getElementById('curiosityHook').value = p.hook || '';
+        document.getElementById('curiosityVoice').value = p.voice || 'alvaro';
+        renderCuriosityScenes(p.scenes);
+      } else {
+        // Fallback if not loaded yet
+        if (key === 'curiosidad_modo_avion') {
+          document.getElementById('curiosityTitle').value = "¿Por qué te piden modo avión al volar?";
+          document.getElementById('curiosityHook').value = "¿POR QUÉ TE PIDEN PONER EL CELULAR EN MODO AVIÓN?";
+          document.getElementById('curiosityVoice').value = "alvaro";
+          renderCuriosityScenes([
+            { character: "El Gran Mito", emotion: "Misterio", bg_theme: "curiosity_airplane", text: "Muchos creen que si no activas el modo avión, las señales de tu celular podrían interferir con las turbinas o tumbar el avión en pleno vuelo." },
+            { character: "La Verdad en Cabina", emotion: "Revelación Científica", bg_theme: "curiosity_airplane", text: "Pero la realidad es muy distinta. Los teléfonos emiten una potente señal que causa un molesto zumbido en los auriculares de los pilotos." },
+            { character: "Cierre Viral", emotion: "Llamada a la Acción", bg_theme: "curiosity_airplane", text: "Ese zumbido puede bloquear las instrucciones críticas de la torre de control en pista. Comparte este video con ese amigo que nunca pone modo avión." }
+          ]);
+        }
+      }
+    }
+
+    function renderCuriosityScenes(scenes) {
+      const container = document.getElementById('curiosityScenesContainer');
+      if (!container) return;
+      container.innerHTML = scenes.map((s, idx) => {
+        const thumbUrl = s.image_url || getThumbnailForScene(s.character, s.bg_theme);
+        return `
+        <div class="glass p-3.5 sm:p-4 rounded-2xl border border-gray-800 space-y-3 relative group hover:border-amber-500/40 transition flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div class="w-20 h-32 sm:w-24 sm:h-36 rounded-xl overflow-hidden bg-black shrink-0 relative border border-gray-700/80 shadow-md group-hover:scale-105 transition duration-300">
+            <img src="${thumbUrl}" alt="Escena ${idx + 1}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <span class="absolute bottom-1 left-1 bg-amber-500 text-black font-black text-[9px] px-1.5 py-0.5 rounded shadow">
+              9:16 CIENCIA
+            </span>
+          </div>
+
+          <div class="flex-1 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-black bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-lg shrink-0">
+                ESCENA ${idx + 1}
+              </span>
+              <input type="text" value="${s.character || 'Ciencia & Mito'}" placeholder="Momento / Elemento" 
+                class="curio-scene-char bg-dark-900 border border-gray-700 text-xs rounded-lg px-2.5 py-1 text-white text-right outline-none focus:border-amber-500 flex-1 max-w-[200px]">
+            </div>
+
+            <textarea rows="3" placeholder="Texto de la narración científica..." 
+              class="curio-scene-text w-full bg-dark-900 border border-gray-700/80 rounded-xl p-2.5 text-xs text-white placeholder-gray-500 outline-none focus:border-amber-500 transition leading-relaxed">${s.text || ''}</textarea>
+
+            <div class="flex items-center justify-between text-[11px] text-gray-500">
+              <span>Tono: <input type="text" value="${s.emotion || 'Misterio Científico'}" class="curio-scene-emotion bg-transparent border-b border-gray-700 text-gray-300 text-[11px] w-28 outline-none"></span>
+              <span class="text-[10px] text-amber-400 font-bold">~${Math.round((s.text || '').split(' ').length * 0.45)}s</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function addCuriosityScene() {
+      const container = document.getElementById('curiosityScenesContainer');
+      const idx = container.children.length + 1;
+      const div = document.createElement('div');
+      div.className = 'glass p-3.5 sm:p-4 rounded-2xl border border-gray-800 space-y-3 relative group hover:border-amber-500/40 transition flex flex-col sm:flex-row gap-3 sm:gap-4';
+      div.innerHTML = `
+        <div class="w-20 h-32 sm:w-24 sm:h-36 rounded-xl overflow-hidden bg-black shrink-0 relative border border-gray-700/80 shadow-md">
+          <img src="/static/assets/scenes/curiosity_brain_synapses_electric.jpg" alt="Escena ${idx}" class="w-full h-full object-cover">
+          <span class="absolute bottom-1 left-1 bg-amber-500 text-black font-black text-[9px] px-1.5 py-0.5 rounded shadow">
+            9:16 CIENCIA
+          </span>
+        </div>
+        <div class="flex-1 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-[11px] font-black bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-lg shrink-0">
+              ESCENA ${idx}
+            </span>
+            <input type="text" value="Dato Asombroso" placeholder="Momento" class="curio-scene-char bg-dark-900 border border-gray-700 text-xs rounded-lg px-2.5 py-1 text-white text-right outline-none focus:border-amber-500 flex-1 max-w-[200px]">
+          </div>
+          <textarea rows="3" placeholder="Texto de la narración científica..." class="curio-scene-text w-full bg-dark-900 border border-gray-700/80 rounded-xl p-2.5 text-xs text-white placeholder-gray-500 outline-none focus:border-amber-500 transition leading-relaxed"></textarea>
+          <div class="flex items-center justify-between text-[11px] text-gray-500">
+            <span>Tono: <input type="text" value="Revelación" class="curio-scene-emotion bg-transparent border-b border-gray-700 text-gray-300 text-[11px] w-28 outline-none"></span>
+            <button type="button" onclick="this.closest('.glass').remove()" class="text-rose-400 hover:text-rose-300 font-bold text-[11px]"><i class="fa-solid fa-trash"></i> Eliminar</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    function setCuriosityGenre(genre) {
+      document.getElementById('curiosityTopicInput').value = genre;
+      generateCuriosityIdeaWithAI();
+    }
+
+    function setCuriosityDuration(dur) {
+      currentCuriosityDuration = dur;
+      const b30 = document.getElementById('curiosityDurBtn30');
+      const b60 = document.getElementById('curiosityDurBtn60');
+      if (dur === 30) {
+        b30.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-amber-500 text-black transition shadow cursor-pointer text-[11px] sm:text-xs';
+        b60.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs';
+      } else {
+        b60.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-amber-500 text-black transition shadow cursor-pointer text-[11px] sm:text-xs';
+        b30.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs';
+      }
+    }
+
+    function setCuriosityEngine(engine) {
+      currentCuriosityAiEngine = engine;
+      ['Auto', 'Gemini', 'Base'].forEach(e => {
+        const btn = document.getElementById('curiosityEngine' + e);
+        if (!btn) return;
+        if (e.toLowerCase() === engine) {
+          btn.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-cyan-600 text-white transition shadow cursor-pointer text-[11px] sm:text-xs';
+        } else {
+          btn.className = 'px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs';
+        }
+      });
+    }
+
+    function setCuriosityAnimMode(mode) {
+      currentCuriosityAnimationMode = mode;
+    }
+
+    function randomizeCuriosity() {
+      const ideas = [
+        "¿Por qué te piden poner el celular en modo avión al volar?",
+        "Ese salto repentino que das antes de dormirte no es un sueño",
+        "La perturbadora verdad detrás del Déjà Vu en tu cerebro",
+        "¿Por qué te despiertas a las 3:00 AM pensando en cosas vergonzosas?",
+        "Lo que le pasa a tu cuerpo cuando tomas café con el estómago vacío",
+        "¿Por qué bostezamos cuando vemos a otra persona bostezar?"
+      ];
+      const idea = ideas[Math.floor(Math.random() * ideas.length)];
+      document.getElementById('curiosityTopicInput').value = idea;
+      generateCuriosityIdeaWithAI();
+    }
+
+    function updateCuriosityBadge(story) {
+      const badge = document.getElementById('curiosityScriptOriginBadge');
+      if (!badge) return;
+      if (story.is_llm) {
+        badge.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-500/25 text-amber-300 border border-amber-500/40 flex items-center gap-1 shadow-sm"><i class="fa-solid fa-brain text-amber-400"></i> ${story.engine_used || 'Gemini AI'}</span>`;
+      } else {
+        badge.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1 shadow-sm"><i class="fa-solid fa-bolt text-blue-400"></i> ${story.engine_used || 'Motor Base'}</span>`;
+      }
+    }
+
+    async function generateCuriosityIdeaWithAI() {
+      const topic = document.getElementById('curiosityTopicInput').value.trim();
+      const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
+      const btn = document.getElementById('btnGenCuriosityIdea');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Redactando...`;
+
+      try {
+        const res = await fetch('/api/novels/generate-idea', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: topic || "¿Por qué te piden modo avión al volar?",
+            category: "curiosidades",
+            duration: currentCuriosityDuration,
+            gemini_api_key: apiKey,
+            engine: currentCuriosityAiEngine
+          })
+        });
+        const story = await res.json();
+
+        document.getElementById('curiosityPreset').value = "custom";
+        document.getElementById('curiosityTitle').value = story.title;
+        document.getElementById('curiosityHook').value = story.hook;
+        document.getElementById('curiosityVoice').value = story.voice || 'alvaro';
+        renderCuriosityScenes(story.scenes);
+        updateCuriosityBadge(story);
+
+        const cont = document.getElementById('curiosityScenesContainer');
+        cont.classList.add('ring-2', 'ring-amber-500', 'p-2', 'rounded-2xl', 'transition');
+        setTimeout(() => cont.classList.remove('ring-2', 'ring-amber-500', 'p-2'), 1500);
+
+      } catch (err) {
+        alert("Error redactando curiosidad con IA: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    async function autoCreateCuriosityVideo() {
+      const topic = document.getElementById('curiosityTopicInput').value.trim();
+      const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
+      const btn = document.getElementById('btnAutoCuriosityCreate');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Creando Todo...`;
+
+      try {
+        const res = await fetch('/api/novels/auto-create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: topic || "¿Por qué te piden poner el celular en modo avión?",
+            category: "curiosidades",
+            duration: currentCuriosityDuration,
+            gemini_api_key: apiKey,
+            engine: currentCuriosityAiEngine,
+            animation_mode: currentCuriosityAnimationMode
+          })
+        });
+        const data = await res.json();
+
+        document.getElementById('curiosityPreset').value = "custom";
+        document.getElementById('curiosityTitle').value = data.title;
+        document.getElementById('curiosityHook').value = data.hook;
+        renderCuriosityScenes(data.scenes);
+        updateCuriosityBadge(data);
+
+        document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
+        loadJobs();
+      } catch (err) {
+        alert("Error creando video automático de curiosidad: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    async function submitCuriosityJob(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitCuriosity');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Creando Curiosidad 9:16...`;
+
+      const sceneCards = document.querySelectorAll('#curiosityScenesContainer > div');
+      const scenes = [];
+      sceneCards.forEach((card, i) => {
+        const char = card.querySelector('.curio-scene-char').value;
+        const text = card.querySelector('.curio-scene-text').value;
+        const emotion = card.querySelector('.curio-scene-emotion').value;
+        scenes.push({
+          character: char,
+          emotion: emotion,
+          text: text,
+          bg_theme: i === 0 ? 'curiosity_brain' : i === 1 ? 'curiosity_airplane' : 'curiosity_bedroom'
+        });
+      });
+
+      const payload = {
+        preset: document.getElementById('curiosityPreset').value,
+        custom_title: document.getElementById('curiosityTitle').value,
+        custom_hook: document.getElementById('curiosityHook').value,
+        category: "curiosidades",
+        voice: document.getElementById('curiosityVoice').value,
+        duration: currentCuriosityDuration,
+        scenes: scenes,
+        export_to_desktop: true,
+        animation_mode: currentCuriosityAnimationMode
+      };
+
+      try {
+        const res = await fetch('/api/novels/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
+        loadJobs();
+      } catch (err) {
+        alert("Error creando curiosidad: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 🧠 Generar Video de Curiosidad 9:16`;
       }
     }
 

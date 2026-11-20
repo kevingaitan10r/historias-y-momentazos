@@ -222,6 +222,134 @@ PRESET_NOVELS = {
                 "text": "¿Lograrán saltar la rampa hacia la libertad o terminarán tras las rejas de Leonida? ¡Comenta tu teoría de GTA 6 y dale like para la Parte 2!"
             }
         ]
+    },
+    "curiosidad_modo_avion": {
+        "title": "¿Por qué te piden modo avión al volar?",
+        "category": "🧠 Curiosidades & Ciencia",
+        "hook": "¿POR QUÉ TE PIDEN PONER EL CELULAR EN MODO AVIÓN?",
+        "voice": "alvaro",
+        "scenes": [
+            {
+                "character": "El Gran Mito",
+                "emotion": "Misterio",
+                "bg_theme": "curiosity_airplane",
+                "text": "Muchos creen que si no activas el modo avión, las señales de tu celular podrían interferir con las turbinas o tumbar el avión en pleno vuelo."
+            },
+            {
+                "character": "La Verdad en Cabina",
+                "emotion": "Revelación Científica",
+                "bg_theme": "curiosity_airplane",
+                "text": "Pero la realidad es muy distinta. Los teléfonos que intentan conectarse a antenas lejanas emiten una potente señal que causa un molesto zumbido en los auriculares de los pilotos."
+            },
+            {
+                "character": "Seguridad en Pista",
+                "emotion": "Explicación Técnica",
+                "bg_theme": "curiosity_airplane",
+                "text": "Ese zumbido agudo puede bloquear las instrucciones críticas de la torre de control durante el despegue o aterrizaje, aumentando el riesgo de un accidente."
+            },
+            {
+                "character": "Cierre Viral",
+                "emotion": "Llamada a la Acción",
+                "bg_theme": "curiosity_airplane",
+                "text": "¿Y tú, eres de los que siempre pone modo avión o se te olvida? Comparte este video con ese amigo despistado y sígueme para más datos asombrosos."
+            }
+        ]
+    },
+    "curiosidad_salto_dormir": {
+        "title": "El Salto que das al Dormir",
+        "category": "🧠 Curiosidades & Ciencia",
+        "hook": "ESE SALTO AL DORMIRTE NO ES UN SUEÑO...",
+        "voice": "alvaro",
+        "scenes": [
+            {
+                "character": "La Sensación Extraña",
+                "emotion": "Suspenso Nocturno",
+                "bg_theme": "curiosity_bedroom",
+                "text": "¿Alguna vez has sentido que caes al vacío justo cuando estás a punto de quedarte profundamente dormido y tu cuerpo da un brinco repentino?"
+            },
+            {
+                "character": "Espasmo Mioclónico",
+                "emotion": "Ciencia Médica",
+                "bg_theme": "curiosity_brain",
+                "text": "No es un sueño ni una presencia paranormal. La ciencia lo llama espasmo mioclónico o sacudida hípnica, y ocurre durante la transición al sueño profundo."
+            },
+            {
+                "character": "Alarma Cerebral",
+                "emotion": "Descubrimiento Asombroso",
+                "bg_theme": "curiosity_brain",
+                "text": "Cuando tus músculos se relajan demasiado rápido, tu cerebro malinterpreta esa caída de tensión como una caída real y envía una descarga eléctrica de emergencia."
+            },
+            {
+                "character": "Cierre Psicológico",
+                "emotion": "Impacto Final",
+                "bg_theme": "curiosity_bedroom",
+                "text": "Básicamente, tu cerebro creyó que estabas muriendo y te mandó un electroshock para salvarte. ¿Te ha pasado recientemente? Deja tu like y sígueme."
+            }
+        ]
+    },
+    "curiosidad_deja_vu": {
+        "title": "El Secreto del Déjà Vu",
+        "category": "🧠 Curiosidades & Ciencia",
+        "hook": "LA PERTURBADORA VERDAD DEL DÉJÀ VU",
+        "voice": "alvaro",
+        "scenes": [
+            {
+                "character": "La Falsa Memoria",
+                "emotion": "Misterio",
+                "bg_theme": "curiosity_brain",
+                "text": "Estás hablando con alguien y de pronto sientes la certeza absoluta de haber vivido exactamente esa misma conversación en otra vida o en un sueño."
+            },
+            {
+                "character": "El Glitch Neuronal",
+                "emotion": "Neurociencia",
+                "bg_theme": "curiosity_brain",
+                "text": "Los neurólogos descubrieron que el déjà vu es en realidad un pequeño desfase de milisegundos entre el hemisferio izquierdo y derecho de tu cerebro."
+            },
+            {
+                "character": "Almacenamiento Erróneo",
+                "emotion": "Revelación",
+                "bg_theme": "curiosity_brain",
+                "text": "Un lado procesa la información una fracción de segundo antes, y el cerebro archiva el presente directamente en la memoria a largo plazo como un recuerdo antiguo."
+            },
+            {
+                "character": "Cierre Mental",
+                "emotion": "Pregunta Intrigante",
+                "bg_theme": "curiosity_brain",
+                "text": "Es literalmente un error de cálculo de tu propio disco duro mental. ¿Cuándo fue la última vez que tuviste uno? Coméntalo y sígueme para entender tu mente."
+            }
+        ]
+    },
+    "curiosidad_cerebro_3am": {
+        "title": "¿Por qué despiertas a las 3:00 AM?",
+        "category": "🧠 Curiosidades & Ciencia",
+        "hook": "¿POR QUÉ DESPIERTAS A LAS TRES DE LA MADRUGADA?",
+        "voice": "alvaro",
+        "scenes": [
+            {
+                "character": "El Despertar Inesperado",
+                "emotion": "Intriga Nocturna",
+                "bg_theme": "curiosity_bedroom",
+                "text": "Te despiertas repentinamente en plena madrugada, con la habitación en silencio y una sensación de alerta o ansiedad sin motivo aparente."
+            },
+            {
+                "character": "Ciclo Circadiano",
+                "emotion": "Biología del Sueño",
+                "bg_theme": "curiosity_brain",
+                "text": "Alrededor de las 3 AM tu temperatura corporal baja al mínimo, tus niveles de melatonina descienden y el cortisol comienza a subir ligeramente."
+            },
+            {
+                "character": "Corteza Desactivada",
+                "emotion": "Explicación Psicológica",
+                "bg_theme": "curiosity_brain",
+                "text": "Al estar tu corteza racional casi apagada, cualquier pensamiento se amplifica como si fuera un problema gravísimo que no puedes resolver."
+            },
+            {
+                "character": "Remedio Científico",
+                "emotion": "Consejo y Cierre",
+                "bg_theme": "curiosity_bedroom",
+                "text": "No luches por dormir ni mires el celular; respira hondo y tu cerebro volverá a entrar en fase REM. Comparte esto con quien sufra de insomnio."
+            }
+        ]
     }
 }
 
@@ -250,12 +378,19 @@ def generate_viral_story_ai(topic: str = "", category: str = "", duration: int =
     cat_l = (category or "").lower()
     top_l = clean_topic.lower()
 
-    # Determine if this request is for the dedicated Frutinovelas module or Free Stories
-    is_frutinovela = (
+    # Determine if this request is for Curiosidades / Ciencia, Frutinovelas, or Free Stories
+    is_curiosidad = (
+        ("curiosi" in cat_l) or
+        ("ciencia" in cat_l) or
+        ("sabias" in cat_l) or
+        any(k in top_l for k in ["avion", "avión", "dormir", "cama", "sueño", "salto", "cerebro", "mente", "deja vu", "déjà vu", "cuerpo", "espacio", "sabías qué", "por qué", "curiosidad", "medicina", "psicologia", "psicología"])
+    )
+
+    is_frutinovela = not is_curiosidad and (
         ("fruti" in cat_l) or
         ("frutinovela" in cat_l) or
         any(k in top_l for k in ["fresa", "platano", "plátano", "aguacate", "sandia", "sandía", "manzana", "fruta"]) or
-        (not clean_topic and cat_l not in ["historias_libres", "reddit", "millonarios", "misterio", "leyendas", "gta6", "custom"])
+        (not clean_topic and cat_l not in ["historias_libres", "reddit", "millonarios", "misterio", "leyendas", "gta6", "custom", "curiosidades", "ciencia"])
     )
 
     # 1. Try Gemini API
@@ -263,7 +398,40 @@ def generate_viral_story_ai(topic: str = "", category: str = "", duration: int =
         models_to_try = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
         for mod in models_to_try:
             try:
-                if is_frutinovela:
+                if is_curiosidad:
+                    curiosity_tropes = [
+                        "¿Por qué te piden poner el celular en modo avión al volar? La verdad no es que el avión se vaya a caer, sino la interferencia insoportable en los auriculares de los pilotos y la torre de control.",
+                        "Ese salto que das en la cama antes de quedarte dormido no es un sueño: es un espasmo mioclónico donde el cerebro cree que estás muriendo y envía una descarga de emergencia.",
+                        "La perturbadora verdad detrás del Déjà Vu: un glitch de milisegundos donde un hemisferio cerebral procesa la realidad antes y la archiva en la memoria a largo plazo.",
+                        "¿Por qué te despiertas exactamente a las 3:00 AM con ansiedad? La bajada circadiana de temperatura, caída de melatonina y la corteza racional desactivada.",
+                        "¿Por qué no recuerdas nada de cuando eras un bebé? La amnesia infantil y la sobreproducción acelerada de nuevas neuronas en el hipocampo que borran los primeros recuerdos."
+                    ]
+                    seed_curio = clean_topic if clean_topic else random.choice(curiosity_tropes)
+                    prompt = f"""Eres el mejor creador y guionista de videos virales de curiosidades, psicología y ciencia en TikTok / Instagram Reels, con el estilo exacto de las cuentas @_curiosidosis_ y @curioseandoando.yt.
+Tu objetivo es enganchar al espectador en los primeros 2 segundos con un mito o sensación común, explicar la verdad científica real con lenguaje ultra accesible y emocionante, y terminar con un remate adictivo para comentar o compartir.
+
+Tema o pregunta: {seed_curio}
+Duración total: {duration} segundos ({target_count} escenas).
+
+Estructura psicológica de retención viral:
+1. Primeros 3 segundos (HOOK): Pregunta intrigante o afirmación chocante que rompe un mito (ej: '¿Por qué te piden poner el celular en modo avión? No es lo que crees...', 'Ese salto repentino que das antes de dormirte NO es un sueño...').
+2. Desarrollo: Explicación biológica, neurológica o física fascinante sin tecnicismos aburridos.
+3. Clímax: El detalle que te vuela la cabeza (ej: 'Tu cerebro pensó que caías al vacío y te mandó un electroshock').
+4. Remate / CTA: Llamado a la acción natural ('Envíaselo a esa persona que nunca pone modo avión', 'Comenta si a ti también te ha pasado y sígueme para más curiosidades').
+5. Cada escena debe tener entre 20 y 26 palabras fluidas para narrador de voz en off.
+
+Devuelve EXCLUSIVAMENTE este JSON:
+{{
+  "title": "...",
+  "hook": "...",
+  "category": "curiosidades",
+  "voice": "alvaro",
+  "duration": {duration},
+  "scenes": [
+    {{"character": "...", "emotion": "...", "bg_theme": "...", "text": "..."}}
+  ]
+}}"""
+                elif is_frutinovela:
                     fruti_tropes = [
                         "Boda cancelada en el altar: Doña Fresa descubre a Don Plátano con Doña Frambuesa en la limosina minutos antes de casarse.",
                         "Cena VIP y tarjeta rechazada: Don Plátano presume ser billonario con Doña Manzana pero rebotan sus tarjetas Black y debe fregar platos.",
@@ -362,13 +530,38 @@ Devuelve EXCLUSIVAMENTE este JSON:
                     if "scenes" in data and len(data["scenes"]) >= 3:
                         data["engine_used"] = f"Gemini AI ({mod})"
                         data["is_llm"] = True
-                        data["category"] = "frutinovela" if is_frutinovela else "historias_libres"
+                        data["category"] = "curiosidades" if is_curiosidad else ("frutinovela" if is_frutinovela else "historias_libres")
+                        if is_curiosidad and not data.get("voice"):
+                            data["voice"] = "alvaro"
                         print(f"[NovelEngine] Gemini ({mod}) successfully generated script with {len(data['scenes'])} scenes!")
                         return data
             except Exception as e:
                 print(f"[NovelEngine] Gemini ({mod}) fallback: {e}")
 
     # 2. Procedural Fallback Engine (Rich, non-repetitive archetypes)
+    if is_curiosidad:
+        curiosity_presets_list = [
+            PRESET_NOVELS["curiosidad_modo_avion"],
+            PRESET_NOVELS["curiosidad_salto_dormir"],
+            PRESET_NOVELS["curiosidad_deja_vu"],
+            PRESET_NOVELS["curiosidad_cerebro_3am"]
+        ]
+        chosen = random.choice(curiosity_presets_list)
+        chosen_scenes = list(chosen["scenes"])
+        if target_count >= 5:
+            chosen_scenes.append({"character": "Dato Asombroso", "emotion": "Mente Abierta", "bg_theme": "curiosity_brain", "text": "Diversos estudios clínicos demostraron que este patrón se repite en más del ochenta por ciento de la población mundial sana."})
+            chosen_scenes.append({"character": "Conclusión Médica", "emotion": "Cierre Científico", "bg_theme": "curiosity_bedroom", "text": "Entender cómo funciona tu propio organismo te permite evitar la ansiedad y optimizar tu descanso diario. Guarda este video."})
+        return {
+            "title": chosen["title"],
+            "hook": chosen["hook"],
+            "category": "curiosidades",
+            "voice": "alvaro",
+            "duration": duration,
+            "scenes": chosen_scenes[:target_count],
+            "engine_used": "Motor Base Procedural (Curiosidad & Ciencia)",
+            "is_llm": False
+        }
+
     if is_frutinovela:
         fruti_stories = [
             {
@@ -475,6 +668,20 @@ def get_matching_3d_image(character: str, theme: str, title: str) -> Optional[Pa
         return None
     char_l = character.lower()
     title_l = title.lower()
+    theme_l = (theme or "").lower()
+
+    # 0. Curiosity & Science (Instagram @_curiosidosis_ & curioseandoando.yt style)
+    if any(k in char_l or k in theme_l or k in title_l for k in ["avion", "avión", "cockpit", "vuelo", "celular", "piloto", "radar", "antena"]):
+        p = ASSETS_SCENES_DIR / "curiosity_airplane_cockpit_night.jpg"
+        if p.exists(): return p
+
+    if any(k in char_l or k in theme_l or k in title_l for k in ["dormir", "cama", "habitacion", "habitación", "noche", "sueño", "pesadilla", "salto", "almohada", "dorm"]):
+        p = ASSETS_SCENES_DIR / "curiosity_bedroom_sleeping_moonlight.jpg"
+        if p.exists(): return p
+
+    if any(k in char_l or k in theme_l or k in title_l for k in ["cerebro", "neurona", "sinapsis", "mente", "pensar", "deja vu", "déjà vu", "ciencia", "memoria", "psicologia", "psicología", "glitch", "ansiedad"]):
+        p = ASSETS_SCENES_DIR / "curiosity_brain_synapses_electric.jpg"
+        if p.exists(): return p
 
     # 1. GTA 6 / Vice City / Action / Crime
     if any(k in char_l or k in title_l for k in ["gta", "vice city", "lucia", "jason", "coche", "auto", "atraco", "persecu", "policia", "policía", "neon", "miami"]):
@@ -530,6 +737,17 @@ def get_matching_3d_image(character: str, theme: str, title: str) -> Optional[Pa
     if any(k in theme_l or k in char_l for k in ["skyscraper", "office", "oficina", "ceo", "empresa", "jefe", "negocio", "reunión"]):
         p = ASSETS_SCENES_DIR / "human_office_ceo_suspense.jpg"
         if p.exists(): return p
+
+    # Fallback for Curiosidades / Ciencia:
+    if any(k in title_l or k in char_l or k in theme_l for k in ["curios", "ciencia", "sabías", "sabias", "avión", "avion", "dormir", "cerebro", "mente"]):
+        curio_imgs = [
+            ASSETS_SCENES_DIR / "curiosity_brain_synapses_electric.jpg",
+            ASSETS_SCENES_DIR / "curiosity_airplane_cockpit_night.jpg",
+            ASSETS_SCENES_DIR / "curiosity_bedroom_sleeping_moonlight.jpg"
+        ]
+        valid_curio = [p for p in curio_imgs if p.exists()]
+        if valid_curio:
+            return valid_curio[abs(hash(character + theme + title)) % len(valid_curio)]
 
     # Fallback for Frutinovelas / Animal stories:
     if any(k in title_l or k in char_l for k in ["fruti", "fruta", "plátano", "fresa", "aguacate", "sandía", "gato", "animal"]):
