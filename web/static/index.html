@@ -1,0 +1,1980 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTA VI AutoClip & TikTok Desk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 500: '#ec4899', 600: '#db2777', 700: '#be185d' },
+            dark: { 800: '#111827', 850: '#0f172a', 900: '#030712' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .glass {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glow-hover:hover {
+      box-shadow: 0 0 25px -5px rgba(236, 72, 153, 0.5);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0b0f19;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 3px;
+    }
+
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-dark-900 text-gray-100 min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP HEADER (FULLY RESPONSIVE) -->
+  <header
+    class="glass sticky top-0 z-40 border-b border-gray-800/80 px-3.5 sm:px-6 py-2.5 sm:py-3.5 space-y-2 md:space-y-0">
+    <div class="flex items-center justify-between gap-3">
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div
+          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-pink-500/20 shrink-0">
+          <i class="fa-solid fa-bolt text-white text-base sm:text-lg"></i>
+        </div>
+        <div class="min-w-0">
+          <h1
+            class="text-base sm:text-lg font-extrabold tracking-tight bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent truncate">
+            GTA VI AutoClip & TikTok Desk
+          </h1>
+          <p class="text-[11px] sm:text-xs text-gray-400 font-medium hidden sm:block truncate">Automatización de Clips
+            Verticales con IA & Publicador Local</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons on right (Escritorio + Ajustes) -->
+      <div class="flex items-center gap-2 text-xs shrink-0">
+        <a href="file:///Users/kevinfelipegaitanrodiguez/Desktop/GTA6_Clips_DjMaRiiO" target="_blank"
+          class="hidden sm:flex items-center gap-1.5 bg-pink-500/10 hover:bg-pink-500/20 text-pink-300 px-3 py-1.5 rounded-full border border-pink-500/30 transition text-xs font-semibold">
+          <i class="fa-regular fa-folder-open"></i>
+          <span>Escritorio</span>
+        </a>
+
+        <button onclick="openSettingsModal()"
+          class="flex items-center gap-1.5 bg-gray-800/90 hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded-full border border-gray-700/80 transition font-semibold cursor-pointer shadow-sm text-xs">
+          <i class="fa-solid fa-gear text-pink-400"></i>
+          <span>Ajustes</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Status Badges Bar (Responsive: scrollable on mobile, aligned on desktop) -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-0.5 scrollbar-none text-[11px] sm:text-xs md:justify-end">
+      <div id="ffmpegBadge"
+        class="shrink-0 flex items-center gap-1.5 bg-gray-800/80 px-2.5 py-1 rounded-full border border-gray-700/50">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-gray-300 font-semibold">FFmpeg Activo</span>
+      </div>
+
+      <div id="tiktokStatusBadge"
+        class="shrink-0 flex items-center gap-1.5 bg-gray-800/80 px-2.5 py-1 rounded-full border border-gray-700/50">
+        <i class="fa-brands fa-tiktok text-pink-400"></i>
+        <span id="tiktokStatusText" class="text-gray-300 font-medium">Verificando...</span>
+        <button onclick="connectTikTok()" id="tiktokBtn"
+          class="ml-1 text-pink-400 hover:text-pink-300 underline font-semibold">Conectar</button>
+      </div>
+
+      <div id="youtubeStatusBadge"
+        class="shrink-0 flex items-center gap-1.5 bg-gray-800/80 px-2.5 py-1 rounded-full border border-gray-700/50">
+        <i class="fa-brands fa-youtube text-red-500"></i>
+        <span id="youtubeStatusText" class="text-gray-300 font-medium">Verificando...</span>
+        <button onclick="connectYouTube()" id="youtubeBtn"
+          class="ml-1 text-red-400 hover:text-red-300 underline font-semibold">Conectar</button>
+      </div>
+
+      <a href="file:///Users/kevinfelipegaitanrodiguez/Desktop/GTA6_Clips_DjMaRiiO" target="_blank"
+        class="sm:hidden shrink-0 flex items-center gap-1 bg-pink-500/10 text-pink-300 px-2.5 py-1 rounded-full border border-pink-500/30 text-[11px]">
+        <i class="fa-regular fa-folder-open"></i>
+        <span>Carpeta</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER (RESPONSIVE PADDING & SPACING) -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 py-4 sm:py-8 space-y-6 sm:space-y-8">
+
+    <!-- NAVIGATION TABS (HORIZONTAL SCROLL ON MOBILE) -->
+    <div
+      class="flex items-center gap-2 sm:gap-3 border-b border-gray-800 pb-3 overflow-x-auto scrollbar-none -mx-1 px-1">
+      <button onclick="switchTab('gta')" id="tabBtnGTA"
+        class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/20 transition cursor-pointer">
+        <i class="fa-solid fa-gamepad"></i>
+        <span>GTA 6 AutoClip</span>
+      </button>
+
+      <button onclick="switchTab('novelas')" id="tabBtnNovelas"
+        class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer">
+        <i class="fa-solid fa-apple-whole text-pink-400"></i>
+        <span>🍓 Estudio Novelas IA</span>
+        <span
+          class="bg-pink-500/20 text-pink-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-pink-500/30">VIRAL</span>
+      </button>
+
+      <button onclick="switchTab('radar')" id="tabBtnRadar"
+        class="shrink-0 flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer">
+        <i class="fa-solid fa-fire text-amber-400"></i>
+        <span>⚡ Radar Viral</span>
+      </button>
+    </div>
+
+    <!-- SECTION: GTA 6 GENERATOR -->
+    <section id="sectionGTA"
+      class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 relative overflow-hidden shadow-2xl border border-gray-800">
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none">
+      </div>
+
+      <div class="relative z-10 space-y-5 sm:space-y-6">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
+            Nuevo Procesamiento de Video o Directo de GTA 6
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-400 mt-1">Pega cualquier enlace de YouTube o Twitch (gameplays,
+            directos VOD o
+            momentos épicos). La IA detectará los mejores momentos, recortará a 9:16 y subtitulará palabra por palabra.
+          </p>
+        </div>
+
+        <form id="clipForm" onsubmit="submitJob(event)" class="space-y-4">
+          <!-- URL Input -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">URL del Video /
+              Directo</label>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <div class="relative flex-1">
+                <i
+                  class="fa-brands fa-youtube absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-base sm:text-lg"></i>
+                <input type="url" id="videoUrl" required placeholder="https://www.youtube.com/watch?v=..."
+                  class="w-full bg-dark-850 border border-gray-700/80 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 text-xs sm:text-sm rounded-xl sm:rounded-2xl pl-11 pr-4 py-3 sm:py-3.5 text-white placeholder-gray-500 transition outline-none">
+              </div>
+              <button type="button" onclick="pasteClipboard()"
+                class="px-4 py-2.5 sm:py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl sm:rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 transition border border-gray-700 shrink-0">
+                <i class="fa-regular fa-clipboard"></i> Pegar
+              </button>
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="flex flex-wrap items-center gap-2 mt-2.5">
+              <span class="text-xs text-gray-500 font-medium">Ejemplos rápidos:</span>
+              <button type="button"
+                onclick="setPreset('https://www.youtube.com/watch?v=nOpjI5XM93I', 'DJMARIIO JUEGA GTA 6')"
+                class="text-xs bg-gray-800/80 hover:bg-gray-700 text-pink-300 px-2.5 py-1 rounded-lg border border-gray-700 transition">
+                🎮 DjMaRiiO GTA 6
+              </button>
+              <button type="button"
+                onclick="setPreset('https://www.youtube.com/watch?v=7Sd2AH1vfx0', 'WILLYREX EN GTA VI')"
+                class="text-xs bg-gray-800/80 hover:bg-gray-700 text-purple-300 px-2.5 py-1 rounded-lg border border-gray-700 transition">
+                🏁 Willyrex Carreras
+              </button>
+            </div>
+          </div>
+
+          <!-- Configuration Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-2">
+            <!-- Top Clips -->
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">Cantidad de Clips</label>
+              <select id="topClips"
+                class="w-full bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2.5 text-white outline-none focus:border-pink-500">
+                <option value="1">1 clip (el mejor momentazo)</option>
+                <option value="3" selected>3 clips virales</option>
+                <option value="5">5 clips automáticos</option>
+              </select>
+            </div>
+
+            <!-- Strategy / Duration -->
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5 flex items-center gap-1">
+                <i class="fa-solid fa-brain text-pink-400"></i>
+                <span>Estrategia de Análisis IA</span>
+              </label>
+              <select id="maxMinutes"
+                class="w-full bg-dark-850 border border-pink-500/50 text-xs rounded-xl px-2.5 py-2.5 text-white outline-none focus:border-pink-500 font-medium">
+                <option value="0" selected>🔥 Picos más vistos (Heatmap)</option>
+                <option value="-1">🌐 Video Completo</option>
+                <option value="20">⚡ Primeros 20 minutos</option>
+                <option value="45">⏱️ Primeros 45 minutos</option>
+              </select>
+            </div>
+
+            <!-- Layout -->
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">Estilo de Formato (9:16)</label>
+              <select id="layoutStyle"
+                class="w-full bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2.5 text-white outline-none focus:border-pink-500">
+                <option value="blur" selected>Blur (Fondo desenfocado)</option>
+                <option value="facecam">Facecam (Streamer arriba + Juego abajo)</option>
+                <option value="fill">Fill (Recorte completo vertical)</option>
+              </select>
+            </div>
+
+            <!-- Hook Text -->
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
+                <span>Gancho / Título en Pantalla (IA)</span>
+              </label>
+              <input type="text" id="defaultHook" placeholder="Vacío = IA analiza el video y crea el título más atractivo..."
+                class="w-full bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2.5 text-white placeholder-gray-500 outline-none focus:border-pink-500">
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <label class="flex items-center gap-2 cursor-pointer text-xs text-gray-300">
+              <input type="checkbox" id="exportDesktop" checked
+                class="rounded border-gray-700 text-pink-500 focus:ring-0 bg-dark-850">
+              <span>Guardar copia automáticamente en el Escritorio</span>
+            </label>
+
+            <button type="submit" id="btnSubmit"
+              class="w-full sm:w-auto justify-center bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-sm px-6 py-3.5 rounded-2xl flex items-center gap-2 shadow-lg shadow-pink-500/25 transition transform active:scale-95 cursor-pointer">
+              <i class="fa-solid fa-play"></i>
+              <span>Generar Clips Ahora</span>
+            </button>
+          </div>
+      </div>
+      </form>
+      </div>
+    </section>
+
+    <!-- SECTION: ESTUDIO FRUTINOVELAS & NOVELAS IA -->
+    <section id="sectionNovelas"
+      class="hidden glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 relative overflow-hidden shadow-2xl border border-gray-800 space-y-5 sm:space-y-6">
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none">
+      </div>
+
+      <div
+        class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-gray-800 pb-4 sm:pb-5">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span
+              class="bg-gradient-to-r from-pink-500 to-amber-500 text-black text-[11px] sm:text-xs font-black px-2.5 py-0.5 rounded-full shadow">
+              🍓 TENDENCIA VIRAL MILLONARIA
+            </span>
+            <span class="text-[11px] sm:text-xs text-gray-400 font-medium">9:16 Vertical • Voces IA • Subtítulos
+              Animados</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            Estudio Novelas & Shorts IA con Video Dinámico
+          </h2>
+          <p class="text-xs text-gray-400 mt-1 max-w-2xl">
+            Crea novelas y videos virales (GTA 6, Frutinovelas, Mafia Animal) con movimiento 3D en
+            vertical 9:16, narración con IA y subtítulos palabra por palabra para TikTok y YouTube Shorts.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="randomizeNovel()"
+            class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-pink-300 border border-pink-500/30 text-xs font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-dice"></i> Sugerir Idea
+          </button>
+        </div>
+      </div>
+
+      <form id="novelForm" onsubmit="submitNovelJob(event)" class="relative z-10 space-y-5 sm:space-y-6">
+        <!-- AI BRAIN GENERATOR BAR -->
+        <div
+          class="bg-gradient-to-r from-purple-900/40 via-pink-900/30 to-amber-900/30 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-pink-500/40 space-y-3.5 sm:space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <span class="text-xs font-black text-pink-300 flex items-center gap-1.5 uppercase tracking-wider">
+              <i class="fa-solid fa-brain text-pink-400 text-sm"></i> Generador de Ideas, Guiones & Videos con IA
+            </span>
+            <span class="text-[10px] text-gray-400">Genera guiones e imágenes 3D con duración personalizada</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2">
+            <div class="relative flex-1">
+              <i
+                class="fa-solid fa-wand-magic-sparkles absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-400 text-xs"></i>
+              <input type="text" id="aiTopicInput"
+                placeholder="Escribe un tema o idea (ej: GTA 6 Lucia y Jason atraco, Don Plátano millonario)..."
+                class="w-full bg-dark-900 border border-pink-500/30 focus:border-pink-500 rounded-xl pl-9 pr-3 py-2.5 sm:py-3 text-xs text-white placeholder-gray-500 outline-none transition">
+            </div>
+
+            <!-- Button 1: Generate Script & Scenes -->
+            <button type="button" onclick="generateIdeaWithAI()" id="btnGenIdea"
+              class="w-full sm:w-auto bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 border border-pink-500/50 text-xs font-bold px-4 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow shrink-0">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span>Crear Guión</span>
+            </button>
+
+            <!-- Button 2: 1-Click Auto Video Creation -->
+            <button type="button" onclick="autoCreateNovelVideo()" id="btnAutoCreate"
+              class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 text-black text-xs font-black px-5 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-pink-500/20 shrink-0">
+              <i class="fa-solid fa-bolt"></i>
+              <span>Auto-Crear Video 1-Clic</span>
+            </button>
+          </div>
+
+          <!-- Duration, Engine & Video Animation Selector -->
+          <div
+            class="flex flex-col xl:flex-row xl:items-center justify-between gap-3 pt-3 border-t border-white/10 text-xs">
+            <div class="flex flex-wrap items-center gap-2.5 sm:gap-4">
+              <!-- Duration Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-regular fa-clock text-amber-400"></i> Duración:
+                </span>
+                <div
+                  class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setNovelDuration(30)" id="durBtn30"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-bold bg-pink-500 text-white transition shadow cursor-pointer text-[11px] sm:text-xs">
+                    30s
+                  </button>
+                  <button type="button" onclick="setNovelDuration(60)" id="durBtn60"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
+                    60s
+                  </button>
+                  <button type="button" onclick="setNovelDuration(90)" id="durBtn90"
+                    class="px-2.5 sm:px-3 py-1 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer text-[11px] sm:text-xs">
+                    90s
+                  </button>
+                </div>
+              </div>
+
+              <!-- Engine Selector (Gemini vs Procedural Base) -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-solid fa-microchip text-purple-400"></i> Guión:
+                </span>
+                <div
+                  class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setAiEngine('auto')" id="engineBtnAuto"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer"
+                    title="Usa Gemini si hay clave; si no, usa el motor base">
+                    ⚡ Auto
+                  </button>
+                  <button type="button" onclick="setAiEngine('gemini')" id="engineBtnGemini"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer"
+                    title="Forzar Gemini LLM con la API Key">
+                    🤖 Gemini
+                  </button>
+                  <button type="button" onclick="setAiEngine('procedural')" id="engineBtnProc"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer"
+                    title="Forzar Motor Base según el tema que ingreses">
+                    🎲 Base
+                  </button>
+                </div>
+              </div>
+
+              <!-- Video Animation Mode Selector -->
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <span class="font-bold text-gray-300 flex items-center gap-1 text-[11px] sm:text-xs">
+                  <i class="fa-solid fa-video text-cyan-400"></i> Video:
+                </span>
+                <div
+                  class="flex items-center bg-dark-900 rounded-xl p-0.5 sm:p-1 border border-gray-700/80 gap-0.5 sm:gap-1 text-xs">
+                  <button type="button" onclick="setAnimationMode('3d_motion')" id="animBtn3D"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer"
+                    title="Genera video animado con movimiento 3D de cámara y profundidad">
+                    ⚡ 3D Parallax
+                  </button>
+                  <button type="button" onclick="setAnimationMode('svd')" id="animBtnSVD"
+                    class="px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer"
+                    title="Genera video por difusión cuadro a cuadro (Experimental - Mayor tiempo)">
+                    🤖 Difusión SVD
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="hidden sm:flex items-center gap-2 text-[11px] text-pink-300 bg-pink-500/10 px-3 py-1 rounded-xl border border-pink-500/20 shrink-0">
+              <i class="fa-solid fa-film"></i>
+              <span>Video en Movimiento Real</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preset, Voice and Hook Selector -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Plantilla / Nicho
+              Viral</label>
+            <select id="novelPreset" onchange="onNovelPresetChange()"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition">
+              <option value="frutinovela_traicion" selected>🍓 Frutinovela: La Traición de Don Plátano</option>
+              <option value="gta6_vice_city">🌴 GTA 6: El Gran Golpe en Vice City (Lucia & Jason)</option>
+              <option value="frutinovela_herencia">🥑 Frutinovela: El Secreto de Don Aguacate</option>
+              <option value="animales_mafia">🐱 Mafia Animal: El Padrino Bigotes</option>
+              <option value="reddit_drama">💍 Confesión Viral: Boda Desenmascarada</option>
+              <option value="custom">✍️ Crear Historia / Nicho Personalizado</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Voz del Narrador (IA
+              en Español)</label>
+            <select id="novelVoice"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition">
+              <option value="jorge" selected>Jorge (Telenovela Dramática - México)</option>
+              <option value="dalia">Dalia (Villana Dramática - México)</option>
+              <option value="alvaro">Álvaro (Misterio & Suspenso - España)</option>
+              <option value="gonzalo">Gonzalo (Narrador Intenso - Colombia)</option>
+              <option value="elvira">Elvira (Relato Emotivo - España)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Gancho Viral en
+              Pantalla (Hook)</label>
+            <input type="text" id="novelHook" required value="¡DON PLÁTANO LO CONFESÓ TODO!"
+              class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition">
+          </div>
+        </div>
+
+        <!-- Title Input -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">Título del Video /
+            Episodio</label>
+          <input type="text" id="novelTitle" required value="La Traición de Don Plátano"
+            class="w-full bg-dark-850 border border-gray-700 rounded-xl sm:rounded-2xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white outline-none focus:border-pink-500 transition font-bold">
+        </div>
+
+        <!-- 4 Scenes Grid Editor -->
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+            <div class="flex items-center gap-2">
+              <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                Escenas de la Novela (Guión y Narración)
+              </label>
+              <span id="scriptOriginBadge"></span>
+            </div>
+            <span class="text-[11px] text-gray-500 hidden sm:inline">Cada escena genera su imagen 9:16 y animación
+              3D</span>
+          </div>
+
+          <div id="scenesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Action Submit Button -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+          <div class="flex items-center gap-2 text-xs text-gray-400">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span>Exportación automática a <strong>Escritorio/GTA6_Clips_DjMaRiiO</strong></span>
+          </div>
+
+          <button type="submit" id="btnSubmitNovel"
+            class="w-full sm:w-auto bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 hover:from-pink-600 hover:to-indigo-700 text-white font-extrabold text-sm px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl shadow-pink-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Generar Novela Completa con IA (9:16)</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- SECTION: VIRAL RADAR -->
+    <section id="sectionRadar"
+      class="hidden glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-gray-800 space-y-4 sm:space-y-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
+        <div>
+          <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-fire text-amber-400"></i>
+            Radar Viral: Creadores Hispanos (Top Views)
+          </h3>
+          <p class="text-xs text-gray-400">Encuentra los videos más vistos y con mayor velocidad viral de YouTubers de
+            habla hispana listos para recortar.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <!-- Creator filter -->
+          <select id="trendCreator" onchange="loadTrends()"
+            class="flex-1 sm:flex-none bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2 text-white outline-none focus:border-amber-400">
+            <option value="">Todos los Creadores</option>
+            <option value="djmariio">DjMaRiiO</option>
+            <option value="willyrex">Willyrex</option>
+            <option value="danirep">DaniRep</option>
+            <option value="vegetta777">Vegetta777</option>
+            <option value="auronplay">AuronPlay</option>
+            <option value="ibai">Ibai</option>
+            <option value="illojuan">IlloJuan</option>
+            <option value="thegrefg">TheGrefg</option>
+          </select>
+
+          <!-- Sort filter -->
+          <select id="trendSort" onchange="loadTrends()"
+            class="flex-1 sm:flex-none bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2 text-white outline-none focus:border-amber-400">
+            <option value="views">Más Vistos (Total Views)</option>
+            <option value="velocity">Mayor Velocidad (Vistas/Hora)</option>
+          </select>
+
+          <button onclick="loadTrends()"
+            class="w-full sm:w-auto justify-center bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 font-semibold">
+            <i class="fa-solid fa-bolt"></i> Explorar
+          </button>
+        </div>
+      </div>
+      <!-- Creator filter -->
+      <select id="trendCreator" onchange="loadTrends()"
+        class="bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2 text-white outline-none focus:border-amber-400">
+        <option value="">Todos los Creadores</option>
+        <option value="djmariio">DjMaRiiO</option>
+        <option value="willyrex">Willyrex</option>
+        <option value="danirep">DaniRep</option>
+        <option value="vegetta777">Vegetta777</option>
+        <option value="auronplay">AuronPlay</option>
+        <option value="ibai">Ibai</option>
+        <option value="illojuan">IlloJuan</option>
+        <option value="thegrefg">TheGrefg</option>
+      </select>
+
+      <!-- Sort filter -->
+      <select id="trendSort" onchange="loadTrends()"
+        class="bg-dark-850 border border-gray-700 text-xs rounded-xl px-3 py-2 text-white outline-none focus:border-amber-400">
+        <option value="views">Más Vistos (Total Views)</option>
+        <option value="velocity">Mayor Velocidad (Vistas/Hora)</option>
+      </select>
+
+      <button onclick="loadTrends()"
+        class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs px-3 py-2 rounded-xl transition flex items-center gap-1.5 font-semibold">
+        <i class="fa-solid fa-bolt"></i> Explorar
+      </button>
+      </div>
+      </div>
+
+      <!-- Viral Cards Grid -->
+      <div id="trendsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ACTIVE TASKS / REAL TIME JOBS -->
+    <section id="jobsSection" class="space-y-3 sm:space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-purple-400"></i>
+          Tareas en Curso & Historial
+        </h3>
+        <span id="activeCountBadge" class="text-xs bg-gray-800 text-gray-400 px-2.5 py-1 rounded-full font-semibold">0
+          tareas activas</span>
+      </div>
+
+      <div id="jobsList" class="space-y-3">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- CLIP GALLERY -->
+    <section class="space-y-3 sm:space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-film text-pink-400"></i>
+            Galería de Clips Verticales Listos
+          </h3>
+          <p class="text-xs text-gray-400">Previsualiza, gestiona subidas a TikTok/Shorts o borra clips de tu disco</p>
+        </div>
+        <button onclick="loadClips()"
+          class="self-start sm:self-auto text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-xl border border-gray-700 transition flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-rotate"></i> Actualizar
+        </button>
+      </div>
+
+      <!-- Gallery Filter Tabs (Horizontal Scroll on Mobile) -->
+      <div
+        class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1.5 scrollbar-none text-xs font-semibold -mx-1 px-1">
+        <button onclick="setGalleryFilter('all')" id="filter-all"
+          class="filter-tab shrink-0 px-3.5 py-1.5 rounded-xl border border-pink-500/50 bg-pink-500/20 text-white transition flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-layer-group text-pink-400"></i> Todos <span id="count-all"
+            class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
+        </button>
+        <button onclick="setGalleryFilter('novel')" id="filter-novel"
+          class="filter-tab shrink-0 px-3.5 py-1.5 rounded-xl border border-gray-800 bg-dark-850 hover:bg-dark-800 text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+          <span>🍓</span> Novelas IA <span id="count-novel"
+            class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
+        </button>
+        <button onclick="setGalleryFilter('gta6')" id="filter-gta6"
+          class="filter-tab shrink-0 px-3.5 py-1.5 rounded-xl border border-gray-800 bg-dark-850 hover:bg-dark-800 text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+          <span>🎮</span> GTA 6 <span id="count-gta6"
+            class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
+        </button>
+        <button onclick="setGalleryFilter('pending')" id="filter-pending"
+          class="filter-tab shrink-0 px-3.5 py-1.5 rounded-xl border border-gray-800 bg-dark-850 hover:bg-dark-800 text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-clock text-amber-400"></i> Pendientes <span id="count-pending"
+            class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
+        </button>
+        <button onclick="setGalleryFilter('uploaded')" id="filter-uploaded"
+          class="filter-tab shrink-0 px-3.5 py-1.5 rounded-xl border border-gray-800 bg-dark-850 hover:bg-dark-800 text-gray-400 hover:text-white transition flex items-center gap-1.5 cursor-pointer">
+          <i class="fa-solid fa-circle-check text-emerald-400"></i> Subidos <span id="count-uploaded"
+            class="text-[10px] bg-dark-900/80 px-1.5 py-0.5 rounded-full border border-gray-700">0</span>
+        </button>
+      </div>
+
+      <!-- Grid of Clips -->
+      <div id="clipsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: VIDEO PREVIEW PLAYER (RESPONSIVE) -->
+  <div id="previewModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-dark-850 rounded-2xl sm:rounded-3xl max-w-sm w-full p-4 border border-gray-800 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <h4 id="previewTitle" class="text-sm font-bold text-white truncate max-w-[240px]">Vista Previa</h4>
+        <button onclick="closePreviewModal()" class="text-gray-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div
+        class="relative rounded-2xl overflow-hidden bg-black aspect-[9/16] flex items-center justify-center border border-gray-800">
+        <video id="previewVideoPlayer" controls class="w-full h-full object-contain"></video>
+      </div>
+
+      <div class="flex gap-2">
+        <button id="modalTiktokBtn" onclick="openTikTokModalFromPreview()"
+          class="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 transition cursor-pointer">
+          <i class="fa-brands fa-tiktok"></i> Subir a TikTok
+        </button>
+        <button onclick="closePreviewModal()"
+          class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 text-xs font-semibold rounded-xl cursor-pointer">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TIKTOK UPLOAD (RESPONSIVE) -->
+  <div id="tiktokModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-dark-850 rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-6 border border-gray-800 shadow-2xl space-y-4 sm:space-y-5 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-brands fa-tiktok text-pink-400 text-xl"></i>
+          <h4 class="text-base font-bold text-white">Publicar Clip en TikTok</h4>
+        </div>
+        <button onclick="closeTikTokModal()" class="text-gray-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-300 mb-1">Título / Pie de Video</label>
+          <input type="text" id="ttTitle"
+            class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2.5 text-white outline-none focus:border-pink-500">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-300 mb-1">Hashtags</label>
+          <input type="text" id="ttTags" value="#GTA6 #GTA #Gaming #Clips #Willyrex #DjMaRiiO"
+            class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2.5 text-white outline-none focus:border-pink-500">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-300 mb-1">Modo de Publicación</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="modeDraft" onclick="setPostMode('draft')"
+              class="p-2.5 rounded-xl border border-pink-500 bg-pink-500/10 text-pink-300 font-semibold text-center transition cursor-pointer">
+              Borrador (Revisar en app)
+            </button>
+            <button type="button" id="modePost" onclick="setPostMode('post')"
+              class="p-2.5 rounded-xl border border-gray-700 bg-dark-900 text-gray-400 font-semibold text-center transition cursor-pointer">
+              Publicar Directamente
+            </button>
+          </div>
+        </div>
+
+        <input type="hidden" id="ttClipPath">
+
+        <div id="ttFeedback" class="hidden p-3 rounded-xl bg-gray-800 text-gray-300"></div>
+
+        <button onclick="executeTikTokUpload()" id="ttUploadBtn"
+          class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold text-sm py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-pink-500/25 transition cursor-pointer">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Subir a TikTok</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: YOUTUBE SHORTS UPLOAD (RESPONSIVE) -->
+  <div id="youtubeModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-dark-850 rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-6 border border-gray-800 shadow-2xl space-y-4 sm:space-y-5 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+          <h4 class="text-base font-bold text-white">Publicar en YouTube Shorts</h4>
+        </div>
+        <button onclick="closeYouTubeModal()" class="text-gray-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-300 mb-1">Título del Short (incluye #Shorts)</label>
+          <input type="text" id="ytTitle"
+            class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2.5 text-white outline-none focus:border-red-500">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-300 mb-1">Descripción</label>
+          <textarea id="ytDesc" rows="2"
+            class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-red-500">Momentos épicos de GTA 6 #Shorts #GTA6 #Gaming #ShortsVideo</textarea>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-300 mb-1">Visibilidad</label>
+          <select id="ytVisibility"
+            class="w-full bg-dark-900 border border-gray-700 rounded-xl px-3 py-2.5 text-white outline-none focus:border-red-500">
+            <option value="PUBLIC" selected>Público (Publicar de inmediato)</option>
+            <option value="UNLISTED">Oculto (Sólo con enlace)</option>
+            <option value="PRIVATE">Privado (Borrador)</option>
+          </select>
+        </div>
+
+        <input type="hidden" id="ytClipPath">
+
+        <div id="ytFeedback" class="hidden p-3 rounded-xl bg-gray-800 text-gray-300"></div>
+
+        <button onclick="executeYouTubeUpload()" id="ytUploadBtn"
+          class="w-full bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-bold text-sm py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-red-500/25 transition cursor-pointer">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Subir a YouTube Shorts</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AJUSTES / GESTIÓN DE CUENTAS (RESPONSIVE) -->
+  <div id="settingsModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-dark-850 rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-6 border border-gray-800 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center">
+            <i class="fa-solid fa-gear text-sm"></i>
+          </div>
+          <div>
+            <h4 class="text-base font-bold text-white">Ajustes & Cuentas</h4>
+            <p class="text-[11px] text-gray-400">Gestiona, cambia o desconecta tus cuentas</p>
+          </div>
+        </div>
+        <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- YouTube Account Card -->
+        <div class="glass p-4 rounded-2xl border border-gray-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div
+                class="w-9 h-9 rounded-xl bg-red-600/10 border border-red-500/20 flex items-center justify-center text-red-500">
+                <i class="fa-brands fa-youtube text-lg"></i>
+              </div>
+              <div>
+                <h5 class="text-xs font-bold text-white">YouTube Shorts</h5>
+                <p id="settingsYtStatus" class="text-[11px] text-gray-400 font-medium">Verificando estado...</p>
+              </div>
+            </div>
+            <span id="settingsYtBadge" class="text-[10px] px-2.5 py-1 rounded-full font-bold"></span>
+          </div>
+
+          <div class="flex gap-2 pt-1">
+            <button onclick="switchYouTubeAccount()"
+              class="flex-1 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 text-xs font-semibold py-2 rounded-xl flex items-center justify-center gap-1.5 transition">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span>Conectar / Cambiar</span>
+            </button>
+            <button onclick="verifyYouTubeConnection()"
+              class="px-3 bg-dark-900 hover:bg-gray-800 text-gray-300 hover:text-white border border-gray-700/80 text-xs font-semibold py-2 rounded-xl flex items-center justify-center gap-1.5 transition"
+              title="Verificar si la sesión ya quedó guardada">
+              <i class="fa-solid fa-check text-green-400"></i>
+              <span>Verificar</span>
+            </button>
+            <button onclick="disconnectYouTube()"
+              class="px-3 bg-dark-900 hover:bg-gray-800 text-gray-400 hover:text-red-400 border border-gray-700/80 text-xs font-semibold py-2 rounded-xl flex items-center justify-center gap-1.5 transition">
+              <i class="fa-solid fa-power-off"></i>
+              <span>Desconectar</span>
+            </button>
+          </div>
+
+          <!-- YouTube Helper Box -->
+          <div class="bg-red-950/20 border border-red-500/20 p-2.5 rounded-xl text-[10px] text-red-300/90 space-y-1">
+            <p class="font-bold flex items-center gap-1 text-white">
+              <i class="fa-brands fa-google text-red-400"></i> Acceso seguro sin bloqueos de Google:
+            </p>
+            <p class="text-gray-300 leading-snug">
+              Al pulsar el botón se abrirá Google Chrome de forma nativa sin automatización. Inicia sesión normalmente
+              en tu cuenta de Google y entra a YouTube Studio. Luego pulsa <strong>"Verificar"</strong> y quedará
+              conectado.
+            </p>
+          </div>
+        </div>
+
+        <!-- TikTok Account Card -->
+        <div class="glass p-4 rounded-2xl border border-gray-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div
+                class="w-9 h-9 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400">
+                <i class="fa-brands fa-tiktok text-lg"></i>
+              </div>
+              <div>
+                <h5 class="text-xs font-bold text-white">TikTok</h5>
+                <p id="settingsTtStatus" class="text-[11px] text-gray-400 font-medium">Verificando estado...</p>
+              </div>
+            </div>
+            <span id="settingsTtBadge" class="text-[10px] px-2.5 py-1 rounded-full font-bold"></span>
+          </div>
+
+          <div class="flex gap-2 pt-1">
+            <button onclick="switchTikTokAccount()"
+              class="flex-1 bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 border border-pink-500/30 text-xs font-semibold py-2 rounded-xl flex items-center justify-center gap-1.5 transition">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span>Cambiar Cuenta</span>
+            </button>
+            <button onclick="disconnectTikTok()"
+              class="px-3 bg-dark-900 hover:bg-gray-800 text-gray-400 hover:text-pink-400 border border-gray-700/80 text-xs font-semibold py-2 rounded-xl flex items-center justify-center gap-1.5 transition">
+              <i class="fa-solid fa-power-off"></i>
+              <span>Desconectar</span>
+            </button>
+          </div>
+
+          <!-- TikTok QR Helper Box -->
+          <div class="bg-pink-500/10 border border-pink-500/20 p-3 rounded-xl text-[11px] text-pink-300 space-y-1">
+            <p class="font-bold flex items-center gap-1.5 text-white">
+              <i class="fa-solid fa-qrcode text-pink-400"></i> ¿Cómo conectar TikTok sin errores?
+            </p>
+            <p class="text-gray-300 leading-relaxed text-[10px]">
+              Al abrirse Google Chrome, elige <strong>"Usar código QR"</strong>. Abre la app de TikTok en tu móvil -> ve
+              a tu <strong>Perfil -> Menú ☰ -> Escanear código QR</strong> y confirma. ¡Es instantáneo y no requiere
+              contraseñas ni se bloquea con Google!
+            </p>
+          </div>
+        </div>
+
+        <!-- Clave API de Gemini (Opcional) -->
+        <div class="glass p-4 rounded-2xl border border-gray-800 space-y-2 text-xs">
+          <div class="flex items-center justify-between text-gray-300 font-semibold">
+            <span class="flex items-center gap-1.5 text-purple-300">
+              <i class="fa-solid fa-key"></i> Clave API de Gemini (Guardado Permanente)
+            </span>
+            <span id="geminiKeyStatus" class="text-[10px] text-green-400 font-normal"></span>
+          </div>
+          <div class="flex gap-2">
+            <input type="password" id="geminiApiKeyInput" placeholder="Pega tu clave API de Google AI Studio"
+              class="flex-1 bg-dark-900 border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-purple-500 text-xs font-mono">
+            <button onclick="saveGeminiApiKey()"
+              class="bg-purple-600 hover:bg-purple-500 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1 transition">
+              <i class="fa-solid fa-floppy-disk"></i> Guardar
+            </button>
+          </div>
+          <p class="text-[10px] text-gray-500 leading-snug">Se guarda en el backend (`config.json`) para generar guiones
+            y escenas virales con IA sin repetirse.</p>
+        </div>
+
+        <!-- Carpeta de Exportación -->
+        <div class="glass p-4 rounded-2xl border border-gray-800 space-y-1.5 text-xs">
+          <div class="flex items-center justify-between text-gray-300 font-semibold">
+            <span class="flex items-center gap-1.5">
+              <i class="fa-regular fa-folder-open text-pink-400"></i> Carpeta en el Escritorio
+            </span>
+          </div>
+          <div
+            class="bg-dark-900 px-3 py-2 rounded-xl text-gray-400 font-mono text-[10px] truncate border border-gray-800">
+            /Users/kevinfelipegaitanrodiguez/Desktop/GTA6_Clips_DjMaRiiO
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-1">
+        <button onclick="closeSettingsModal()"
+          class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold text-xs py-2.5 rounded-xl transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    let activePostMode = 'draft';
+    let currentPreviewClip = null;
+    let lastStatusData = null;
+    let activeTab = 'gta';
+    let novelPresetsCache = null;
+
+    function switchTab(tab) {
+      activeTab = tab;
+      const btnGTA = document.getElementById('tabBtnGTA');
+      const btnNovelas = document.getElementById('tabBtnNovelas');
+      const btnRadar = document.getElementById('tabBtnRadar');
+
+      const secGTA = document.getElementById('sectionGTA');
+      const secNovelas = document.getElementById('sectionNovelas');
+      const secRadar = document.getElementById('sectionRadar');
+
+      // Reset button styles
+      [btnGTA, btnNovelas, btnRadar].forEach(b => {
+        if (!b) return;
+        b.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-dark-850 hover:bg-gray-800 text-gray-300 border border-gray-700/80 transition cursor-pointer';
+      });
+
+      // Hide all
+      if (secGTA) secGTA.classList.add('hidden');
+      if (secNovelas) secNovelas.classList.add('hidden');
+      if (secRadar) secRadar.classList.add('hidden');
+
+      if (tab === 'gta') {
+        if (btnGTA) btnGTA.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg shadow-pink-500/20 transition cursor-pointer';
+        if (secGTA) secGTA.classList.remove('hidden');
+      } else if (tab === 'novelas') {
+        if (btnNovelas) btnNovelas.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white shadow-lg shadow-pink-500/20 transition cursor-pointer';
+        if (secNovelas) secNovelas.classList.remove('hidden');
+        if (!novelPresetsCache) {
+          loadNovelPresets();
+        }
+      } else if (tab === 'radar') {
+        if (btnRadar) btnRadar.className = 'flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-amber-500 to-pink-500 text-black shadow-lg shadow-amber-500/20 transition cursor-pointer font-black';
+        if (secRadar) secRadar.classList.remove('hidden');
+      }
+    }
+
+    async function loadNovelPresets() {
+      try {
+        const res = await fetch('/api/novels/presets');
+        const data = await res.json();
+        novelPresetsCache = data.presets;
+        onNovelPresetChange();
+      } catch (err) {
+        console.error("Error loading novel presets:", err);
+      }
+    }
+
+    function onNovelPresetChange() {
+      const presetKey = document.getElementById('novelPreset').value;
+      if (!novelPresetsCache) return;
+
+      if (presetKey === 'custom') {
+        document.getElementById('novelTitle').value = "Mi Historia Viral Personalizada";
+        document.getElementById('novelHook').value = "¡NO VAS A CREER LO QUE PASÓ!";
+        renderScenesEditor([
+          { character: "Personaje Principal", emotion: "Misterio", text: "Todo comenzó una noche cuando recibí un mensaje extraño que cambió mi vida por completo." },
+          { character: "El Antagonista", emotion: "Conflicto", text: "Al llegar al lugar señalado, me encontré cara a cara con la persona que menos esperaba." },
+          { character: "El Giro Inesperado", emotion: "Impacto", text: "Fue entonces cuando descubrí el secreto que todos me habían estado ocultando durante años." },
+          { character: "Desenlace", emotion: "Clímax", text: "Ahora nada volverá a ser igual. ¿Qué hubieras hecho tú en mi lugar? Comenta y sígueme para la Parte 2." }
+        ]);
+        return;
+      }
+
+      const p = novelPresetsCache[presetKey];
+      if (!p) return;
+
+      document.getElementById('novelTitle').value = p.title;
+      document.getElementById('novelHook').value = p.hook;
+      document.getElementById('novelVoice').value = p.voice || 'jorge';
+      renderScenesEditor(p.scenes);
+    }
+
+    let currentNovelDuration = 30;
+
+    function setNovelDuration(dur) {
+      currentNovelDuration = dur;
+      ['30', '60', '90'].forEach(d => {
+        const btn = document.getElementById(`durBtn${d}`);
+        if (!btn) return;
+        if (parseInt(d) === dur) {
+          btn.className = 'px-3.5 py-1.5 rounded-lg font-bold bg-pink-500 text-white transition shadow cursor-pointer';
+        } else {
+          btn.className = 'px-3.5 py-1.5 rounded-lg font-medium text-gray-400 hover:text-white transition cursor-pointer';
+        }
+      });
+      generateIdeaWithAI();
+    }
+
+    function getThumbnailForScene(character, theme) {
+      const c = (character || '').toLowerCase();
+      const t = (theme || '').toLowerCase();
+      if (c.includes('gta') || c.includes('lucia') || c.includes('jason') || c.includes('vice') || c.includes('polic') || c.includes('chase') || c.includes('coche') || c.includes('atraco')) {
+        if (c.includes('polic') || c.includes('persecucion') || c.includes('chase') || c.includes('asfalto')) {
+          return '/static/assets/scenes/gta6_police_chase_neon.jpg';
+        }
+        return '/static/assets/scenes/gta6_lucia_jason_vice_city.jpg';
+      }
+      if (c.includes('fresa') || c.includes('boda') || c.includes('novia') || c.includes('vestido')) {
+        return '/static/assets/scenes/dona_fresa_wedding_kitchen_1795148365685.jpg';
+      }
+      if (c.includes('platano') || c.includes('plátano') || c.includes('manzana') || c.includes('vip') || c.includes('club') || c.includes('romance') || c.includes('traicion')) {
+        return '/static/assets/scenes/don_platano_dona_manzana_vip_neon_1795148560016.jpg';
+      }
+      if (c.includes('aguacate') || c.includes('detective') || c.includes('camara') || c.includes('calle')) {
+        return '/static/assets/scenes/don_aguacate_detective_v2_1795148564957.jpg';
+      }
+      if (c.includes('tribunal') || c.includes('juicio') || c.includes('juez') || c.includes('sandia') || c.includes('sandía') || c.includes('ley')) {
+        return '/static/assets/scenes/watermelon_judge_courtroom_v2_1795148585901.jpg';
+      }
+      if (c.includes('gato') || c.includes('mafia') || c.includes('bigotes') || c.includes('padrino')) {
+        return '/static/assets/scenes/don_gato_bigotes_miami_office_1795148582776.jpg';
+      }
+      return '/static/assets/scenes/don_platano_dona_manzana_vip_neon_1795148560016.jpg';
+    }
+
+    function renderScenesEditor(scenes) {
+      const container = document.getElementById('scenesContainer');
+      if (!container) return;
+      container.innerHTML = scenes.map((s, idx) => {
+        const thumbUrl = s.image_url || getThumbnailForScene(s.character, s.bg_theme);
+        return `
+        <div class="glass p-4 rounded-2xl border border-gray-800 space-y-3 relative group hover:border-pink-500/40 transition flex flex-col sm:flex-row gap-4">
+          <!-- 3D Scene Poster Thumbnail -->
+          <div class="w-24 h-36 rounded-xl overflow-hidden bg-black shrink-0 relative border border-gray-700/80 shadow-md group-hover:scale-105 transition duration-300">
+            <img src="${thumbUrl}" alt="Escena ${idx + 1}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <span class="absolute bottom-1.5 left-1.5 bg-pink-500 text-white font-black text-[9px] px-1.5 py-0.5 rounded shadow">
+              3D AI
+            </span>
+          </div>
+
+          <!-- Content Editor -->
+          <div class="flex-1 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black bg-pink-500/20 text-pink-400 border border-pink-500/30 px-2.5 py-0.5 rounded-lg">
+                ESCENA ${idx + 1}
+              </span>
+              <input type="text" value="${s.character || 'Personaje'}" placeholder="Personaje" 
+                class="scene-char bg-dark-900 border border-gray-700 text-xs rounded-lg px-2.5 py-1 text-white text-right outline-none focus:border-pink-500 w-44">
+            </div>
+
+            <textarea rows="3" placeholder="Texto de la narración..." 
+              class="scene-text w-full bg-dark-900 border border-gray-700/80 rounded-xl p-2.5 text-xs text-white placeholder-gray-500 outline-none focus:border-pink-500 transition leading-relaxed">${s.text || ''}</textarea>
+
+            <div class="flex items-center justify-between text-[11px] text-gray-500">
+              <span>Emoción: <input type="text" value="${s.emotion || 'Dramático'}" class="scene-emotion bg-transparent border-b border-gray-700 text-gray-300 text-[11px] w-28 outline-none"></span>
+              <span class="text-[10px] text-amber-400 font-bold">~${Math.round((s.text || '').split(' ').length * 0.45)}s</span>
+            </div>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    let currentAiEngine = 'auto';
+    let currentAnimationMode = '3d_motion';
+
+    function setAnimationMode(mode) {
+      currentAnimationMode = mode;
+      const btn3D = document.getElementById('animBtn3D');
+      const btnSVD = document.getElementById('animBtnSVD');
+      if (btn3D && btnSVD) {
+        if (mode === '3d_motion') {
+          btn3D.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-cyan-600 text-white transition shadow cursor-pointer';
+          btnSVD.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+        } else {
+          btn3D.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+          btnSVD.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer';
+        }
+      }
+    }
+
+    function setAiEngine(engine) {
+      currentAiEngine = engine;
+      ['Auto', 'Gemini', 'Proc'].forEach(k => {
+        const btn = document.getElementById(`engineBtn${k}`);
+        if (btn) {
+          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium text-gray-400 hover:text-white transition cursor-pointer';
+        }
+      });
+      const activeMap = { 'auto': 'engineBtnAuto', 'gemini': 'engineBtnGemini', 'procedural': 'engineBtnProc' };
+      const active = document.getElementById(activeMap[engine]);
+      if (active) {
+        active.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-purple-600 text-white transition shadow cursor-pointer';
+      }
+    }
+
+    function updateScriptBadge(story) {
+      const badge = document.getElementById('scriptOriginBadge');
+      if (!badge) return;
+      if (story.is_llm) {
+        badge.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-500/25 text-purple-300 border border-purple-500/40 flex items-center gap-1 shadow-sm"><i class="fa-solid fa-brain text-purple-400"></i> ${story.engine_used || 'Gemini AI'}</span>`;
+      } else {
+        badge.innerHTML = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1 shadow-sm"><i class="fa-solid fa-bolt text-blue-400"></i> ${story.engine_used || 'Motor Base'}</span>`;
+      }
+    }
+
+    function randomizeNovel() {
+      const keys = ['frutinovela_traicion', 'frutinovela_herencia', 'animales_mafia', 'reddit_drama'];
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      document.getElementById('novelPreset').value = randomKey;
+      onNovelPresetChange();
+    }
+
+    async function generateIdeaWithAI() {
+      const topic = document.getElementById('aiTopicInput').value.trim();
+      const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
+      const btn = document.getElementById('btnGenIdea');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Pensando...`;
+
+      try {
+        const res = await fetch('/api/novels/generate-idea', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: topic,
+            category: "Frutinovela",
+            duration: currentNovelDuration,
+            gemini_api_key: apiKey,
+            engine: currentAiEngine
+          })
+        });
+        const story = await res.json();
+
+        document.getElementById('novelPreset').value = "custom";
+        document.getElementById('novelTitle').value = story.title;
+        document.getElementById('novelHook').value = story.hook;
+        document.getElementById('novelVoice').value = story.voice || 'jorge';
+        renderScenesEditor(story.scenes);
+        updateScriptBadge(story);
+
+        // Visual feedback animation
+        const cont = document.getElementById('scenesContainer');
+        cont.classList.add('ring-2', 'ring-pink-500', 'p-2', 'rounded-2xl', 'transition');
+        setTimeout(() => {
+          cont.classList.remove('ring-2', 'ring-pink-500', 'p-2');
+        }, 1500);
+
+      } catch (err) {
+        alert("Error generando idea con IA: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    async function autoCreateNovelVideo() {
+      const topic = document.getElementById('aiTopicInput').value.trim();
+      const apiKey = document.getElementById('geminiApiKeyInput')?.value?.trim() || "";
+      const btn = document.getElementById('btnAutoCreate');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Creando Todo...`;
+
+      try {
+        const res = await fetch('/api/novels/auto-create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic: topic,
+            category: "Frutinovela",
+            duration: currentNovelDuration,
+            gemini_api_key: apiKey,
+            engine: currentAiEngine,
+            animation_mode: currentAnimationMode
+          })
+        });
+        const data = await res.json();
+
+        // Populate the editor with the chosen story
+        document.getElementById('novelPreset').value = "custom";
+        document.getElementById('novelTitle').value = data.title;
+        document.getElementById('novelHook').value = data.hook;
+        renderScenesEditor(data.scenes);
+        updateScriptBadge(data);
+
+        // Scroll to jobs section
+        document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
+        loadJobs();
+      } catch (err) {
+        alert("Error creando video automático: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    async function submitNovelJob(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitNovel');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Creando Imágenes y Audio IA...`;
+
+      // Collect scenes
+      const sceneCards = document.querySelectorAll('#scenesContainer > div');
+      const scenes = [];
+      sceneCards.forEach((card, i) => {
+        const char = card.querySelector('.scene-char').value;
+        const text = card.querySelector('.scene-text').value;
+        const emotion = card.querySelector('.scene-emotion').value;
+        scenes.push({
+          character: char,
+          emotion: emotion,
+          text: text,
+          bg_theme: i === 0 ? 'kitchen_night' : i === 1 ? 'luxury_club' : i === 2 ? 'neon_city' : 'courtroom'
+        });
+      });
+
+      const payload = {
+        preset: document.getElementById('novelPreset').value,
+        custom_title: document.getElementById('novelTitle').value,
+        voice: document.getElementById('novelVoice').value,
+        duration: currentNovelDuration,
+        scenes: scenes,
+        export_to_desktop: true,
+        animation_mode: currentAnimationMode
+      };
+
+      try {
+        const res = await fetch('/api/novels/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        // Scroll to jobs section
+        document.getElementById('jobsSection').scrollIntoView({ behavior: 'smooth' });
+        loadJobs();
+      } catch (err) {
+        alert("Error creando la novela: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Generar Novela Completa con IA (9:16)`;
+      }
+    }
+
+    function openSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('hidden');
+      loadSettings();
+      updateSettingsUI(lastStatusData);
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function updateSettingsUI(data) {
+      if (!data) return;
+      const ytStatus = document.getElementById('settingsYtStatus');
+      const ytBadge = document.getElementById('settingsYtBadge');
+      if (data.youtube_logged_in) {
+        ytStatus.textContent = 'Conectado a YouTube Studio';
+        ytBadge.textContent = 'ACTIVA';
+        ytBadge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      } else {
+        ytStatus.textContent = 'Sin cuenta vinculada';
+        ytBadge.textContent = 'DESCONECTADA';
+        ytBadge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-800 text-gray-400 border border-gray-700';
+      }
+
+      const ttStatus = document.getElementById('settingsTtStatus');
+      const ttBadge = document.getElementById('settingsTtBadge');
+      if (data.tiktok_logged_in) {
+        ttStatus.textContent = 'Conectado a TikTok';
+        ttBadge.textContent = 'ACTIVA';
+        ttBadge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      } else {
+        ttStatus.textContent = 'Sin cuenta vinculada';
+        ttBadge.textContent = 'DESCONECTADA';
+        ttBadge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-gray-800 text-gray-400 border border-gray-700';
+      }
+    }
+
+    async function switchYouTubeAccount() {
+      if (!confirm("¿Deseas cambiar tu cuenta de YouTube? Se cerrará la sesión actual y se abrirá Google Chrome para iniciar sesión con una nueva cuenta.")) return;
+      try {
+        const res = await fetch('/api/youtube/switch-account', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || "Se ha abierto el navegador para iniciar sesión.");
+        checkStatus();
+      } catch (err) {
+        alert("Error cambiando cuenta: " + err);
+      }
+    }
+
+    async function disconnectYouTube() {
+      if (!confirm("¿Seguro que deseas desconectar tu cuenta de YouTube?")) return;
+      try {
+        const res = await fetch('/api/youtube/logout', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || "Cuenta desconectada.");
+        checkStatus();
+      } catch (err) {
+        alert("Error desconectando: " + err);
+      }
+    }
+
+    async function switchTikTokAccount() {
+      if (!confirm("¿Deseas cambiar tu cuenta de TikTok? Se cerrará la sesión actual y se abrirá Google Chrome para iniciar sesión con una nueva cuenta.")) return;
+      try {
+        const res = await fetch('/api/tiktok/switch-account', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || "Se ha abierto el navegador para iniciar sesión.");
+        checkStatus();
+      } catch (err) {
+        alert("Error cambiando cuenta: " + err);
+      }
+    }
+
+    async function disconnectTikTok() {
+      if (!confirm("¿Seguro que deseas desconectar tu cuenta de TikTok?")) return;
+      try {
+        const res = await fetch('/api/tiktok/logout', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || "Cuenta desconectada.");
+        checkStatus();
+      } catch (err) {
+        alert("Error desconectando: " + err);
+      }
+    }
+
+    async function checkStatus() {
+      try {
+        const res = await fetch('/api/status');
+        const data = await res.json();
+        lastStatusData = data;
+        updateSettingsUI(data);
+
+        const ttBadge = document.getElementById('tiktokStatusText');
+        const ttBtn = document.getElementById('tiktokBtn');
+        if (data.tiktok_logged_in) {
+          ttBadge.textContent = 'TikTok Conectado';
+          ttBadge.className = 'text-emerald-400 font-semibold';
+          ttBtn.style.display = 'none';
+        } else {
+          ttBadge.textContent = 'TikTok Desconectado';
+          ttBadge.className = 'text-gray-400 font-medium';
+          ttBtn.style.display = 'inline';
+        }
+
+        const ytBadge = document.getElementById('youtubeStatusText');
+        const ytBtn = document.getElementById('youtubeBtn');
+        if (data.youtube_logged_in) {
+          ytBadge.textContent = 'YouTube Conectado';
+          ytBadge.className = 'text-emerald-400 font-semibold';
+          ytBtn.style.display = 'none';
+        } else {
+          ytBadge.textContent = 'YouTube Desconectado';
+          ytBadge.className = 'text-gray-400 font-medium';
+          ytBtn.style.display = 'inline';
+        }
+      } catch (err) {
+        console.error("Status error:", err);
+      }
+    }
+
+    async function connectTikTok() {
+      const choice = confirm("¿Cómo deseas conectar tu cuenta de TikTok?\n\n• [Aceptar]: Abrir ventana automática de Chrome para iniciar sesión.\n• [Cancelar]: Pegar tu Cookie 'sessionid' manualmente (Solución infalible si TikTok te bloquea por exceso de intentos o códigos).");
+      if (choice) {
+        alert("Se abrirá Google Chrome en tu pantalla para iniciar sesión en TikTok. Si te pide código y no llega, usa la opción de escanear QR desde tu celular.");
+        await fetch('/api/tiktok/login', { method: 'POST' });
+      } else {
+        const sessionid = prompt("Pega aquí tu cookie 'sessionid' de TikTok:\n\n(Puedes obtenerla en tu navegador habitual donde tengas TikTok abierto -> F12 -> Application / Almacenamiento -> Cookies -> tiktok.com -> sessionid):");
+        if (sessionid && sessionid.trim()) {
+          try {
+            const res = await fetch('/api/tiktok/session-cookie', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ sessionid: sessionid.trim() })
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+              alert(data.message);
+              checkStatus();
+            } else {
+              alert("Error: " + (data.message || "No se pudo vincular"));
+            }
+          } catch (err) {
+            alert("Error al conectar: " + err.message);
+          }
+        }
+      }
+    }
+
+    async function connectYouTube() {
+      alert("Se abrirá Google Chrome en tu pantalla para iniciar sesión en YouTube Studio. Una vez iniciada, las cookies se guardarán localmente.");
+      await fetch('/api/youtube/login', { method: 'POST' });
+    }
+
+    function setPreset(url, hook) {
+      document.getElementById('videoUrl').value = url;
+      document.getElementById('defaultHook').value = hook;
+    }
+
+    async function pasteClipboard() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) document.getElementById('videoUrl').value = text;
+      } catch (e) {
+        alert("Pega la URL directamente con Cmd+V");
+      }
+    }
+
+    async function submitJob(e) {
+      e.preventDefault();
+      const payload = {
+        url: document.getElementById('videoUrl').value,
+        top_clips: parseInt(document.getElementById('topClips').value),
+        max_minutes: parseInt(document.getElementById('maxMinutes').value),
+        layout: document.getElementById('layoutStyle').value,
+        default_hook: document.getElementById('defaultHook').value,
+        export_to_desktop: document.getElementById('exportDesktop').checked
+      };
+
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Iniciando...</span>`;
+
+      try {
+        const res = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        await loadJobs();
+        document.getElementById('videoUrl').value = '';
+      } catch (err) {
+        alert("Error creando la tarea: " + err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-play"></i><span>Generar Clips Ahora</span>`;
+      }
+    }
+
+    async function loadJobs() {
+      try {
+        const res = await fetch('/api/jobs');
+        const jobs = await res.json();
+        const container = document.getElementById('jobsList');
+
+        if (jobs.length === 0) {
+          container.innerHTML = `
+            <div class="glass p-6 rounded-2xl text-center text-gray-500 text-xs">
+              No hay tareas en ejecución actualmente. Ingresa una URL arriba para comenzar.
+            </div>`;
+          return;
+        }
+
+        container.innerHTML = jobs.map(j => `
+          <div class="glass rounded-2xl p-4 border border-gray-800 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="w-2.5 h-2.5 rounded-full shrink-0 ${j.status === 'processing' ? 'bg-pink-500 animate-ping' : j.status === 'completed' ? 'bg-emerald-400' : 'bg-red-500'}"></span>
+                <div class="min-w-0">
+                  <h4 class="text-xs font-bold text-white truncate max-w-xs sm:max-w-md">${j.url}</h4>
+                  <p class="text-[11px] text-gray-400 mt-0.5 truncate">${j.step}</p>
+                </div>
+              </div>
+              <span class="self-start sm:self-auto text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider shrink-0 ${j.status === 'processing' ? 'bg-pink-500/20 text-pink-400' : j.status === 'completed' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'}">
+                ${j.status}
+              </span>
+            </div>
+
+            <!-- Terminal logs snippet -->
+            <div class="bg-dark-900 rounded-xl p-2.5 text-[10px] font-mono text-gray-400 max-h-20 overflow-y-auto border border-gray-800/60">
+              ${(j.logs || []).slice(-4).map(l => `<div>> ${l}</div>`).join('') || '> Esperando salida...'}
+            </div>
+          </div>
+        `).join('');
+
+      } catch (err) {
+        console.error("Load jobs error:", err);
+      }
+    }
+
+    let allClips = [];
+    let currentGalleryFilter = 'all';
+
+    function setGalleryFilter(filter) {
+      currentGalleryFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(btn => {
+        btn.classList.remove('border-pink-500/50', 'bg-pink-500/20', 'text-white');
+        btn.classList.add('border-gray-800', 'bg-dark-850', 'text-gray-400');
+      });
+      const activeBtn = document.getElementById(`filter-${filter}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-gray-800', 'bg-dark-850', 'text-gray-400');
+        activeBtn.classList.add('border-pink-500/50', 'bg-pink-500/20', 'text-white');
+      }
+      renderClipsGrid();
+    }
+
+    function updateFilterCounts() {
+      const allCount = allClips.length;
+      const novelCount = allClips.filter(c => c.category === 'novel' || (c.source_title && c.source_title.includes('🍓'))).length;
+      const gta6Count = allClips.filter(c => c.category === 'gta6' || (!c.source_title?.includes('🍓') && c.category !== 'novel')).length;
+      const uploadedCount = allClips.filter(c => c.uploaded_youtube || c.uploaded_tiktok).length;
+      const pendingCount = allClips.filter(c => !c.uploaded_youtube && !c.uploaded_tiktok).length;
+
+      const cAll = document.getElementById('count-all');
+      const cNovel = document.getElementById('count-novel');
+      const cGta6 = document.getElementById('count-gta6');
+      const cUp = document.getElementById('count-uploaded');
+      const cPend = document.getElementById('count-pending');
+
+      if (cAll) cAll.textContent = allCount;
+      if (cNovel) cNovel.textContent = novelCount;
+      if (cGta6) cGta6.textContent = gta6Count;
+      if (cUp) cUp.textContent = uploadedCount;
+      if (cPend) cPend.textContent = pendingCount;
+    }
+
+    async function loadClips() {
+      try {
+        const res = await fetch('/api/clips');
+        allClips = await res.json();
+        updateFilterCounts();
+        renderClipsGrid();
+      } catch (err) {
+        console.error("Clips error:", err);
+      }
+    }
+
+    function renderClipsGrid() {
+      const grid = document.getElementById('clipsGrid');
+      let filtered = allClips;
+
+      if (currentGalleryFilter === 'novel') {
+        filtered = allClips.filter(c => c.category === 'novel' || (c.source_title && c.source_title.includes('🍓')));
+      } else if (currentGalleryFilter === 'gta6') {
+        filtered = allClips.filter(c => c.category === 'gta6' || (!c.source_title?.includes('🍓') && c.category !== 'novel'));
+      } else if (currentGalleryFilter === 'uploaded') {
+        filtered = allClips.filter(c => c.uploaded_youtube || c.uploaded_tiktok);
+      } else if (currentGalleryFilter === 'pending') {
+        filtered = allClips.filter(c => !c.uploaded_youtube && !c.uploaded_tiktok);
+      }
+
+      if (!filtered || filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full glass p-10 rounded-3xl text-center space-y-3 border border-gray-800">
+            <i class="fa-solid fa-film text-gray-600 text-3xl"></i>
+            <p class="text-sm text-gray-400 font-medium">No hay clips generados para esta categoría.</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(c => {
+        const isNovel = c.category === 'novel' || (c.source_title && c.source_title.includes('🍓'));
+        const safeHook = (c.hook || c.filename).replace(/'/g, "\\'");
+        const safePath = (c.path || '').replace(/'/g, "\\'");
+
+        const ytBadge = c.uploaded_youtube
+          ? `<span class="bg-red-950/80 text-red-300 border border-red-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm"><i class="fa-brands fa-youtube"></i> Subido</span>`
+          : `<span class="bg-gray-900/90 text-gray-400 border border-gray-700/80 text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"><i class="fa-brands fa-youtube"></i> Pendiente</span>`;
+
+        const ttBadge = c.uploaded_tiktok
+          ? `<span class="bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm"><i class="fa-brands fa-tiktok"></i> Subido</span>`
+          : `<span class="bg-gray-900/90 text-gray-400 border border-gray-700/80 text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1"><i class="fa-brands fa-tiktok"></i> Pendiente</span>`;
+
+        const categoryBadge = isNovel
+          ? `<span class="bg-pink-500/20 text-pink-300 border border-pink-500/30 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">🍓 Novela IA</span>`
+          : `<span class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">🎮 GTA 6</span>`;
+
+        return `
+          <div id="card-${c.id}" class="glass rounded-3xl overflow-hidden border border-gray-800/80 hover:border-pink-500/50 transition group flex flex-col glow-hover">
+            <!-- 9:16 Preview Box -->
+            <div class="relative bg-black aspect-[9/16] overflow-hidden cursor-pointer" onclick="openPreview('${c.media_url}', '${safeHook}', '${safePath}')">
+              <video src="${c.media_url}" preload="metadata" muted class="w-full h-full object-cover group-hover:scale-105 transition duration-300"></video>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
+
+              <!-- Top bar with hook and quick delete -->
+              <div class="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
+                <span class="bg-yellow-400 text-black text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded shadow truncate max-w-[80%]">
+                  ${c.hook || 'CLIP'}
+                </span>
+                <button onclick="event.stopPropagation(); deleteClip('${c.id}', '${safeHook}')" class="w-7 h-7 rounded-lg bg-black/70 hover:bg-red-600 text-gray-400 hover:text-white transition flex items-center justify-center border border-gray-700/60 shadow" title="Eliminar clip del panel y del escritorio">
+                  <i class="fa-regular fa-trash-can text-xs"></i>
+                </button>
+              </div>
+
+              <!-- Play icon overlay -->
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                <div class="w-12 h-12 rounded-full bg-pink-500/90 text-white flex items-center justify-center shadow-lg">
+                  <i class="fa-solid fa-play ml-0.5"></i>
+                </div>
+              </div>
+
+              <!-- Duration badge -->
+              <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                ${c.duration}s
+              </div>
+            </div>
+
+            <!-- Details & Actions -->
+            <div class="p-4 space-y-3 flex-1 flex flex-col justify-between">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-1">
+                  ${categoryBadge}
+                  <span class="text-[10px] text-gray-500 truncate font-mono">${c.created_at ? c.created_at.slice(11, 16) : ''}</span>
+                </div>
+                <h4 class="text-xs font-bold text-white line-clamp-1 leading-snug" title="${c.hook}">${c.hook}</h4>
+                <p class="text-[11px] text-gray-400 truncate">${c.source_channel || c.source_title}</p>
+                
+                <!-- Upload Status Indicators -->
+                <div class="flex items-center gap-1.5 pt-1">
+                  ${ytBadge}
+                  ${ttBadge}
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1">
+                <button onclick="openTikTokModal('${safePath}', '${safeHook}')" class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white text-[10px] font-bold py-2 rounded-xl flex items-center justify-center gap-1 shadow transition cursor-pointer">
+                  <i class="fa-brands fa-tiktok"></i> TikTok
+                </button>
+                <button onclick="openYouTubeModal('${safePath}', '${safeHook}')" class="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white text-[10px] font-bold py-2 rounded-xl flex items-center justify-center gap-1 shadow transition cursor-pointer">
+                  <i class="fa-brands fa-youtube"></i> Shorts
+                </button>
+                <a href="${c.media_url}" download class="bg-gray-800 hover:bg-gray-700 text-gray-300 text-[10px] font-semibold py-2 rounded-xl flex items-center justify-center gap-1 transition border border-gray-700" title="Descargar MP4">
+                  <i class="fa-solid fa-download"></i> <span class="sm:hidden">Descargar</span>
+                </a>
+                <button onclick="deleteClip('${c.id}', '${safeHook}')" class="bg-red-950/40 hover:bg-red-600/50 text-red-400 hover:text-white text-[10px] font-semibold py-2 rounded-xl flex items-center justify-center gap-1 transition border border-red-800/40 cursor-pointer" title="Eliminar clip y archivo del Escritorio">
+                  <i class="fa-regular fa-trash-can"></i> <span class="sm:hidden">Borrar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function deleteClip(clipId, clipTitle) {
+      const ok = confirm(`¿Estás seguro de que quieres eliminar este clip?\n\n"${clipTitle}"\n\nEsta acción borrará el clip del panel y también el archivo .mp4 de tu carpeta en el Escritorio.`);
+      if (!ok) return;
+
+      try {
+        const res = await fetch(`/api/clips/${encodeURIComponent(clipId)}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (res.ok) {
+          allClips = allClips.filter(c => c.id !== clipId);
+          updateFilterCounts();
+          renderClipsGrid();
+        } else {
+          alert("Error eliminando clip: " + (data.detail || data.message || "Error desconocido"));
+        }
+      } catch (err) {
+        alert("Error de conexión al eliminar: " + err);
+      }
+    }
+
+    function openPreview(mediaUrl, hook, fullPath) {
+      currentPreviewClip = { mediaUrl, hook, fullPath };
+      document.getElementById('previewTitle').textContent = hook;
+      const player = document.getElementById('previewVideoPlayer');
+      player.src = mediaUrl;
+      document.getElementById('previewModal').classList.remove('hidden');
+      player.play();
+    }
+
+    function closePreviewModal() {
+      const player = document.getElementById('previewVideoPlayer');
+      player.pause();
+      player.src = '';
+      document.getElementById('previewModal').classList.add('hidden');
+    }
+
+    function openTikTokModalFromPreview() {
+      if (!currentPreviewClip) return;
+      closePreviewModal();
+      openTikTokModal(currentPreviewClip.fullPath, currentPreviewClip.hook);
+    }
+
+    function openTikTokModal(clipPath, title) {
+      document.getElementById('ttClipPath').value = clipPath;
+      document.getElementById('ttTitle').value = title;
+      document.getElementById('ttFeedback').classList.add('hidden');
+      document.getElementById('tiktokModal').classList.remove('hidden');
+    }
+
+    function closeTikTokModal() {
+      document.getElementById('tiktokModal').classList.add('hidden');
+    }
+
+    function setPostMode(mode) {
+      activePostMode = mode;
+      const bDraft = document.getElementById('modeDraft');
+      const bPost = document.getElementById('modePost');
+      if (mode === 'draft') {
+        bDraft.className = 'p-2.5 rounded-xl border border-pink-500 bg-pink-500/10 text-pink-300 font-semibold text-center transition';
+        bPost.className = 'p-2.5 rounded-xl border border-gray-700 bg-dark-900 text-gray-400 font-semibold text-center transition';
+      } else {
+        bPost.className = 'p-2.5 rounded-xl border border-pink-500 bg-pink-500/10 text-pink-300 font-semibold text-center transition';
+        bDraft.className = 'p-2.5 rounded-xl border border-gray-700 bg-dark-900 text-gray-400 font-semibold text-center transition';
+      }
+    }
+
+    async function executeTikTokUpload() {
+      const path = document.getElementById('ttClipPath').value;
+      const title = document.getElementById('ttTitle').value;
+      const tags = document.getElementById('ttTags').value;
+      const fb = document.getElementById('ttFeedback');
+      const btn = document.getElementById('ttUploadBtn');
+
+      fb.classList.remove('hidden');
+      fb.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Subiendo a TikTok...`;
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/tiktok/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            clip_path: path,
+            title: title,
+            tags: tags,
+            post_mode: activePostMode
+          })
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          fb.innerHTML = `<span class="text-emerald-400 font-bold"><i class="fa-solid fa-check mr-1.5"></i> ${data.message}</span>`;
+        } else {
+          fb.innerHTML = `<span class="text-red-400 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> ${data.message}</span>`;
+        }
+      } catch (err) {
+        fb.innerHTML = `<span class="text-red-400 font-bold">Error: ${err}</span>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function openYouTubeModal(clipPath, title) {
+      document.getElementById('ytClipPath').value = clipPath;
+      document.getElementById('ytTitle').value = title.includes('#Shorts') ? title : `${title} #Shorts`;
+      document.getElementById('ytFeedback').classList.add('hidden');
+      document.getElementById('youtubeModal').classList.remove('hidden');
+    }
+
+    function closeYouTubeModal() {
+      document.getElementById('youtubeModal').classList.add('hidden');
+    }
+
+    async function executeYouTubeUpload() {
+      const path = document.getElementById('ytClipPath').value;
+      const title = document.getElementById('ytTitle').value;
+      const desc = document.getElementById('ytDesc').value;
+      const vis = document.getElementById('ytVisibility').value;
+      const fb = document.getElementById('ytFeedback');
+      const btn = document.getElementById('ytUploadBtn');
+
+      fb.classList.remove('hidden');
+      fb.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Subiendo a YouTube Shorts...`;
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/youtube/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            clip_path: path,
+            title: title,
+            description: desc,
+            visibility: vis
+          })
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          fb.innerHTML = `<span class="text-emerald-400 font-bold"><i class="fa-solid fa-check mr-1.5"></i> ${data.message}</span>`;
+        } else {
+          fb.innerHTML = `<span class="text-red-400 font-bold"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> ${data.message}</span>`;
+        }
+      } catch (err) {
+        fb.innerHTML = `<span class="text-red-400 font-bold">Error: ${err}</span>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function loadTrends() {
+      const grid = document.getElementById('trendsGrid');
+      const creator = document.getElementById('trendCreator').value;
+      const sort = document.getElementById('trendSort').value;
+
+      grid.innerHTML = `
+        <div class="col-span-full py-8 text-center text-gray-500 text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-spinner fa-spin text-amber-400 text-base"></i>
+          <span>Buscando videos virales con alta audiencia en YouTube...</span>
+        </div>`;
+
+      try {
+        const res = await fetch(`/api/trends?creator=${encodeURIComponent(creator)}&sort_by=${encodeURIComponent(sort)}&limit=8`);
+        const videos = await res.json();
+
+        if (!videos || videos.length === 0) {
+          grid.innerHTML = `<div class="col-span-full py-6 text-center text-gray-500 text-xs">No se encontraron videos disponibles.</div>`;
+          return;
+        }
+
+        grid.innerHTML = videos.map(v => `
+          <div class="bg-dark-850/90 rounded-2xl overflow-hidden border border-gray-800 hover:border-amber-500/40 transition flex flex-col justify-between group shadow-lg">
+            <div class="relative aspect-video overflow-hidden bg-black cursor-pointer" onclick="selectViralVideo('${v.url}', '${v.title.replace(/'/g, "\\'")}')">
+              <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent"></div>
+              
+              <div class="absolute top-2 left-2 bg-amber-500/90 text-black text-[10px] font-black px-2 py-0.5 rounded shadow flex items-center gap-1">
+                <i class="fa-solid fa-fire text-xs"></i> Score ${v.score}
+              </div>
+
+              <div class="absolute bottom-2 right-2 bg-black/75 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                ${v.duration_formatted}
+              </div>
+            </div>
+
+            <div class="p-3.5 space-y-2.5 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-[11px] text-amber-400 font-semibold mb-1">
+                  <span class="truncate max-w-[130px]">${v.channel}</span>
+                  <span class="text-gray-400 text-[10px]">${v.views_formatted} vistas</span>
+                </div>
+                <h4 class="text-xs font-bold text-white line-clamp-2 leading-snug">${v.title}</h4>
+              </div>
+
+              <div class="pt-1">
+                <button onclick="selectViralVideo('${v.url}', '${v.title.replace(/'/g, "\\'")}')" class="w-full bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 text-black font-black text-[11px] py-2 rounded-xl flex items-center justify-center gap-1.5 shadow transition">
+                  <i class="fa-solid fa-bolt"></i> Cortar Clips con IA
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        grid.innerHTML = `<div class="col-span-full py-6 text-center text-red-400 text-xs">Error cargando tendencias: ${err}</div>`;
+      }
+    }
+
+    function selectViralVideo(url, title) {
+      document.getElementById('videoUrl').value = url;
+      document.getElementById('defaultHook').value = title.substring(0, 30).toUpperCase();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function loadSettings() {
+      try {
+        const res = await fetch('/api/settings');
+        const data = await res.json();
+        const inp = document.getElementById('geminiApiKeyInput');
+        if (data.gemini_api_key) {
+          if (inp) inp.value = data.gemini_api_key;
+          localStorage.setItem('gemini_api_key', data.gemini_api_key);
+        } else {
+          const localKey = localStorage.getItem('gemini_api_key');
+          if (localKey && inp) inp.value = localKey;
+        }
+      } catch (err) {
+        console.error("Error loading settings:", err);
+      }
+    }
+
+    async function saveGeminiApiKey() {
+      const inp = document.getElementById('geminiApiKeyInput');
+      const apiKey = inp ? inp.value.trim() : "";
+      const statusEl = document.getElementById('geminiKeyStatus');
+      try {
+        const res = await fetch('/api/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ gemini_api_key: apiKey })
+        });
+        const data = await res.json();
+        localStorage.setItem('gemini_api_key', apiKey);
+        if (statusEl) {
+          statusEl.textContent = "✓ Guardado en config.json";
+          setTimeout(() => { statusEl.textContent = ""; }, 3000);
+        }
+        alert("✅ Clave API guardada permanentemente en el servidor.");
+      } catch (err) {
+        alert("Error guardando clave API: " + err);
+      }
+    }
+
+    async function verifyYouTubeConnection() {
+      const badge = document.getElementById('settingsYtBadge');
+      const statusText = document.getElementById('settingsYtStatus');
+      if (statusText) statusText.textContent = "Verificando cookies...";
+      try {
+        const res = await fetch('/api/youtube/verify');
+        const data = await res.json();
+        if (data.logged_in) {
+          if (statusText) statusText.textContent = "Sesión activa en YouTube Studio";
+          if (badge) {
+            badge.className = "text-[10px] px-2.5 py-1 rounded-full font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+            badge.textContent = "Conectado";
+          }
+          alert("✅ ¡YouTube conectado correctamente! Tus credenciales están listas.");
+        } else {
+          if (statusText) statusText.textContent = "No conectado";
+          if (badge) {
+            badge.className = "text-[10px] px-2.5 py-1 rounded-full font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30";
+            badge.textContent = "Pendiente";
+          }
+          alert("⚠️ Aún no se detectó inicio de sesión en YouTube Studio. Recuerda abrir Google Chrome con 'Conectar', iniciar sesión y luego pulsar 'Verificar'.");
+        }
+      } catch (err) {
+        alert("Error al verificar: " + err);
+      }
+    }
+
+    // Auto-poll intervals
+    setInterval(checkStatus, 4000);
+    setInterval(loadJobs, 3000);
+    setInterval(loadClips, 6000);
+
+    // Initial load
+    checkStatus();
+    loadJobs();
+    loadClips();
+    loadTrends();
+    loadNovelPresets();
+    loadSettings();
+  </script>
+</body>
+
+</html>

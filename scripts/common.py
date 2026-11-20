@@ -9,6 +9,18 @@ JOBS = ROOT / "jobs"
 def tool(name):
     p = shutil.which(name)
     if not p:
+        candidate = Path(sys.prefix) / "bin" / name
+        if candidate.is_file() and os.access(candidate, os.X_OK):
+            return str(candidate)
+        # Check static_ffmpeg
+        try:
+            import static_ffmpeg
+            static_ffmpeg.add_paths()
+            p = shutil.which(name)
+            if p:
+                return p
+        except Exception:
+            pass
         sys.exit(f"{name} not found. Run the setup skill first (it installs ffmpeg and yt-dlp).")
     return p
 

@@ -1,8 +1,25 @@
 .venv/
 __pycache__/
+*.pyc
 jobs/
 test/
 *.mp4
 *.wav
 *.ts
+*.m4a
 !docs/*.mp4
+
+# Sensibles / Sesiones del Navegador
+web/user_data_tiktok/
+web/user_data_youtube/
+web/tiktok_session.json
+web/youtube_session.json
+web/youtube_token.json
+web/client_secrets.json
+web/config.json
+# Scripts locales temporales
+batch_cut.py
+web/studio_screen.png
+
+# macOS
+.DS_Store

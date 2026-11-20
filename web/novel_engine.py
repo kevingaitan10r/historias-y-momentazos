@@ -1,0 +1,997 @@
+"""Novel & Frutinovela Video Generator Engine for TikTok and YouTube Shorts."""
+import os
+import sys
+import json
+import time
+import uuid
+import shutil
+import asyncio
+import subprocess
+from pathlib import Path
+from typing import List, Dict, Optional
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+JOBS_DIR = BASE_DIR / "jobs"
+DESKTOP_DIR = Path("/Users/kevinfelipegaitanrodiguez/Desktop/GTA6_Clips_DjMaRiiO")
+PYTHON_EXE = str(BASE_DIR / ".venv" / "bin" / "python")
+FFMPEG_BIN = str(BASE_DIR / ".venv" / "bin" / "ffmpeg")
+ENV_PATH = f"{BASE_DIR / '.venv' / 'bin'}:{os.environ.get('PATH', '')}"
+
+VOICE_OPTIONS = {
+    "jorge": {"name": "Jorge (Telenovela Dramática - México)", "id": "es-MX-JorgeNeural"},
+    "dalia": {"name": "Dalia (Villana Dramática - México)", "id": "es-MX-DaliaNeural"},
+    "alvaro": {"name": "Álvaro (Misterio & Suspenso - España)", "id": "es-ES-AlvaroNeural"},
+    "gonzalo": {"name": "Gonzalo (Narrador Intenso - Colombia)", "id": "es-CO-GonzaloNeural"},
+    "elvira": {"name": "Elvira (Relato Emotivo - España)", "id": "es-ES-ElviraNeural"},
+}
+
+PRESET_NOVELS = {
+    "frutinovela_traicion": {
+        "title": "La Traición de Don Plátano",
+        "category": "🍓 Frutinovelas",
+        "hook": "¡DON PLÁTANO LO CONFESÓ TODO!",
+        "voice": "jorge",
+        "scenes": [
+            {
+                "character": "Doña Fresa",
+                "emotion": "Tristeza y Sospecha",
+                "bg_theme": "kitchen_night",
+                "text": "Doña Fresa descubrió un mensaje oculto en la cáscara dorada de Don Plátano, y en ese instante supo que su amor era una completa farsa."
+            },
+            {
+                "character": "Don Plátano y Doña Manzana",
+                "emotion": "Romance Prohibido",
+                "bg_theme": "luxury_club",
+                "text": "En lo más oscuro del refrigerador, Don Plátano se reunía a escondidas con Doña Manzana, prometiéndole escapar juntos a la frutería central."
+            },
+            {
+                "character": "Don Aguacate Detective",
+                "emotion": "Descubrimiento Impactante",
+                "bg_theme": "neon_city",
+                "text": "Pero no contaban con que Don Aguacate lo estaba grabando todo desde la sombra de los vegetales con su cámara de alta definición."
+            },
+            {
+                "character": "Tribunal de Frutas",
+                "emotion": "Clímax & Juicio",
+                "bg_theme": "courtroom",
+                "text": "El tribunal de la ensalada ha convocado a juicio definitivo. ¿Merece Don Plátano ir directo a la licuadora? ¡Comenta tu veredicto y dale like para la Parte 2!"
+            }
+        ]
+    },
+    "frutinovela_herencia": {
+        "title": "El Secreto Millonario de Don Aguacate",
+        "category": "🥑 Frutinovelas",
+        "hook": "EL OSCURO ORIGEN DE DON AGUACATE",
+        "voice": "alvaro",
+        "scenes": [
+            {
+                "character": "Don Aguacate Joven",
+                "emotion": "Humildad",
+                "bg_theme": "market_street",
+                "text": "Durante años, todo el barrio creyó que Don Aguacate era una simple verdura común, ignorado y apartado en la caja de descuentos."
+            },
+            {
+                "character": "El Testamento Dorado",
+                "emotion": "Misterio",
+                "bg_theme": "mansion_gold",
+                "text": "Hasta que un abogado limón entregó un sobre sellado con oro: Don Aguacate era en verdad el heredero legítimo del mayor imperio frutal de la ciudad."
+            },
+            {
+                "character": "Doña Piña Conspiradora",
+                "emotion": "Venganza y Celos",
+                "bg_theme": "dark_vault",
+                "text": "La malvada Doña Piña enfureció de celos y ordenó a los tomates podridos tenderle una trampa mortal antes de que firme el testamento."
+            },
+            {
+                "character": "Don Aguacate con Traje",
+                "emotion": "Poder & Triunfo",
+                "bg_theme": "skyscraper_night",
+                "text": "Pero Don Aguacate no llegó solo: la mafia de los frutos secos lo respalda. ¿Logrará reclamar su trono? Sígueme y no te pierdas la Parte 2."
+            }
+        ]
+    },
+    "animales_mafia": {
+        "title": "El Padrino Bigotes",
+        "category": "🐱 Mafia Animal",
+        "hook": "LA REGLA DE ORO DE LOS GATOS",
+        "voice": "jorge",
+        "scenes": [
+            {
+                "character": "Padrino Bigotes",
+                "emotion": "Elegancia y Poder",
+                "bg_theme": "mafia_office",
+                "text": "Desde lo alto de los tejados, el Padrino Bigotes controlaba el noventa por ciento del contrabando de atún premium en toda la ciudad."
+            },
+            {
+                "character": "Gato Traidor",
+                "emotion": "Traición",
+                "bg_theme": "rainy_alley",
+                "text": "Hasta que su mano derecha, el gato Siamés, cometió el gravísimo error de filtrar los escondites secretos al escuadrón canino."
+            },
+            {
+                "character": "Confrontación Nocturna",
+                "emotion": "Tensión Extrema",
+                "bg_theme": "neon_rooftop",
+                "text": "Una noche lluviosa, Bigotes lo acorraló y susurró: En este callejón hay una sola regla inviolable, y tú la acabas de romper."
+            },
+            {
+                "character": "El Desenlace",
+                "emotion": "Suspenso Final",
+                "bg_theme": "city_lights",
+                "text": "Lo que ocurrió al amanecer dejó sin palabras a toda la pandilla. ¿Debería Bigotes perdonarle una de sus siete vidas? Comenta y sígueme para la Parte 2."
+            }
+        ]
+    },
+    "reddit_drama": {
+        "title": "Desenmascarado en Plena Boda",
+        "category": "💍 Historias & Confesiones",
+        "hook": "ARRUINÉ LA BODA DE MI HERMANA",
+        "voice": "dalia",
+        "scenes": [
+            {
+                "character": "El Altar Nupcial",
+                "emotion": "Tensión y Silencio",
+                "bg_theme": "wedding_church",
+                "text": "Faltaban solo cinco segundos para que mi hermana dijera el sí quiero, cuando una notificación anónima iluminó mi teléfono celular."
+            },
+            {
+                "character": "El Video Revelador",
+                "emotion": "Impacto y Decepción",
+                "bg_theme": "luxury_club",
+                "text": "Era una grabación oculta de su prometido, jactándose de que solo se casaba por el dinero y la herencia de nuestra familia."
+            },
+            {
+                "character": "La Interrupción",
+                "emotion": "Furia y Confrontación",
+                "bg_theme": "wedding_church",
+                "text": "Caminé despacio hacia el altar, pedí el micrófono frente a trescientos invitados y reproduje el audio a todo volumen."
+            },
+            {
+                "character": "El Caos",
+                "emotion": "Clímax",
+                "bg_theme": "courtroom",
+                "text": "El silencio en la iglesia fue sepulcral y la novia se desmayó en el suelo. ¿Fui el malo por salvarla del peor error de su vida? Deja tu opinión y sígueme."
+            }
+        ]
+    },
+    "gta6_vice_city": {
+        "title": "GTA 6: El Gran Golpe en Vice City",
+        "category": "🎮 GTA 6 & Gaming",
+        "hook": "¡LUCIA Y JASON ACORRALADOS EN VICE CITY!",
+        "voice": "gonzalo",
+        "scenes": [
+            {
+                "character": "Lucia y Jason",
+                "emotion": "Plan Maestro",
+                "bg_theme": "vice_city_sunset",
+                "text": "Lucia y Jason planeaban el golpe más arriesgado en la historia de Vice City frente a las luces de neón en Ocean Drive."
+            },
+            {
+                "character": "Persecución Policial Neon",
+                "emotion": "Adrenalina Pura",
+                "bg_theme": "police_chase_neon",
+                "text": "Con las sirenas de la policía de Vice City rugiendo en el asfalto mojado, aceleraron a fondo esquivando patrullas y helicópteros."
+            },
+            {
+                "character": "El Rival Secreto",
+                "emotion": "Traición Inesperada",
+                "bg_theme": "underground_club",
+                "text": "Pero no contaban con que un informante encubierto de los cárteles rivales había bloqueado todos los accesos al puente de escape."
+            },
+            {
+                "character": "Escape Final",
+                "emotion": "Clímax Épico",
+                "bg_theme": "miami_skyline",
+                "text": "¿Lograrán saltar la rampa hacia la libertad o terminarán tras las rejas de Leonida? ¡Comenta tu teoría de GTA 6 y dale like para la Parte 2!"
+            }
+        ]
+    }
+}
+
+import random
+import urllib.request
+import re
+
+CONFIG_FILE = BASE_DIR / "web" / "config.json"
+
+def get_saved_gemini_key() -> str:
+    if CONFIG_FILE.exists():
+        try:
+            cfg = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
+            return cfg.get("gemini_api_key", "").strip()
+        except Exception:
+            pass
+    return os.environ.get("GEMINI_API_KEY", "").strip()
+
+def generate_viral_story_ai(topic: str = "", category: str = "", duration: int = 30, gemini_api_key: str = "", engine: str = "auto") -> dict:
+    """Generates an engaging, high-retention viral story script using Gemini LLM or dynamic procedural AI for 30s, 60s, or 90s."""
+    key = (gemini_api_key or "").strip() or get_saved_gemini_key()
+    target_count = 3 if duration <= 35 else 5 if duration <= 75 else 7
+    clean_topic = topic.strip() if topic else ""
+    should_try_gemini = (engine in ("gemini", "auto")) and bool(key)
+    
+    # 1. Try Gemini API if requested and key is present
+    if should_try_gemini:
+        models_to_try = ["gemini-2.0-flash", "gemini-1.5-flash"]
+        for mod in models_to_try:
+            try:
+                if clean_topic:
+                    topic_directives = f"""El usuario ha solicitado un guión basado estrictamente en el siguiente tema: '{clean_topic}'.
+Categoría: {category or "Historia Viral"}.
+
+REGLAS ESTRICTAS DE COHERENCIA:
+- Desarrolla la historia, los personajes y el conflicto alrededor de '{clean_topic}'.
+- Todos los personajes, diálogos y eventos deben pertenecer naturalmente a '{clean_topic}'.
+- NUNCA menciones frutas, verduras ni animales a menos que el tema '{clean_topic}' lo pida explícitamente."""
+                else:
+                    topic_directives = f"""Escribe una 'Frutinovela' viral dramática en español protagonizada por frutas millonarias (Don Plátano, Doña Fresa, Sandía Juez, Don Aguacate) con estilo de telenovela dramática."""
+
+                prompt = f"""Eres el mejor guionista viral de TikTok y YouTube Shorts con retención superior al 85%.
+{topic_directives}
+Duración objetivo: {duration} segundos ({target_count} escenas).
+
+Requisitos:
+- Título corto, potente y llamativo (máx 6 palabras).
+- Gancho (Hook) en MAYÚSCULAS para los primeros 3 segundos (ej: "¡LO CONFESÓ TODO EN VIVO!").
+- Exactamente {target_count} escenas estructuradas para sumar {duration} segundos en total:
+  Cada escena debe tener:
+  * character: Nombre del personaje o rol en la escena
+  * emotion: Estado emocional dramático
+  * bg_theme: uno de [neon_city, luxury_club, courtroom, market_street, mansion_gold, dark_vault, skyscraper_night, mafia_office, rainy_alley, neon_rooftop, wedding_church, kitchen_night]
+  * text: El guión que leerá el narrador (aprox 22 a 28 palabras por escena para que el video dure exactamente {duration} segundos).
+
+Devuelve EXCLUSIVAMENTE un objeto JSON válido con esta estructura:
+{{
+  "title": "...",
+  "hook": "...",
+  "category": "...",
+  "voice": "jorge",
+  "duration": {duration},
+  "scenes": [
+    {{"character": "...", "emotion": "...", "bg_theme": "...", "text": "..."}}
+  ]
+}}"""
+                api_url = f"https://generativelanguage.googleapis.com/v1beta/models/{mod}:generateContent?key={key}"
+                req_data = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {"temperature": 0.85, "responseMimeType": "application/json"}
+                }
+                req = urllib.request.Request(
+                    api_url,
+                    data=json.dumps(req_data).encode("utf-8"),
+                    headers={"Content-Type": "application/json"}
+                )
+                with urllib.request.urlopen(req, timeout=14) as response:
+                    res_body = json.loads(response.read().decode("utf-8"))
+                    raw_text = res_body["candidates"][0]["content"]["parts"][0]["text"].strip()
+                    # Strip markdown code blocks if wrapped
+                    if "```" in raw_text:
+                        raw_text = re.sub(r"^```(?:json)?\s*", "", raw_text, flags=re.IGNORECASE)
+                        raw_text = re.sub(r"\s*```$", "", raw_text)
+                    data = json.loads(raw_text.strip())
+                    if "scenes" in data and len(data["scenes"]) >= 3:
+                        data["engine_used"] = f"Gemini AI ({mod})"
+                        data["is_llm"] = True
+                        print(f"[NovelEngine] Gemini ({mod}) successfully generated script with {len(data['scenes'])} scenes!")
+                        return data
+            except Exception as e:
+                print(f"[NovelEngine] Gemini ({mod}) fallback: {e}")
+
+    # 2. Rich Combinatorial Procedural Generator (Over 10,000+ unique storylines)
+    if clean_topic:
+        subj = clean_topic.title()
+        titles = [
+            f"El Escándalo Secreto de {subj}",
+            f"La Venganza Mortal de {subj}",
+            f"¿Quién Traicionó a {subj}?",
+            f"La Doble Vida Oculta de {subj}",
+            f"El Secreto Mejor Guardado de {subj}",
+            f"La Caída Definitiva de {subj}"
+        ]
+        hooks = [
+            f"¡NO VAS A CREER LO QUE DESCUBRIERON DE {subj.upper()}!",
+            f"¡EL SECRETO QUE {subj.upper()} OCULTÓ DURANTE AÑOS!",
+            f"¡DESENMASCARARON LA VERDAD SOBRE {subj.upper()}!",
+            f"¡LA TRAICIÓN MÁS GRANDE EN {subj.upper()}!",
+            f"¡ATRAPARON AL VERDADERO CULPABLE DE {subj.upper()}!"
+        ]
+        category_label = "🔥 Historia Viral"
+        protag_name = subj
+        antag_name = f"El Rival Secreto"
+        investigator_name = "El Detective Encubierto"
+        allies_name = f"Los Aliados de {subj}"
+        protag_voice = random.choice(["jorge", "alvaro", "gonzalo", "dalia"])
+
+        scenes = []
+        scenes.append({
+            "character": protag_name,
+            "emotion": "Tensión y Misterio",
+            "bg_theme": random.choice(["neon_city", "mansion_gold", "skyscraper_night"]),
+            "text": f"Todo parecía bajo control hasta que una filtración confidencial sacó a la luz lo que realmente estaba pasando con {clean_topic}, desatando el pánico entre los involucrados."
+        })
+        scenes.append({
+            "character": antag_name,
+            "emotion": "Conspiración y Desafío",
+            "bg_theme": random.choice(["luxury_club", "dark_vault", "rainy_alley"]),
+            "text": f"En las sombras y lejos de las cámaras, los enemigos jurados sellaron un pacto silencioso para tomar el control total y no dejar ningún cabo suelto."
+        })
+        scenes.append({
+            "character": investigator_name,
+            "emotion": "Pruebas Irrefutables",
+            "bg_theme": random.choice(["rainy_alley", "mafia_office", "neon_city"]),
+            "text": f"Una grabación de alta seguridad capturó el momento exacto en que ocurrió la traición, dejando pruebas tan contundentes que ya nadie podía negar lo sucedido."
+        })
+
+        if target_count >= 5:
+            scenes.append({
+                "character": allies_name,
+                "emotion": "Acorralados y Sin Salida",
+                "bg_theme": random.choice(["skyscraper_night", "neon_rooftop"]),
+                "text": f"Con las sirenas de fondo y la presión al límite, el plan se salió de control en cuestión de segundos, obligando a todos a tomar una decisión desesperada."
+            })
+            scenes.append({
+                "character": "Confrontación Final",
+                "emotion": "Furia y Verdades al Descubierto",
+                "bg_theme": random.choice(["mansion_gold", "luxury_club"]),
+                "text": f"Cara a cara y mirándose a los ojos, las máscaras cayeron por completo: nada de lo que prometieron era real y las consecuencias serían implacables."
+            })
+
+        if target_count >= 7:
+            scenes.append({
+                "character": "El Testigo Sorpresa",
+                "emotion": "Giro Inesperado",
+                "bg_theme": "courtroom",
+                "text": f"Justo cuando creían tener la victoria asegurada, apareció un testigo clave con una confesión firmada que cambió el rumbo de toda la historia."
+            })
+            scenes.append({
+                "character": "El Desenlace Definitivo",
+                "emotion": "Sentencia Final",
+                "bg_theme": "courtroom",
+                "text": f"El destino final ha quedado sellado. ¿Crees que fue una venganza justa o merecían otra oportunidad? Deja tu comentario y sígueme para la Parte 2."
+            })
+
+        chosen_title = random.choice(titles)
+        chosen_hook = random.choice(hooks)
+
+        return {
+            "title": chosen_title,
+            "hook": chosen_hook,
+            "category": category_label,
+            "voice": protag_voice,
+            "duration": duration,
+            "scenes": scenes[:target_count],
+            "engine_used": "Motor Base Procedural (Tema Personalizado)",
+            "is_llm": False
+        }
+
+    # Archetype 2: Dynamic Frutinovelas (Only when clean_topic is empty)
+    protagonists = [
+        ("Don Plátano Millonario", "El magnate más codiciado del mercado", "jorge"),
+        ("Doña Fresa de Alta Sociedad", "La heredera del imperio de las bayas", "dalia"),
+        ("Don Aguacate Detective Privado", "El investigador más respetado de la ciudad", "alvaro"),
+        ("Sandía Juez Supremo", "El juez implacable que no perdona errores", "gonzalo"),
+        ("Don Gato Bigotes El Padrino", "El líder indiscutible del puerto de Miami", "gonzalo"),
+        ("Doña Manzana VIP", "La reina de las galas y las apariencias", "dalia"),
+        ("Don Coco Magnate Petrolero", "El billonario con negocios oscuros en el caribe", "alvaro"),
+        ("Cereza Modelo Internacional", "La diva que esconde un pasado turbio", "dalia"),
+        ("Don Piña Empresario", "El dueño de la cadena de hoteles más lujosa", "jorge"),
+        ("El Limón Sicario del Cartel", "El ejecutor más temido de los cítricos", "gonzalo"),
+        ("Doña Papaya Chismosa", "La periodista que destapa los escándalos", "dalia"),
+        ("Don Tomate Capo del Barrio", "El líder de la mafia del mercado central", "alvaro")
+    ]
+    
+    antagonists = [
+        "Doña Manzana La Traidora",
+        "El Limón Ácido y Cínico",
+        "El Kiwi Hacker Financiero",
+        "La Zanahoria Ambiciosa",
+        "El Pepino Guardaespaldas Cómplice",
+        "Doña Mandarina Heredera Falsa",
+        "Don Melón Prestamista Clandestino",
+        "El Champiñón Contrabandista",
+        "La Frambuesa Chantajista",
+        "Don Pomelo Político Corrupto"
+    ]
+
+    protag_name, protag_desc, protag_voice = random.choice(protagonists)
+    antag_name = random.choice(antagonists)
+    subj = protag_name
+    titles = [
+        f"La Traición de {antag_name}",
+        f"El Juicio de {protag_name}",
+        f"El Testamento Oculto de {protag_name}",
+        f"La Venganza de {protag_name}",
+        f"La Boda Secreta de {protag_name}",
+        f"El Escándalo Millonario de {protag_name}"
+    ]
+    hooks = [
+        f"¡{protag_name.upper()} LO CONFESÓ TODO FRENTE A TODOS!",
+        f"¡DESCUBRIERON LA DOBLE VIDA DE {protag_name.upper()}!",
+        f"¡LA PEOR TRAICIÓN DE {antag_name.upper()} SALIÓ A LA LUZ!",
+        f"¡{protag_name.upper()} CANCELÓ EL PACTO MILLONARIO!",
+        f"¡EL ESCÁNDALO DE {protag_name.upper()} ARRUINÓ LA FAMILIA!"
+    ]
+    category_label = "🍓 Frutinovela Dramática"
+
+    scenes = []
+    scenes.append({
+        "character": subj,
+        "emotion": "Sospecha & Tensión Extrema",
+        "bg_theme": random.choice(["mansion_gold", "neon_city", "kitchen_night", "wedding_church"]),
+        "text": f"Todo parecía bajo control en la mansión hasta que un mensaje anónimo reveló que {subj} estaba a punto de perder su imperio a manos de sus propios aliados."
+    })
+    scenes.append({
+        "character": antag_name,
+        "emotion": "Conspiración & Cinismo",
+        "bg_theme": random.choice(["luxury_club", "dark_vault", "rainy_alley", "skyscraper_night"]),
+        "text": f"A puerta cerrada en el club nocturno, {antag_name} se burlaba de la situación mientras transfería millones de fondos secretos a una cuenta en Suiza."
+    })
+    scenes.append({
+        "character": "El Detective Anónimo",
+        "emotion": "Pruebas Irrefutables",
+        "bg_theme": random.choice(["rainy_alley", "mafia_office", "market_street"]),
+        "text": f"Una cámara de seguridad grabó el momento exacto en que los documentos fueron alterados, desatando una cacería implacable que no dejó sobrevivientes ilesos."
+    })
+    if target_count >= 5:
+        scenes.append({
+            "character": f"Aliados de {subj}",
+            "emotion": "Desesperación y Huida",
+            "bg_theme": random.choice(["skyscraper_night", "neon_rooftop", "dark_vault"]),
+            "text": f"Con la policía pisándoles los talones y las sirenas sonando a lo lejos, el dinero desapareció del banco en cuestión de segundos, dejando a todos acorralados."
+        })
+        scenes.append({
+            "character": "Confrontación en el Penthouse",
+            "emotion": "Furia y Traición al Descubierto",
+            "bg_theme": random.choice(["mansion_gold", "luxury_club"]),
+            "text": f"Frente a frente y con la mirada encendida, se dijeron las verdades más crueles: nada de lo que prometieron era real y el pacto se rompió para siempre."
+        })
+    if target_count >= 7:
+        scenes.append({
+            "character": "El As bajo la Manga",
+            "emotion": "Giro Inesperado",
+            "bg_theme": random.choice(["market_street", "rainy_alley", "courtroom"]),
+            "text": f"Justo cuando creían tener la victoria asegurada, un testigo clave que todos daban por muerto entró por la puerta principal con una confesión jurada."
+        })
+        scenes.append({
+            "character": "El Juicio del Siglo",
+            "emotion": "Sentencia Definitiva",
+            "bg_theme": "courtroom",
+            "text": f"El veredicto final cayó como un martillazo demoledor. Las cuentas fueron congeladas y nadie pudo salvarse del castigo que merecía."
+        })
+
+    last_scene = scenes[-1]
+    last_scene["text"] = f"El destino de {subj} ha quedado sellado tras este escándalo histórico. ¿Crees que la venganza fue justa o debió perdonar? Deja tu opinión y sígueme para la Parte 2."
+    last_scene["emotion"] = "Veredicto & Suspenso Final"
+    last_scene["bg_theme"] = "courtroom"
+
+    chosen_title = random.choice(titles)
+    chosen_hook = random.choice(hooks)
+
+    return {
+        "title": chosen_title,
+        "hook": chosen_hook,
+        "category": category_label,
+        "voice": protag_voice,
+        "duration": duration,
+        "scenes": scenes[:target_count],
+        "engine_used": "Motor Base Procedural (Frutinovela Dinámica)",
+        "is_llm": False
+    }
+
+
+
+ASSETS_SCENES_DIR = BASE_DIR / "web" / "static" / "assets" / "scenes"
+
+def get_matching_3d_image(character: str, theme: str, title: str) -> Optional[Path]:
+    """Finds a matching photorealistic 3D Pixar render from the assets library if available."""
+    if not ASSETS_SCENES_DIR.exists():
+        return None
+    char_l = character.lower()
+    title_l = title.lower()
+
+    # 1. GTA 6 / Vice City / Action / Crime
+    if any(k in char_l or k in title_l for k in ["gta", "vice city", "lucia", "jason", "coche", "auto", "atraco", "persecu", "policia", "policía", "neon", "miami"]):
+        if any(k in char_l or k in theme for k in ["persecu", "polic", "coche", "calle", "carrera", "escap", "atraco"]):
+            p = ASSETS_SCENES_DIR / "gta6_police_chase_neon.jpg"
+            if p.exists(): return p
+        p = ASSETS_SCENES_DIR / "gta6_lucia_jason_vice_city.jpg"
+        if p.exists(): return p
+
+    # 2. Fruit & Animal Telenovelas (strict matching)
+    if any(k in char_l for k in ["fresa", "boda", "novia", "vestido"]):
+        p = ASSETS_SCENES_DIR / "dona_fresa_wedding_kitchen_1795148365685.jpg"
+        if p.exists(): return p
+
+    if any(k in char_l for k in ["platano", "plátano", "manzana", "vip", "club", "romance", "traicion", "traición"]):
+        p = ASSETS_SCENES_DIR / "don_platano_dona_manzana_vip_neon_1795148560016.jpg"
+        if p.exists(): return p
+
+    if any(k in char_l for k in ["aguacate", "detective", "polic", "camara", "investig", "calle", "sobre"]):
+        p = ASSETS_SCENES_DIR / "don_aguacate_detective_v2_1795148564957.jpg"
+        if p.exists(): return p
+
+    if any(k in char_l for k in ["tribunal", "juicio", "juez", "sandia", "sandía", "ley", "sentencia", "caos", "desenlace", "escandalo"]):
+        p = ASSETS_SCENES_DIR / "watermelon_judge_courtroom_v2_1795148585901.jpg"
+        if p.exists(): return p
+
+    if any(k in char_l for k in ["gato", "mafia", "bigotes", "padrino", "oficina", "muelle"]):
+        p = ASSETS_SCENES_DIR / "don_gato_bigotes_miami_office_1795148582776.jpg"
+        if p.exists(): return p
+
+    # Fallback ONLY if the story is explicitly a Frutinovela / Animal story:
+    if any(k in title_l or k in char_l for k in ["fruti", "fruta", "plátano", "fresa", "aguacate", "sandía", "gato", "animal"]):
+        fruit_imgs = [p for p in ASSETS_SCENES_DIR.glob("*.jpg") if not p.name.startswith("gta6")]
+        if fruit_imgs:
+            return fruit_imgs[abs(hash(character + theme)) % len(fruit_imgs)]
+
+    return None
+
+
+def create_scene_image(character: str, emotion: str, theme: str, title: str, scene_idx: int, total_scenes: int, output_path: str, custom_img_path: Optional[str] = None):
+    """Generates a high-impact 9:16 (1080x1920) scene poster using 3D Pixar renders or stylized cinematic graphics."""
+    W, H = 1080, 1920
+    
+    # Check if a custom or matching 3D Pixar image is available
+    target_img_path = None
+    if custom_img_path and Path(custom_img_path).exists():
+        target_img_path = Path(custom_img_path)
+    else:
+        target_img_path = get_matching_3d_image(character, theme, title)
+
+    if target_img_path and target_img_path.exists():
+        try:
+            real_img = Image.open(target_img_path).convert("RGB")
+            # Aspect fill 1080x1920
+            src_w, src_h = real_img.size
+            scale = max(W / src_w, H / src_h)
+            new_w = int(src_w * scale)
+            new_h = int(src_h * scale)
+            resized = real_img.resize((new_w, new_h), Image.LANCZOS)
+            
+            left = (new_w - W) // 2
+            top = (new_h - H) // 2
+            img = resized.crop((left, top, left + W, top + H))
+            
+            # Apply top & bottom dark gradient overlay for text readability
+            overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+            o_draw = ImageDraw.Draw(overlay)
+            
+            # Top gradient
+            for y in range(260):
+                alpha = int(180 * (1 - y / 260))
+                o_draw.line([(0, y), (W, y)], fill=(0, 0, 0, alpha))
+                
+            # Bottom gradient
+            for y in range(H - 420, H):
+                ratio = (y - (H - 420)) / 420
+                alpha = int(220 * ratio)
+                o_draw.line([(0, y), (W, y)], fill=(0, 0, 0, alpha))
+                
+            img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+            draw = ImageDraw.Draw(img)
+            
+            # Top Scene Badge
+            draw.rounded_rectangle([W//2 - 240, 80, W//2 + 240, 150], radius=25, fill=(236, 72, 153))
+            draw.text((W//2, 115), f"ESCENA {scene_idx} DE {total_scenes}", fill=(255, 255, 255), anchor="mm")
+            
+            # Bottom Character and Emotion banner
+            draw.text((W//2, H - 240), character.upper(), fill=(255, 255, 255), anchor="mm")
+            draw.text((W//2, H - 190), f"Estado: {emotion}", fill=(255, 215, 0), anchor="mm")
+            draw.text((W//2, H - 90), "🔥 PARTE 1 • COMENTA TU OPINIÓN 🔥", fill=(200, 200, 220), anchor="mm")
+            
+            img.save(output_path, quality=95)
+            return output_path
+        except Exception as e:
+            print(f"[NovelEngine] Error loading 3D asset, falling back: {e}")
+
+    # Fallback Procedural Graphic
+    img = Image.new("RGB", (W, H), (15, 18, 30))
+    draw = ImageDraw.Draw(img)
+
+    # Color themes based on scenery
+    palettes = {
+        "kitchen_night": [(30, 20, 50), (12, 10, 25), (255, 65, 120)],
+        "luxury_club": [(40, 10, 25), (15, 5, 20), (255, 190, 40)],
+        "neon_city": [(10, 30, 60), (5, 10, 30), (0, 240, 255)],
+        "courtroom": [(50, 35, 20), (20, 15, 10), (240, 160, 40)],
+        "market_street": [(35, 45, 25), (15, 20, 10), (120, 220, 80)],
+        "mansion_gold": [(55, 45, 15), (25, 20, 10), (255, 215, 0)],
+        "dark_vault": [(20, 25, 40), (10, 12, 20), (180, 100, 255)],
+        "skyscraper_night": [(15, 25, 50), (8, 12, 25), (80, 180, 255)],
+        "mafia_office": [(45, 25, 20), (18, 10, 8), (240, 80, 60)],
+        "rainy_alley": [(15, 30, 45), (8, 15, 25), (100, 200, 255)],
+        "neon_rooftop": [(40, 15, 60), (15, 8, 30), (255, 50, 180)],
+        "city_lights": [(25, 30, 55), (12, 14, 28), (255, 200, 50)],
+        "wedding_church": [(50, 40, 60), (20, 15, 25), (255, 120, 180)],
+    }
+    top_c, bot_c, accent_c = palettes.get(theme, [(30, 25, 50), (10, 8, 20), (255, 70, 140)])
+
+    # Draw vertical gradient
+    for y in range(H):
+        ratio = y / H
+        r = int(top_c[0] * (1 - ratio) + bot_c[0] * ratio)
+        g = int(top_c[1] * (1 - ratio) + bot_c[1] * ratio)
+        b = int(top_c[2] * (1 - ratio) + bot_c[2] * ratio)
+        draw.line([(0, y), (W, y)], fill=(r, g, b))
+
+    # Add ambient glow circles
+    glow_img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    glow_draw = ImageDraw.Draw(glow_img)
+    glow_draw.ellipse([W//2 - 400, H//2 - 500, W//2 + 400, H//2 + 300], fill=(*accent_c, 45))
+    glow_draw.ellipse([W//2 - 250, H//2 - 350, W//2 + 250, H//2 + 150], fill=(*accent_c, 80))
+    img.paste(Image.alpha_composite(img.convert("RGBA"), glow_img).convert("RGB"), (0, 0))
+
+    # Re-acquire draw
+    draw = ImageDraw.Draw(img)
+
+    # Decorative frame elements
+    border_color = (255, 255, 255, 30)
+    draw.rectangle([40, 40, W - 40, H - 40], outline=(80, 80, 100), width=3)
+
+    # Top Category & Scene Badge
+    badge_bg = (236, 72, 153) if "fresa" in character.lower() or "fruti" in title.lower() else accent_c
+    draw.rounded_rectangle([W//2 - 240, 80, W//2 + 240, 150], radius=25, fill=badge_bg)
+    draw.text((W//2, 115), f"ESCENA {scene_idx} DE {total_scenes}", fill=(0, 0, 0), anchor="mm")
+
+    # Character Card Center
+    card_top = H//2 - 420
+    card_bot = H//2 + 240
+    draw.rounded_rectangle([100, card_top, W - 100, card_bot], radius=40, fill=(20, 24, 38, 220), outline=accent_c, width=4)
+
+    # Character Avatar Icon Representation
+    avatar_y = card_top + 220
+    draw.ellipse([W//2 - 160, avatar_y - 160, W//2 + 160, avatar_y + 160], fill=(30, 36, 56), outline=(255, 255, 255), width=5)
+
+    # Emoji or character emblem
+    char_l = character.lower()
+    title_l = title.lower()
+    if "fresa" in char_l: emblem = "🍓"
+    elif any(k in char_l for k in ["plátano", "platano", "banana"]): emblem = "🍌"
+    elif any(k in char_l for k in ["aguacate", "palta"]): emblem = "🥑"
+    elif "manzana" in char_l: emblem = "🍎"
+    elif any(k in char_l for k in ["piña", "pina"]): emblem = "🍍"
+    elif any(k in char_l for k in ["sandía", "sandia"]): emblem = "🍉"
+    elif any(k in char_l for k in ["limón", "limon"]): emblem = "🍋"
+    elif "naranja" in char_l: emblem = "🍊"
+    elif "uva" in char_l: emblem = "🍇"
+    elif "mango" in char_l: emblem = "🥭"
+    elif "coco" in char_l: emblem = "🥥"
+    elif "kiwi" in char_l: emblem = "🥝"
+    elif any(k in char_l for k in ["gato", "felino", "michi"]): emblem = "🐱"
+    elif any(k in char_l for k in ["perro", "canino", "firulais"]): emblem = "🐶"
+    elif any(k in char_l for k in ["hámster", "hamster", "ratón", "raton"]): emblem = "🐹"
+    elif any(k in char_l for k in ["hamburguesa", "burger"]): emblem = "🍔"
+    elif "pizza" in char_l: emblem = "🍕"
+    elif "taco" in char_l: emblem = "🌮"
+    elif any(k in char_l for k in ["detective", "polic", "investig"]): emblem = "🕵️"
+    elif any(k in char_l for k in ["mafia", "padrino", "jefe"]): emblem = "🕶️"
+    elif any(k in title_l for k in ["boda", "espos", "novi"]): emblem = "💍"
+    elif any(k in title_l for k in ["juicio", "tribunal", "ley"]): emblem = "⚖️"
+    elif any(k in char_l for k in ["alien", "ovni", "espacio"]): emblem = "🛸"
+    elif any(k in char_l for k in ["robot", "ia", "cyborg"]): emblem = "🤖"
+    else: emblem = "🎭"
+    
+    # Text info on card
+    draw.text((W//2, avatar_y - 10), emblem, fill=(255, 255, 255), anchor="mm")
+    draw.text((W//2, avatar_y + 220), character.upper(), fill=(255, 255, 255), anchor="mm")
+    draw.text((W//2, avatar_y + 280), f"Estado: {emotion}", fill=(accent_c[0], accent_c[1], accent_c[2]), anchor="mm")
+
+    # Title header at bottom of card
+    draw.text((W//2, card_bot + 100), title.upper(), fill=(255, 255, 255), anchor="mm")
+
+    # Bottom watermark
+    draw.text((W//2, H - 90), "🔥 PARTE 1 • COMENTA TU OPINIÓN 🔥", fill=(180, 180, 200), anchor="mm")
+
+    img.save(output_path, quality=95)
+    return output_path
+
+
+async def generate_speech_audio(text: str, voice_id: str, output_path: str):
+    """Uses edge-tts to generate high-fidelity Spanish narration with safe offline fallback."""
+    try:
+        import edge_tts
+        comm = edge_tts.Communicate(text=text, voice=voice_id, rate="+12%")
+        await comm.save(output_path)
+        if Path(output_path).exists() and Path(output_path).stat().st_size > 1000:
+            return output_path
+    except Exception as e:
+        print(f"[NovelEngine] edge-tts online audio warning ({e}), synthesizing speech track...")
+
+    # Safe audio fallback: synthesize speech timing based on word count (~2.8 words/sec)
+    words = max(len(text.split()), 4)
+    dur = max(3.5, words / 2.7)
+    cmd_fallback = [
+        FFMPEG_BIN, "-y",
+        "-f", "lavfi",
+        "-i", f"sine=frequency=320:beep_factor=4:duration={dur:.1f}",
+        "-af", "volume=0.35,afade=t=out:st=3:d=0.5",
+        "-c:a", "libmp3lame",
+        "-b:a", "192k",
+        str(output_path)
+    ]
+    subprocess.run(cmd_fallback, capture_output=True, check=True)
+    return output_path
+
+
+def transcribe_and_build_ass(audio_path: str, ass_path: str, fallback_text: str = ""):
+    """Uses faster-whisper to transcribe audio and output animated TikTok style subtitles."""
+    # Build ASS format with prominent viral styling
+    ass_header = """[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: TikTokViral,Arial,68,&H00FFFFFF,&H0000FFFF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,1,5.5,2.5,2,60,60,420,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+
+    def format_ts(seconds):
+        h = int(seconds // 3600)
+        m = int((seconds % 3600) // 60)
+        s = seconds % 60
+        return f"{h}:{m:02d}:{s:05.2f}"
+
+    lines = []
+    whisper_success = False
+    try:
+        from faster_whisper import WhisperModel
+        model = WhisperModel("base", device="cpu", compute_type="int8")
+        segments, info = model.transcribe(audio_path, word_timestamps=True, language="es")
+
+        for seg in segments:
+            words = getattr(seg, "words", [])
+            if not words:
+                start_str = format_ts(seg.start)
+                end_str = format_ts(seg.end)
+                text_clean = seg.text.strip().upper()
+                lines.append(f"Dialogue: 0,{start_str},{end_str},TikTokViral,,0,0,0,,{text_clean}")
+                continue
+
+            chunk_size = 4
+            for i in range(0, len(words), chunk_size):
+                chunk = words[i:i + chunk_size]
+                for w in chunk:
+                    w_start = format_ts(w.start)
+                    w_end = format_ts(w.end)
+                    formatted_phrase = []
+                    for other_w in chunk:
+                        w_text = other_w.word.strip().upper()
+                        if other_w == w:
+                            formatted_phrase.append(r"{\c&H0000FFFF\b1\fscx110\fscy110}" + w_text + r"{\r}")
+                        else:
+                            formatted_phrase.append(r"{\c&H00FFFFFF\b1}" + w_text + r"{\r}")
+                    phrase_str = " ".join(formatted_phrase)
+                    lines.append(f"Dialogue: 0,{w_start},{w_end},TikTokViral,,0,0,0,,{phrase_str}")
+        if lines:
+            whisper_success = True
+    except Exception as e:
+        print(f"[NovelEngine] Whisper transcription note: {e}")
+
+    if not whisper_success and fallback_text:
+        # Fallback subtitle pacing using text directly
+        words = fallback_text.split()
+        chunk_size = 4
+        total_time = 30.0
+        try:
+            dur_cmd = [FFMPEG_BIN, "-i", audio_path]
+            p = subprocess.run(dur_cmd, capture_output=True, text=True)
+            for l in p.stderr.splitlines():
+                if "Duration" in l:
+                    ts = l.split("Duration:")[1].split(",")[0].strip()
+                    parts = ts.split(":")
+                    total_time = float(parts[0])*3600 + float(parts[1])*60 + float(parts[2])
+                    break
+        except Exception:
+            pass
+
+        t_per_word = max(0.35, total_time / max(len(words), 1))
+        for i in range(0, len(words), chunk_size):
+            chunk = words[i:i + chunk_size]
+            c_start = i * t_per_word
+            c_end = min(total_time, (i + len(chunk)) * t_per_word)
+            text_upper = " ".join(chunk).upper()
+            lines.append(f"Dialogue: 0,{format_ts(c_start)},{format_ts(c_end)},TikTokViral,,0,0,0,,{text_upper}")
+
+    with open(ass_path, "w", encoding="utf-8") as f:
+        f.write(ass_header + "\n".join(lines))
+
+    return ass_path
+
+
+async def render_novel_video(
+    novel_key: str = "frutinovela_traicion",
+    custom_title: Optional[str] = None,
+    custom_voice: Optional[str] = None,
+    custom_scenes: Optional[List[dict]] = None,
+    export_to_desktop: bool = True,
+    animation_mode: str = "3d_motion"
+) -> dict:
+    """Renders a complete vertical 9:16 video with animated zoom, TTS voiceover, and burned subtitles."""
+    preset = PRESET_NOVELS.get(novel_key, PRESET_NOVELS["frutinovela_traicion"])
+    title = custom_title or preset["title"]
+    voice_key = custom_voice or preset.get("voice", "jorge")
+    voice_id = VOICE_OPTIONS.get(voice_key, VOICE_OPTIONS["jorge"])["id"]
+    scenes = custom_scenes or preset["scenes"]
+
+    novel_id = f"novel_{uuid.uuid4().hex[:8]}"
+    work_dir = JOBS_DIR / novel_id
+    work_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"[NovelEngine] Starting generation for '{title}' (ID: {novel_id}, Mode: {animation_mode})...")
+
+    # Step 1: Generate audio for each scene & combined audio
+    scene_clips = []
+    full_script_texts = []
+    
+    for idx, sc in enumerate(scenes, 1):
+        sc_text = sc["text"]
+        full_script_texts.append(sc_text)
+        sc_audio = work_dir / f"scene_{idx}.mp3"
+        sc_img = work_dir / f"scene_{idx}.png"
+
+        # Generate scene image using 3D Pixar renders or custom images
+        create_scene_image(
+            character=sc.get("character", "Personaje"),
+            emotion=sc.get("emotion", "Dramático"),
+            theme=sc.get("bg_theme", "kitchen_night"),
+            title=title,
+            scene_idx=idx,
+            total_scenes=len(scenes),
+            output_path=str(sc_img),
+            custom_img_path=sc.get("image_path")
+        )
+
+        # Generate scene voiceover
+        await generate_speech_audio(sc_text, voice_id, str(sc_audio))
+
+        # Probe scene audio duration with ffprobe
+        dur_cmd = [
+            str(BASE_DIR / ".venv" / "bin" / "ffprobe"),
+            "-v", "error",
+            "-show_entries", "format=duration",
+            "-of", "default=noprint_wrappers=1:nokey=1",
+            str(sc_audio)
+        ]
+        p_dur = subprocess.run(dur_cmd, capture_output=True, text=True)
+        try:
+            dur = float(p_dur.stdout.strip())
+        except Exception:
+            dur = 6.0
+        dur += 0.5  # slight buffer
+
+        # Render genuine animated video clip for this scene
+        sc_video = work_dir / f"scene_{idx}.mp4"
+        fps = 30
+        frames = int(dur * fps)
+
+        anim_success = False
+        try:
+            from web.local_i2v import generate_animated_scene_video
+            print(f"[NovelEngine] Rendering animated video for scene {idx} ({dur:.1f}s, mode: {animation_mode})...")
+            generate_animated_scene_video(
+                image_path=str(sc_img),
+                audio_path=str(sc_audio),
+                output_path=str(sc_video),
+                duration=dur,
+                mode=animation_mode
+            )
+            anim_success = True
+        except Exception as e:
+            print(f"[NovelEngine] 3D video animation fallback: {e}")
+
+        if not anim_success:
+            # Fallback to FFmpeg zoompan filter
+            anim_mode = (idx - 1) % 4
+            if anim_mode == 0:
+                zoom_expr = f"zoompan=z='min(zoom+0.0015,1.22)':d={frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps={fps}"
+            elif anim_mode == 1:
+                zoom_expr = f"zoompan=z='1.14':d={frames}:x='if(lte(on,1),(iw-iw/zoom)/2,max(0,x-0.45))':y='ih/2-(ih/zoom/2)':s=1080x1920:fps={fps}"
+            elif anim_mode == 2:
+                zoom_expr = f"zoompan=z='if(lte(on,1),1.22,max(1.0,zoom-0.0015))':d={frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps={fps}"
+            else:
+                zoom_expr = f"zoompan=z='1.14':d={frames}:x='iw/2-(iw/zoom/2)':y='if(lte(on,1),ih-ih/zoom,max(0,y-0.45))':s=1080x1920:fps={fps}"
+
+            cmd_clip = [
+                FFMPEG_BIN, "-y",
+                "-loop", "1", "-i", str(sc_img),
+                "-i", str(sc_audio),
+                "-vf", zoom_expr,
+                "-c:v", "libx264", "-tune", "stillimage", "-pix_fmt", "yuv420p",
+                "-c:a", "aac", "-b:a", "192k",
+                "-t", str(dur),
+                str(sc_video)
+            ]
+            subprocess.run(cmd_clip, capture_output=True, check=True)
+
+        scene_clips.append(str(sc_video))
+
+    # Step 2: Concatenate all scene clips
+    concat_list_file = work_dir / "concat_list.txt"
+    with open(concat_list_file, "w", encoding="utf-8") as f:
+        for clip in scene_clips:
+            f.write(f"file '{clip}'\n")
+
+    combined_video = work_dir / "combined_raw.mp4"
+    cmd_concat = [
+        FFMPEG_BIN, "-y",
+        "-f", "concat", "-safe", "0",
+        "-i", str(concat_list_file),
+        "-c", "copy",
+        str(combined_video)
+    ]
+    subprocess.run(cmd_concat, capture_output=True, check=True)
+
+    # Step 3: Extract combined audio for Whisper word timestamps
+    extracted_audio = work_dir / "full_audio.mp3"
+    cmd_extract = [
+        FFMPEG_BIN, "-y",
+        "-i", str(combined_video),
+        "-vn", "-c:a", "libmp3lame", "-q:a", "2",
+        str(extracted_audio)
+    ]
+    subprocess.run(cmd_extract, capture_output=True, check=True)
+
+    # Step 4: Transcribe and create ASS subtitles
+    ass_path = work_dir / "subtitles.ass"
+    transcribe_and_build_ass(str(extracted_audio), str(ass_path), fallback_text=" ".join(full_script_texts))
+
+    # Step 5: Burn ASS subtitles into final video
+    final_output = work_dir / "novel_vertical.mp4"
+    edits_dir = work_dir / "edits"
+    edits_dir.mkdir(parents=True, exist_ok=True)
+    final_in_edits = edits_dir / "clip_1.mp4"
+
+    cmd_burn = [
+        FFMPEG_BIN, "-y",
+        "-i", str(combined_video),
+        "-vf", f"ass={str(ass_path)}",
+        "-c:v", "libx264", "-preset", "fast", "-crf", "20",
+        "-c:a", "copy",
+        str(final_output)
+    ]
+    subprocess.run(cmd_burn, capture_output=True, check=True)
+    shutil.copy2(final_output, final_in_edits)
+
+    # Metadata for gallery compatibility
+    desktop_copy = None
+    if export_to_desktop:
+        try:
+            DESKTOP_DIR.mkdir(parents=True, exist_ok=True)
+            desktop_filename = f"Frutinovela_{title.replace(' ', '_')}_{novel_id[-4:]}.mp4"
+            dest_path = DESKTOP_DIR / desktop_filename
+            shutil.copy2(final_output, dest_path)
+            desktop_copy = str(dest_path)
+            print(f"[NovelEngine] Exported to desktop: {dest_path}")
+        except Exception as e:
+            print(f"[NovelEngine] Warning: Could not export to desktop: {e}")
+
+    meta = {
+        "hook": preset.get("hook", title.upper()),
+        "source_title": f"🍓 {title}",
+        "source_channel": "Estudio Frutinovelas IA",
+        "category": "novel",
+        "duration": round(sum(len(s["text"].split()) * 0.45 for s in scenes), 1),
+        "start": 0,
+        "end": round(sum(len(s["text"].split()) * 0.45 for s in scenes), 1),
+        "desktop_path": desktop_copy,
+        "uploaded_youtube": False,
+        "uploaded_tiktok": False
+    }
+    with open(final_in_edits.with_suffix(".json"), "w", encoding="utf-8") as f:
+        json.dump(meta, f, indent=2)
+
+    return {
+        "id": novel_id,
+        "title": title,
+        "hook": preset.get("hook", title.upper()),
+        "video_path": str(final_output),
+        "media_url": f"/media/{novel_id}/clip_1.mp4",
+        "desktop_path": desktop_copy,
+        "scenes_count": len(scenes)
+    }

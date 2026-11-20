@@ -16,18 +16,42 @@ HYPE = re.compile(r"\b(no way|oh my god|omg|what|wait|bro|let'?s go|holy|insane|
 CHAT_HYPE = re.compile(r"(LMAO|LOL|KEKW|OMEGALUL|W+\b|CLIP|💀|😂|🔥|NO WAY|HOLY)", re.I)
 
 
-def fetch(src, d, max_min):
+def fetch(src, d, max_min, prefer_heatmap=True):
     info = {}
     if is_url(src):
-        info = ytdlp_json(src)
+        # Fetch metadata first without downloading to check duration & heatmap across the full video
+        info = ytdlp_json(src, ["--skip-download"])
         save_json(d / "info.json", {k: info.get(k) for k in ("id", "title", "uploader", "channel", "uploader_id", "webpage_url",
                                                              "duration", "view_count", "upload_date", "heatmap", "is_live", "was_live")})
         vid = d / "source.mp4"
         if not vid.exists():
             args = ytdlp_base() + ["-f", "bv*[height<=1080][ext=mp4]+ba[ext=m4a]/b[height<=1080]/b", "--merge-output-format", "mp4",
                                    "-o", str(vid)]
-            if (info.get("duration") or 0) > max_min * 60:
+            dur = info.get("duration") or 0
+            heat = info.get("heatmap") or []
+
+            # 1. SMART HEATMAP: If video is long (> 20 min) and has heatmap, target the most replayed sections across the entire stream!
+            if prefer_heatmap and heat and dur > 1200:
+                print(f"[Moments] Video largo ({dur/60:.1f} min) con Heatmap detectado. Extrayendo los momentos más vistos de todo el video...")
+                sorted_heat = sorted(heat, key=lambda x: x.get("value", 0), reverse=True)
+                selected_peaks = []
+                for p in sorted_heat:
+                    st = p.get("start_time", 0)
+                    if not any(abs(st - s["start_time"]) < 180 for s in selected_peaks):
+                        selected_peaks.append(p)
+                    if len(selected_peaks) >= 6:
+                        break
+
+                for sp in selected_peaks:
+                    p_start = max(0, int(sp.get("start_time", 0) - 35))
+                    p_end = min(int(dur), int(sp.get("end_time", 0) + 40))
+                    args += ["--download-sections", f"*{p_start}-{p_end}"]
+            elif max_min and max_min > 0 and dur > max_min * 60:
+                print(f"[Moments] Descargando primeros {max_min} minutos...")
                 args += ["--download-sections", f"*0-{max_min * 60}"]
+            else:
+                print(f"[Moments] Descargando y analizando video completo ({dur/60:.1f} min)...")
+
             run(args + [src])
         if info.get("was_live") and not (d / "chat.json").exists():  # YouTube chat replay
             run(ytdlp_base() + ["--skip-download", "--write-subs", "--sub-langs", "live_chat", "-o", str(d / "chat"), src], check=False)
@@ -134,8 +158,8 @@ def main():
         heat[int(h["start_time"]):int(math.ceil(h["end_time"]))] = h["value"]
     chat = chat_series(d, n, a.chat, info)
     chatz = smooth(np.clip(z(smooth(chat, 10)), 0, None), 3)
-    w_heat = 2.0 if heat.any() else 0
-    w_chat = 1.5 if chat.any() else 0
+    w_heat = 3.5 if heat.any() else 0
+    w_chat = 2.0 if chat.any() else 0
     score = 1.0 * loud + 0.8 * z(hype).clip(0) + w_heat * z(heat).clip(0) + w_chat * chatz
     # pick non-overlapping windows around peaks
     starts = [x["s"] for x in words]
